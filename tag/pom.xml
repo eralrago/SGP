@@ -123,6 +123,11 @@
             <artifactId>openpdf</artifactId>
             <version>${open-pdf.version}</version>
         </dependency>
+        <dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+		</dependency>
     </dependencies>
 
     <repositories>

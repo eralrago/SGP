@@ -1,0 +1,124 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package mx.com.ferbo.model;
+
+import java.io.Serializable;
+import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+/**
+ *
+ * @author Gabo
+ */
+@Entity
+@Table(name = "cat_prenda")
+@NamedQueries({
+    @NamedQuery(name = "CatPrenda.findAll", query = "SELECT c FROM CatPrenda c")})
+public class CatPrenda implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id_prenda")
+    private Integer idPrenda;
+    @Column(name = "descripcion")
+    private String descripcion;
+    @Basic(optional = false)
+    @Column(name = "activo")
+    private short activo;
+    @OneToMany(mappedBy = "idPrenda")
+    private List<DetInventario> detInventarioList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPrenda")
+    private List<DetSolicitudPrenda> detSolicitudPrendaList;
+
+    public CatPrenda() {
+    }
+
+    public CatPrenda(Integer idPrenda) {
+        this.idPrenda = idPrenda;
+    }
+
+    public CatPrenda(Integer idPrenda, short activo) {
+        this.idPrenda = idPrenda;
+        this.activo = activo;
+    }
+
+    public Integer getIdPrenda() {
+        return idPrenda;
+    }
+
+    public void setIdPrenda(Integer idPrenda) {
+        this.idPrenda = idPrenda;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public short getActivo() {
+        return activo;
+    }
+
+    public void setActivo(short activo) {
+        this.activo = activo;
+    }
+
+    public List<DetInventario> getDetInventarioList() {
+        return detInventarioList;
+    }
+
+    public void setDetInventarioList(List<DetInventario> detInventarioList) {
+        this.detInventarioList = detInventarioList;
+    }
+
+    public List<DetSolicitudPrenda> getDetSolicitudPrendaList() {
+        return detSolicitudPrendaList;
+    }
+
+    public void setDetSolicitudPrendaList(List<DetSolicitudPrenda> detSolicitudPrendaList) {
+        this.detSolicitudPrendaList = detSolicitudPrendaList;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (idPrenda != null ? idPrenda.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof CatPrenda)) {
+            return false;
+        }
+        CatPrenda other = (CatPrenda) object;
+        if ((this.idPrenda == null && other.idPrenda != null) || (this.idPrenda != null && !this.idPrenda.equals(other.idPrenda))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "mx.com.ferbo.model.CatPrenda[ idPrenda=" + idPrenda + " ]";
+    }
+    
+}

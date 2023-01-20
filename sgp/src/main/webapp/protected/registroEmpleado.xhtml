@@ -5,97 +5,189 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
 
-    <ui:define name="title">Dashboard</ui:define>
+    <ui:define name="title">Registro de empleados</ui:define>
 
     <ui:define name="head">
-        <h:outputScript name="js/chart.js" library="demo"/>
-        <script type="text/javascript">
-            $(function () {
-                var salesChart = new Chart(document.getElementById("sales-chart").getContext('2d'), {
-                    type: 'line',
-                    data: {
-                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                        datasets: [
-                            {
-                                label: 'First Dataset',
-                                data: [65, 59, 80, 81, 56, 55, 40],
-                                fill: false,
-                                borderColor: '#007be5'
-                            },
-                            {
-                                label: 'Second Dataset',
-                                data: [28, 48, 40, 19, 86, 27, 90],
-                                fill: false,
-                                borderColor: '#20d077'
-                            }
-                        ]
-                    }
-                });
-            });
-        </script>
+        <h:outputScript library="recursos" name="js/primefaces_locale.js" />
     </ui:define>
 
     <ui:define name="content">
+        <h:form id="formRegistroEmpleado">
+            <div class="grid table-demo">
+                <div class="col-12">
+                    <div class="card p-4">
 
-        <div class="dashboard grid ui-fluid">
-            <div class="col-12 md:col-6 lg:col-4">
-                <p:panel header="Contact Us" style="background:#fff;height:100%">
-                    <div class="grid">
-                        <div class="col-12">
-                            <p:selectOneMenu id="cities" autoWidth="false">
-                                <f:selectItem itemLabel="Seleccione"/>
-                                <f:selectItems value="#{registroEmpleadosBean.lstCatEmpresa}" var="empresa" itemValue="#{empresa.idEmpresa}" itemLabel="#{empresa.descripcion}"/>
-                            </p:selectOneMenu>
-                        </div>
-                        <div class="col-12">
-                            <p:inputText placeholder="Name"/>
-                        </div>
-                        <div class="col-12">
-                            <p:inputText placeholder="Age"/>
-                        </div>
-                        <div class="col-12">
-                            <p:inputTextarea rows="2" placeholder="Message" autoResize="false"/>
-                        </div>
+                        <p:growl id="messages" showDetail="true" life="2500"/>
+
+                        <p:toolbar styleClass="mb-4">
+                            <p:toolbarGroup>
+                                <p:commandButton value="Agregar" icon="pi pi-plus" actionListener="#{registroEmpleadosBean.agregarEmpleado()}" update="panelDialogEmpleado" oncomplete="PF('dialogEmpleado').show()" 
+                                                 styleClass="ui-button-success" style="margin-right: .5rem" process="@this"/>
+                                <p:commandButton id="btnEliminarEmp" value="#{registroEmpleadosBean.mensajeBotonEliminar}" icon="pi pi-trash" actionListener="#{registroEmpleadosBean.eliminaEmpleadosSeleccionados()}" 
+                                                 styleClass="ui-button-danger" disabled="#{!registroEmpleadosBean.empleadoSeleccionado}" update="@this">
+                                    <p:confirm header="Confimación" message="Está seguro que desea eliminar los registros seleccionados?" icon="pi pi-exclamation-triangle" />
+                                </p:commandButton>
+                            </p:toolbarGroup>
+                            <p:toolbarGroup align="right">
+                                <p:commandButton value="Descargar" icon="pi pi-download" styleClass="ui-button-secondary" ajax="false">
+                                    <p:dataExporter type="pdf" target="dtEmpleados" fileName="empleados"/>
+                                </p:commandButton>
+                            </p:toolbarGroup>
+                        </p:toolbar>
+
+                        <p:dataTable id="dtEmpleados" widgetVar="dtEmpleados" var="empleado" value="#{registroEmpleadosBean.lstEmpleados}" reflow="true" styleClass="products-table"
+                                     selection="#{registroEmpleadosBean.lstEmpleadosSelected}" rowKey="#{empleado.idEmpleado}" paginator="true" rows="10" rowSelectMode="add" 
+                                     paginatorPosition="bottom">
+                            <f:facet name="header">
+                                <div class="customers-table-header">
+                                    <span style="font-weight: bold">Empleados</span>
+
+                                    <span class="ui-input-icon-left filter-container">
+                                        <i class="pi pi-search"/>
+                                        <p:inputText id="globalFilter" onkeyup="PF('dtEmpleados').filter()" placeholder="Buscar"/>
+                                    </span>
+                                </div>
+                            </f:facet>
+
+                            <p:ajax event="rowSelect" update=":formRegistroEmpleado:btnEliminarEmp"/>
+                            <p:ajax event="rowUnselect" update=":formRegistroEmpleado:btnEliminarEmp" />
+                            <p:ajax event="rowSelectCheckbox" update=":formRegistroEmpleado:btnEliminarEmp"/>
+                            <p:ajax event="rowUnselectCheckbox" update=":formRegistroEmpleado:btnEliminarEmp" />
+                            <p:ajax event="toggleSelect" update=":formRegistroEmpleado:btnEliminarEmp" />
+                            
+                            <p:column selectionMode="multiple" exportable="false"></p:column>
+
+                            <p:column headerText="Nombre" sortBy="#{empleado.nombre}" filterBy="#{empleado.nombre}">
+                                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{empleado.nombre}" />
+                            </p:column>
+                            <p:column headerText="Puesto" sortBy="#{empleado.catPuestoDTO.descripcion}" filterBy="#{empleado.catPuestoDTO.descripcion}">
+                                <h:outputText value="#{empleado.catPuestoDTO.descripcion}" />
+                            </p:column>
+                            <p:column headerText="Planta" sortBy="#{empleado.catPlantaDTO.descripcion}" filterBy="#{empleado.catPlantaDTO.descripcion}">
+                                <h:outputText value="#{empleado.catPlantaDTO.descripcion}" />
+                            </p:column>
+                            <p:column headerText="Estatus" sortBy="#{empleado.activo}" filterBy="#{empleado.activo}">
+                                <h:outputText value="#{empleado.activo}" />
+                            </p:column>
+                            <p:column style="width: 8rem; text-align: center;" exportable="false">
+                                <p:commandButton icon="pi pi-pencil" update=":formRegistroEmpleado:panelDialogEmpleado" oncomplete="PF('dialogEmpleado').show()" 
+                                                 styleClass="edit-button rounded-button ui-button-success m-1" process="@this">
+                                    <f:setPropertyActionListener value="#{empleado}" target="#{registroEmpleadosBean.empleadoSelected}" />
+                                </p:commandButton>
+                                <p:commandButton class="ui-button-warning rounded-button m-1" icon="pi pi-trash" process="@this" oncomplete="PF('dialogEliminarEmpleado').show()" >
+                                    <f:setPropertyActionListener value="#{empleado}" target="#{registroEmpleadosBean.empleadoSelected}" />
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+
+                        <p:dialog header="Empleado" showEffect="fade" modal="true" widgetVar="dialogEmpleado" responsive="true">
+                            <p:outputPanel id="panelDialogEmpleado" class="ui-fluid">
+                                <p:outputPanel>
+                                    <p:fieldset legend="Datos personales">
+                                        <div class="formgrid grid">
+                                            <div class="field col">
+                                                <p:outputLabel for="@next" value="Nombre"/>
+                                                <p:inputText id="nombreEmp" value="#{registroEmpleadosBean.empleadoSelected.nombre}"/>  
+                                            </div>
+                                            <div class="field col">
+                                                <p:outputLabel for="@next" value="Primer Apellido"/>
+                                                <p:inputText id="primerAp" value="#{registroEmpleadosBean.empleadoSelected.primerAp}"/>  
+                                            </div>
+                                            <div class="field col">
+                                                <p:outputLabel for="@next" value="Segundo Apellido"/>
+                                                <p:inputText id="segundoAp" value="#{registroEmpleadosBean.empleadoSelected.segundoAp}"/>  
+                                            </div>
+                                        </div>
+                                        <div class="formgrid grid">
+                                            <div class="field col">
+                                                <p:outputLabel for="@next" value="CURP"/>
+                                                <p:inputText id="curp" value="#{registroEmpleadosBean.empleadoSelected.curp}"/>  
+                                            </div>
+                                            <div class="field col">
+                                                <p:outputLabel for="@next" value="Fecha de nacimiento" />
+                                                <p:calendar id="fNac" value="#{registroEmpleadosBean.empleadoSelected.fechaNacimiento}"/>
+                                            </div>
+                                            <div class="field col">
+                                                <p:outputLabel for="@next" value="Correo"/>
+                                                <p:inputText id="correo" value="#{registroEmpleadosBean.empleadoSelected.correo}"/>  
+                                            </div>
+                                        </div>
+                                    </p:fieldset>
+                                    <p:fieldset legend="Datos de empresa" styleClass="mt-4">
+                                        <div class="formgrid grid">
+                                            <div class="field col">
+                                                <p:outputLabel for="@next" value="# Empleado"/>
+                                                <p:inputText id="nEmpleado" value="#{registroEmpleadosBean.empleadoSelected.numEmpleado}" disabled="true"/>
+                                            </div>
+                                            <div class="field col">
+                                                <p:outputLabel for="@next" value="NSS" />
+                                                <p:inputText id="nss" value="#{registroEmpleadosBean.empleadoSelected.nss}"/>
+                                            </div>
+                                            <div class="field col">
+                                                <p:outputLabel for="@next" value="Fecha de ingreso" />
+                                                <p:calendar id="fIngreso" value="#{registroEmpleadosBean.empleadoSelected.fechaIngreso}"/>
+                                            </div>
+                                        </div>
+                                        <div class="formgrid grid">
+                                            <div class="field col">
+                                                <p:outputLabel for="@next" value="Empresa" />
+                                                <p:selectOneMenu id="soEmpresa" value="#{registroEmpleadosBean.empleadoSelected.catEmpresaDTO}" converter="entityConverter" autoWidth="false">
+                                                    <f:selectItem itemLabel="--Seleccione--"/>
+                                                    <f:selectItems value="#{registroEmpleadosBean.lstCatEmpresa}" var="empresa" itemValue="#{empresa}" itemLabel="#{empresa.descripcion}"/>
+                                                </p:selectOneMenu>
+                                            </div>
+                                            <div class="field col">
+                                                <p:outputLabel for="@next" value="Puesto" />
+                                                <p:selectOneMenu id="soPuesto" value="#{registroEmpleadosBean.empleadoSelected.catPuestoDTO}" converter="entityConverter" autoWidth="false">
+                                                    <f:selectItem itemLabel="--Seleccione--"/>
+                                                    <f:selectItems value="#{registroEmpleadosBean.lstCatPuesto}" var="puesto" itemValue="#{puesto}" itemLabel="#{puesto.descripcion}"/>
+                                                </p:selectOneMenu>
+                                            </div>
+                                            <div class="field col">
+                                                <p:outputLabel for="@next" value="Área" />
+                                                <p:selectOneMenu id="soArea" value="#{registroEmpleadosBean.empleadoSelected.catAreaDTO}" converter="entityConverter" autoWidth="false">
+                                                    <f:selectItem itemLabel="--Seleccione--"/>
+                                                    <f:selectItems value="#{registroEmpleadosBean.lstCatArea}" var="area" itemValue="#{area}" itemLabel="#{area.descripcion}"/>
+                                                </p:selectOneMenu>
+                                            </div>
+                                        </div>
+                                        <div class="formgrid grid">
+                                            <div class="field col-4">
+                                                <p:outputLabel for="@next" value="Ubicación" />
+                                                <p:selectOneMenu id="soUbica" value="#{registroEmpleadosBean.empleadoSelected.catPlantaDTO}" converter="entityConverter">
+                                                    <f:selectItem itemLabel="--Seleccione--"/>
+                                                    <f:selectItems value="#{registroEmpleadosBean.lstCatPlanta}" var="planta" itemValue="#{planta}" itemLabel="#{planta.descripcion}"/>
+                                                </p:selectOneMenu>
+                                            </div>
+                                            <div class="field col-4 align-self-end">
+                                                <p:commandButton value="Registrar biométrico" icon="pi pi-sync" iconPos="right"/>
+                                            </div>
+                                        </div>
+                                    </p:fieldset>
+
+                                </p:outputPanel>
+                            </p:outputPanel>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Guardar" icon="pi pi-check" actionListener="#{registroEmpleadosBean.guardarEmpleado()}" update="panelDialogEmpleado" 
+                                                 process="panelDialogEmpleado @this" />
+                                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('dialogEmpleado').hide()" class="ui-button-secondary" />
+                            </f:facet>
+                        </p:dialog> 
+
+                        <p:confirmDialog widgetVar="dialogEliminarEmpleado" showEffect="fade" width="300" message="Eliminar el empleado?" header="Confirmar" severity="warn">
+                            <p:commandButton value="Sí" icon="pi pi-check" actionListener="#{registroEmpleadosBean.eliminaEmpleado()}" process="@this" oncomplete="PF('dialogEliminarEmpleado').hide()"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('dialogEliminarEmpleado').hide()" />
+                        </p:confirmDialog>
+
+                        <p:confirmDialog global="true" showEffect="fade" width="300">
+                            <p:commandButton value="Sí" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
+                        </p:confirmDialog>
                     </div>
-                    <p:commandButton type="button" value="Send" icon="pi pi-plus"/>
-                </p:panel>
+                </div>                
             </div>
-            <div class="col-12 lg:col-8">
-                <p:panel header="Empleados" style="height:100%">
-                    <ul class="contacts">
-                        <li>
-                            <a href="#">
-                                <p:graphicImage name="images/avatar_1.png" library="omega-layout" width="35"/>
-                                <span class="name">Claire Williams</span>
-                                <span class="email">clare@pf-omega.com</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <p:graphicImage name="images/avatar_2.png" library="omega-layout" width="35"/>
-                                <span class="name">Jason Dourne</span>
-                                <span class="email">jason@pf-omega.com</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <p:graphicImage name="images/avatar_3.png" library="omega-layout" width="35"/>
-                                <span class="name">Jane Davidson</span>
-                                <span class="email">jane@pf-omega.com</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <p:graphicImage name="images/avatar_4.png" library="omega-layout" width="35"/>
-                                <span class="name">Tony Corleone</span>
-                                <span class="email">tony@pf-omega.com</span>
-                            </a>
-                        </li>
-                    </ul>
-                </p:panel>
-            </div>
-        </div>
-
+        </h:form>
     </ui:define>
 
 </ui:composition>

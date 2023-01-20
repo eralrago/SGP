@@ -1,13 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package mx.com.ferbo.model;
 
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,63 +12,68 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
  * @author Gabo
  */
 @Entity
-@Table(name = "cat_puesto")
+@Table(name = "cat_area")
 @NamedQueries({
-    @NamedQuery(name = "CatPuesto.findAll", query = "SELECT new mx.com.ferbo.dto.CatPuestoDTO("
-            + " c.idPuesto,"
+    @NamedQuery(name = "CatArea.findAll", query = "SELECT new mx.com.ferbo.dto.CatAreaDTO("
+            + " c.idArea,"
             + " c.descripcion,"
             + " c.activo"
             + ")"
-            + " FROM CatPuesto c"),
-    @NamedQuery(name = "CatPuesto.findByActive", query = "SELECT NEW mx.com.ferbo.dto.CatPuestoDTO("
-            + " c.idPuesto,"
+            + " FROM CatArea c"),
+    @NamedQuery(name = "CatArea.findByActive", query = "SELECT new mx.com.ferbo.dto.CatAreaDTO("
+            + " c.idArea,"
             + " c.descripcion,"
             + " c.activo"
             + ")"
-            + " FROM CatPuesto c"
+            + " FROM CatArea c"
             + " WHERE c.activo = 1")})
-public class CatPuesto implements Serializable {
+public class CatArea implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_puesto")
-    private Integer idPuesto;
+    @Column(name = "id_area")
+    private Integer idArea;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "descripcion")
     private String descripcion;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "activo")
     private short activo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPuesto")
+    @OneToMany(mappedBy = "idArea")
     private List<DetEmpleado> detEmpleadoList;
 
-    public CatPuesto() {
+    public CatArea() {
     }
 
-    public CatPuesto(Integer idPuesto) {
-        this.idPuesto = idPuesto;
+    public CatArea(Integer idArea) {
+        this.idArea = idArea;
     }
 
-    public CatPuesto(Integer idPuesto, String descripcion, short activo) {
-        this.idPuesto = idPuesto;
+    public CatArea(Integer idArea, String descripcion, short activo) {
+        this.idArea = idArea;
         this.descripcion = descripcion;
         this.activo = activo;
     }
 
-    public Integer getIdPuesto() {
-        return idPuesto;
+    public Integer getIdArea() {
+        return idArea;
     }
 
-    public void setIdPuesto(Integer idPuesto) {
-        this.idPuesto = idPuesto;
+    public void setIdArea(Integer idArea) {
+        this.idArea = idArea;
     }
 
     public String getDescripcion() {
@@ -103,18 +103,18 @@ public class CatPuesto implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idPuesto != null ? idPuesto.hashCode() : 0);
+        hash += (idArea != null ? idArea.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CatPuesto)) {
+        if (!(object instanceof CatArea)) {
             return false;
         }
-        CatPuesto other = (CatPuesto) object;
-        if ((this.idPuesto == null && other.idPuesto != null) || (this.idPuesto != null && !this.idPuesto.equals(other.idPuesto))) {
+        CatArea other = (CatArea) object;
+        if ((this.idArea == null && other.idArea != null) || (this.idArea != null && !this.idArea.equals(other.idArea))) {
             return false;
         }
         return true;
@@ -122,7 +122,7 @@ public class CatPuesto implements Serializable {
 
     @Override
     public String toString() {
-        return "mx.com.ferbo.model.CatPuesto[ idPuesto=" + idPuesto + " ]";
+        return "mx.com.ferbo.model.CatArea[ idArea=" + idArea + " ]";
     }
     
 }

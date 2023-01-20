@@ -6,28 +6,32 @@ import java.io.Serializable;
  *
  * @author Gabo
  */
-public class CatEmpresaDTO implements Serializable {
+public class CatPuestoDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private Integer idEmpresa;
+    private Integer idPuesto;
     private String descripcion;
     private short activo;
 
-    public CatEmpresaDTO() {
+    public CatPuestoDTO() {
     }
 
-    public CatEmpresaDTO(Integer idEmpresa, String descripcion, short activo) {
-        this.idEmpresa = idEmpresa;
+    public CatPuestoDTO(Integer idPuesto) {
+        this.idPuesto = idPuesto;
+    }
+
+    public CatPuestoDTO(Integer idPuesto, String descripcion, short activo) {
+        this.idPuesto = idPuesto;
         this.descripcion = descripcion;
         this.activo = activo;
     }
 
-    public Integer getIdEmpresa() {
-        return idEmpresa;
+    public Integer getIdPuesto() {
+        return idPuesto;
     }
 
-    public void setIdEmpresa(Integer idEmpresa) {
-        this.idEmpresa = idEmpresa;
+    public void setIdPuesto(Integer idPuesto) {
+        this.idPuesto = idPuesto;
     }
 
     public String getDescripcion() {

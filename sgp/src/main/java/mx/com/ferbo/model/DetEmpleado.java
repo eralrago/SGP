@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package mx.com.ferbo.model;
 
 import java.io.Serializable;
@@ -22,6 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -29,8 +27,6 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "det_empleado")
-@NamedQueries({
-    @NamedQuery(name = "DetEmpleado.findAll", query = "SELECT d FROM DetEmpleado d")})
 public class DetEmpleado implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,41 +36,57 @@ public class DetEmpleado implements Serializable {
     @Column(name = "id_empleado")
     private Integer idEmpleado;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 10)
     @Column(name = "num_empleado")
     private String numEmpleado;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "nombre")
     private String nombre;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "primer_ap")
     private String primerAp;
+    @Size(max = 45)
     @Column(name = "segundo_ap")
     private String segundoAp;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "fecha_nacimiento")
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "fecha_registro")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaRegistro;
     @Column(name = "fecha_modificacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaModificacion;
+    @Size(max = 18)
     @Column(name = "curp")
     private String curp;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "rfc")
     private String rfc;
+    @Size(max = 45)
     @Column(name = "correo")
     private String correo;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "fecha_ingreso")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaIngreso;
+    @Size(max = 45)
     @Column(name = "nss")
     private String nss;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "activo")
     private short activo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmpleado")
@@ -97,6 +109,9 @@ public class DetEmpleado implements Serializable {
     private List<DetSolicitudPrenda> detSolicitudPrendaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmpleadoSol")
     private List<DetSolicitudPrenda> detSolicitudPrendaList1;
+    @JoinColumn(name = "id_area", referencedColumnName = "id_area")
+    @ManyToOne
+    private CatArea idArea;
     @JoinColumn(name = "id_empresa", referencedColumnName = "id_empresa")
     @ManyToOne(optional = false)
     private CatEmpresa idEmpresa;
@@ -319,6 +334,14 @@ public class DetEmpleado implements Serializable {
 
     public void setDetSolicitudPrendaList1(List<DetSolicitudPrenda> detSolicitudPrendaList1) {
         this.detSolicitudPrendaList1 = detSolicitudPrendaList1;
+    }
+
+    public CatArea getIdArea() {
+        return idArea;
+    }
+
+    public void setIdArea(CatArea idArea) {
+        this.idArea = idArea;
     }
 
     public CatEmpresa getIdEmpresa() {

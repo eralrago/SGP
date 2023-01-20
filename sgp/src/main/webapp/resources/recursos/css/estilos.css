@@ -1,0 +1,19 @@
+/* 
+    Created on : 19/01/2023, 07:41:51 AM
+    Author     : Gabo
+*/
+
+.ferbo-keyboard-class.ui-inputfield{
+    width: 180px !important;
+}
+.ferbo-keyboard-class.keypad-popup{
+    width: 180px !important;
+}
+.ferbo-keyboard-class .keypad-key{
+    width: 4em;
+    height: 4em;
+}
+.ferbo-keyboard-class .keypad-space{
+    width: 4em;
+    height: 2em;
+}

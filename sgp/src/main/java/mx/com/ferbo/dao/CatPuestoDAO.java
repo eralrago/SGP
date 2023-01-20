@@ -4,7 +4,7 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import mx.com.ferbo.commons.dao.IBaseDAO;
-import mx.com.ferbo.dto.CatEmpresaDTO;
+import mx.com.ferbo.dto.CatPuestoDTO;
 
 /**
  *
@@ -12,35 +12,35 @@ import mx.com.ferbo.dto.CatEmpresaDTO;
  */
 @Stateless
 @LocalBean
-public class CatEmpresaDAO extends IBaseDAO<CatEmpresaDTO, Integer> {
+public class CatPuestoDAO extends IBaseDAO<CatPuestoDTO, Integer> {
 
     @Override
-    public CatEmpresaDTO buscarPorId(Integer id) {
+    public CatPuestoDTO buscarPorId(Integer id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public List<CatEmpresaDTO> buscarTodos() {
-        return emSGP.createNamedQuery("CatEmpresa.findAll", CatEmpresaDTO.class).getResultList();
-    }
-
-    @Override
-    public List<CatEmpresaDTO> buscarPorCriterios(CatEmpresaDTO e) {
+    public List<CatPuestoDTO> buscarTodos() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void actualizar(CatEmpresaDTO e) {
+    public List<CatPuestoDTO> buscarPorCriterios(CatPuestoDTO e) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void guardar(CatEmpresaDTO e) {
+    public void actualizar(CatPuestoDTO e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void guardar(CatPuestoDTO e) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
-     public List<CatEmpresaDTO> buscarActivas() {
-        return emSGP.createNamedQuery("CatEmpresa.findByActive", CatEmpresaDTO.class).getResultList();
+     public List<CatPuestoDTO> buscarActivas() {
+        return emSGP.createNamedQuery("CatPuesto.findByActive", CatPuestoDTO.class).getResultList();
     }
 
 }

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package mx.com.ferbo.model;
 
 import java.io.Serializable;
@@ -25,7 +21,19 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "cat_perfil")
 @NamedQueries({
-    @NamedQuery(name = "CatPerfil.findAll", query = "SELECT c FROM CatPerfil c")})
+    @NamedQuery(name = "CatPerfil.findAll", query = "SELECT new mx.com.ferbo.dto.CatPerfilDTO("
+            + " c.idPerfil,"
+            + " c.descripcion,"
+            + " c.activo"
+            + ")"
+            + " FROM CatPerfil c"),
+    @NamedQuery(name = "CatPerfil.findByActive", query = "SELECT new mx.com.ferbo.dto.CatPerfilDTO("
+            + " c.idPerfil,"
+            + " c.descripcion,"
+            + " c.activo"
+            + ")"
+            + " FROM CatPerfil c"
+            + " WHERE c.activo = 1")})
 public class CatPerfil implements Serializable {
 
     private static final long serialVersionUID = 1L;

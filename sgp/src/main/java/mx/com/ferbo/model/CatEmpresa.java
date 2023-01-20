@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package mx.com.ferbo.model;
 
 import java.io.Serializable;
@@ -30,7 +26,14 @@ import javax.persistence.Table;
             + " c.descripcion,"
             + " c.activo"
             + ") "
-            + "FROM CatEmpresa c")})
+            + "FROM CatEmpresa c"),
+            @NamedQuery(name = "CatEmpresa.findByActive", query = "SELECT new mx.com.ferbo.dto.CatEmpresaDTO("
+            + " c.idEmpresa,"
+            + " c.descripcion,"
+            + " c.activo"
+            + ") "
+            + " FROM CatEmpresa c"
+            + " WHERE c.activo = 1")})
 public class CatEmpresa implements Serializable {
 
     private static final long serialVersionUID = 1L;

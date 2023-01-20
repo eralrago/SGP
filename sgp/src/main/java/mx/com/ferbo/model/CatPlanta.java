@@ -24,7 +24,19 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "cat_planta")
 @NamedQueries({
-    @NamedQuery(name = "CatPlanta.findAll", query = "SELECT c FROM CatPlanta c")})
+    @NamedQuery(name = "CatPlanta.findAll", query = "SELECT new mx.com.ferbo.dto.CatPlantaDTO("
+            + " c.idPlanta,"
+            + " c.descripcion,"
+            + " c.activo"
+            + ")"
+            + " FROM CatPlanta c"),
+    @NamedQuery(name = "CatPlanta.findByActive", query = "SELECT new mx.com.ferbo.dto.CatPlantaDTO("
+            + " c.idPlanta,"
+            + " c.descripcion,"
+            + " c.activo"
+            + ")"
+            + " FROM CatPlanta c"
+            + " WHERE c.activo = 1")})
 public class CatPlanta implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -85,26 +97,6 @@ public class CatPlanta implements Serializable {
 
     public void setDetEmpleadoList(List<DetEmpleado> detEmpleadoList) {
         this.detEmpleadoList = detEmpleadoList;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idPlanta != null ? idPlanta.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CatPlanta)) {
-            return false;
-        }
-        CatPlanta other = (CatPlanta) object;
-        if ((this.idPlanta == null && other.idPlanta != null) || (this.idPlanta != null && !this.idPlanta.equals(other.idPlanta))) {
-            return false;
-        }
-        return true;
     }
 
     @Override

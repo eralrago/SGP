@@ -7,7 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import mx.com.ferbo.dao.CatAreaDAO;
 import mx.com.ferbo.dao.CatEmpresaDAO;
@@ -30,7 +30,7 @@ import org.primefaces.PrimeFaces;
  * @author Gabo
  */
 @Named(value = "registroEmpleadosBean")
-@SessionScoped
+@ViewScoped
 public class RegistroEmpleadosBean implements Serializable {
 
     private Logger log = LogManager.getRootLogger();

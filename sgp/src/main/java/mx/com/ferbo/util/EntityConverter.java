@@ -10,7 +10,7 @@ import javax.faces.convert.FacesConverter;
 
 /**
  *
- * @author Jesús Morales
+ * @author Gabo
  */
 
 @FacesConverter(value = "entityConverter")

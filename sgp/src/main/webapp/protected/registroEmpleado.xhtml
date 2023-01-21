@@ -66,8 +66,8 @@
                             <p:column headerText="Planta" sortBy="#{empleado.catPlantaDTO.descripcion}" filterBy="#{empleado.catPlantaDTO.descripcion}">
                                 <h:outputText value="#{empleado.catPlantaDTO.descripcion}" />
                             </p:column>
-                            <p:column headerText="Estatus" sortBy="#{empleado.activo}" filterBy="#{empleado.activo}">
-                                <h:outputText value="#{empleado.activo}" />
+                            <p:column headerText="Perfil" sortBy="#{empleado.catPerfilDTO.descripcion}" filterBy="#{empleado.activo}">
+                                <h:outputText value="#{empleado.catPerfilDTO.descripcion}" />
                             </p:column>
                             <p:column style="width: 8rem; text-align: center;" exportable="false">
                                 <p:commandButton icon="pi pi-pencil" update=":formRegistroEmpleado:panelDialogEmpleado" oncomplete="PF('dialogEmpleado').show()" 
@@ -135,23 +135,23 @@
                                         <div class="formgrid grid">
                                             <div class="field col">
                                                 <p:outputLabel for="@next" value="Perfil" />
-                                                <p:selectOneMenu id="soPerfil" value="#{registroEmpleadosBean.empleadoSelected.catPerfilDTO}" converter="entityConverter" autoWidth="false">
+                                                <p:selectOneMenu id="soPerfil" value="#{registroEmpleadosBean.empleadoSelected.catPerfilDTO.idPerfil}" autoWidth="false">
                                                     <f:selectItem itemLabel="--Seleccione--"/>
-                                                    <f:selectItems value="#{registroEmpleadosBean.lstCatPerfil}" var="perfil" itemValue="#{perfil}" itemLabel="#{perfil.descripcion}"/>
+                                                    <f:selectItems value="#{registroEmpleadosBean.lstCatPerfil}" var="perfil" itemValue="#{perfil.idPerfil}" itemLabel="#{perfil.descripcion}"/>
                                                 </p:selectOneMenu>
                                             </div>
                                             <div class="field col">
                                                 <p:outputLabel for="@next" value="Empresa" />
-                                                <p:selectOneMenu id="soEmpresa" value="#{registroEmpleadosBean.empleadoSelected.catEmpresaDTO}" converter="entityConverter" autoWidth="false">
+                                                <p:selectOneMenu id="soEmpresa" value="#{registroEmpleadosBean.empleadoSelected.catEmpresaDTO.idEmpresa}" autoWidth="false">
                                                     <f:selectItem itemLabel="--Seleccione--"/>
-                                                    <f:selectItems value="#{registroEmpleadosBean.lstCatEmpresa}" var="empresa" itemValue="#{empresa}" itemLabel="#{empresa.descripcion}"/>
+                                                    <f:selectItems value="#{registroEmpleadosBean.lstCatEmpresa}" var="empresa" itemValue="#{empresa.idEmpresa}" itemLabel="#{empresa.descripcion}"/>
                                                 </p:selectOneMenu>
                                             </div>
                                             <div class="field col">
                                                 <p:outputLabel for="@next" value="Puesto" />
-                                                <p:selectOneMenu id="soPuesto" value="#{registroEmpleadosBean.empleadoSelected.catPuestoDTO}" converter="entityConverter" autoWidth="false">
+                                                <p:selectOneMenu id="soPuesto" value="#{registroEmpleadosBean.empleadoSelected.catPuestoDTO.idPuesto}" autoWidth="false">
                                                     <f:selectItem itemLabel="--Seleccione--"/>
-                                                    <f:selectItems value="#{registroEmpleadosBean.lstCatPuesto}" var="puesto" itemValue="#{puesto}" itemLabel="#{puesto.descripcion}"/>
+                                                    <f:selectItems value="#{registroEmpleadosBean.lstCatPuesto}" var="puesto" itemValue="#{puesto.idPuesto}" itemLabel="#{puesto.descripcion}"/>
                                                 </p:selectOneMenu>
                                             </div>
 
@@ -159,20 +159,20 @@
                                         <div class="formgrid grid">
                                             <div class="field col">
                                                 <p:outputLabel for="@next" value="Área" />
-                                                <p:selectOneMenu id="soArea" value="#{registroEmpleadosBean.empleadoSelected.catAreaDTO}" converter="entityConverter" autoWidth="false">
+                                                <p:selectOneMenu id="soArea" value="#{registroEmpleadosBean.empleadoSelected.catAreaDTO.idArea}" autoWidth="false">
                                                     <f:selectItem itemLabel="--Seleccione--"/>
-                                                    <f:selectItems value="#{registroEmpleadosBean.lstCatArea}" var="area" itemValue="#{area}" itemLabel="#{area.descripcion}"/>
+                                                    <f:selectItems value="#{registroEmpleadosBean.lstCatArea}" var="area" itemValue="#{area.idArea}" itemLabel="#{area.descripcion}"/>
                                                 </p:selectOneMenu>
                                             </div>
                                             <div class="field col">
                                                 <p:outputLabel for="@next" value="Ubicación" />
-                                                <p:selectOneMenu id="soUbica" value="#{registroEmpleadosBean.empleadoSelected.catPlantaDTO}" converter="entityConverter">
+                                                <p:selectOneMenu id="soUbica" value="#{registroEmpleadosBean.empleadoSelected.catPlantaDTO.idPlanta}" autoWidth="false">
                                                     <f:selectItem itemLabel="--Seleccione--"/>
-                                                    <f:selectItems value="#{registroEmpleadosBean.lstCatPlanta}" var="planta" itemValue="#{planta}" itemLabel="#{planta.descripcion}"/>
+                                                    <f:selectItems value="#{registroEmpleadosBean.lstCatPlanta}" var="planta" itemValue="#{planta.idPlanta}" itemLabel="#{planta.descripcion}"/>
                                                 </p:selectOneMenu>
                                             </div>
                                             <div class="field col align-self-end">
-                                                <p:commandButton value="Registrar biométrico" icon="pi pi-sync" iconPos="right"/>
+                                                <p:commandButton value="Registrar biométrico" icon="pi pi-sync" iconPos="right" process="@this" immediate="true" update="soUbica"/>
                                             </div>
                                         </div>
                                     </p:fieldset>
@@ -181,7 +181,7 @@
                             </p:outputPanel>
 
                             <f:facet name="footer">
-                                <p:commandButton value="Guardar" icon="pi pi-check" actionListener="#{registroEmpleadosBean.guardarEmpleado()}" update="panelDialogEmpleado" 
+                                <p:commandButton value="Guardar" icon="pi pi-check" actionListener="#{registroEmpleadosBean.guardarEmpleado()}" update="formRegistroEmpleado:soUbica" 
                                                  process="panelDialogEmpleado @this" />
                                 <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('dialogEmpleado').hide()" class="ui-button-secondary" />
                             </f:facet>

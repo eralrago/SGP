@@ -52,30 +52,4 @@ public class CatPerfilDTO implements Serializable {
     public void setActivo(Short activo) {
         this.activo = activo;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idPerfil != null ? idPerfil.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CatPerfil)) {
-            return false;
-        }
-        CatPerfilDTO other = (CatPerfilDTO) object;
-        if ((this.idPerfil == null && other.idPerfil != null) || (this.idPerfil != null && !this.idPerfil.equals(other.idPerfil))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "mx.com.ferbo.model.CatPerfil[ idPerfil=" + idPerfil + " ]";
-    }
-
 }

@@ -96,29 +96,4 @@ public class DetRegistro implements Serializable {
         this.idEmpleado = idEmpleado;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idRegistro != null ? idRegistro.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof DetRegistro)) {
-            return false;
-        }
-        DetRegistro other = (DetRegistro) object;
-        if ((this.idRegistro == null && other.idRegistro != null) || (this.idRegistro != null && !this.idRegistro.equals(other.idRegistro))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "mx.com.ferbo.model.DetRegistro[ idRegistro=" + idRegistro + " ]";
-    }
-    
 }

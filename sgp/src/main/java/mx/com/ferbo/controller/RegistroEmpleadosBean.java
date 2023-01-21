@@ -102,7 +102,7 @@ public class RegistroEmpleadosBean implements Serializable {
                 this.lstEmpleados.add(this.empleadoSelected);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Empleado agregado"));
             } catch (Exception ex) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Empleado no eliminado"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al guardar empleado"));
             }
 
         } else {
@@ -110,7 +110,7 @@ public class RegistroEmpleadosBean implements Serializable {
                 empleadoDAO.actualizar(empleadoSelected);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Empleado editado"));
             } catch (Exception ex) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Empleado no eliminado"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al guardar empleado"));
             }
         }
 

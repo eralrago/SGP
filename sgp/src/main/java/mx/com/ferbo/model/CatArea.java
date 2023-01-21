@@ -98,31 +98,5 @@ public class CatArea implements Serializable {
 
     public void setDetEmpleadoList(List<DetEmpleado> detEmpleadoList) {
         this.detEmpleadoList = detEmpleadoList;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idArea != null ? idArea.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CatArea)) {
-            return false;
-        }
-        CatArea other = (CatArea) object;
-        if ((this.idArea == null && other.idArea != null) || (this.idArea != null && !this.idArea.equals(other.idArea))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "mx.com.ferbo.model.CatArea[ idArea=" + idArea + " ]";
-    }
-    
+    }    
 }

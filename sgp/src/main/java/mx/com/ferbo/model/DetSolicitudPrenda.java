@@ -146,30 +146,5 @@ public class DetSolicitudPrenda implements Serializable {
     public void setIdEmpleadoSol(DetEmpleado idEmpleadoSol) {
         this.idEmpleadoSol = idEmpleadoSol;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idSolicitud != null ? idSolicitud.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof DetSolicitudPrenda)) {
-            return false;
-        }
-        DetSolicitudPrenda other = (DetSolicitudPrenda) object;
-        if ((this.idSolicitud == null && other.idSolicitud != null) || (this.idSolicitud != null && !this.idSolicitud.equals(other.idSolicitud))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "mx.com.ferbo.model.DetSolicitudPrenda[ idSolicitud=" + idSolicitud + " ]";
-    }
     
 }

@@ -105,30 +105,5 @@ public class DetBiometrico implements Serializable {
     public void setIdEmpleado(DetEmpleado idEmpleado) {
         this.idEmpleado = idEmpleado;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idBiometrico != null ? idBiometrico.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof DetBiometrico)) {
-            return false;
-        }
-        DetBiometrico other = (DetBiometrico) object;
-        if ((this.idBiometrico == null && other.idBiometrico != null) || (this.idBiometrico != null && !this.idBiometrico.equals(other.idBiometrico))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "mx.com.ferbo.model.DetBiometrico[ idBiometrico=" + idBiometrico + " ]";
-    }
     
 }

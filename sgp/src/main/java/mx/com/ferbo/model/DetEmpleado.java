@@ -27,6 +27,8 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "det_empleado")
+@NamedQueries({
+    @NamedQuery(name = "DetEmpleado.getNumEmpleado", query = "SELECT COALESCE(MAX(e.idEmpleado),0) FROM DetEmpleado e")})
 public class DetEmpleado implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -95,8 +97,6 @@ public class DetEmpleado implements Serializable {
     private List<BitacoraCatPerfil> bitacoraCatPerfilList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmpleadoSol")
     private List<DetSolicitudPermiso> detSolicitudPermisoList;
-    @OneToMany(mappedBy = "idEmpleadoRev")
-    private List<DetSolicitudPermiso> detSolicitudPermisoList1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmpleado")
     private List<DetBiometrico> detBiometricoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmpleado")
@@ -104,11 +104,7 @@ public class DetEmpleado implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmpleadoSol")
     private List<DetSolicitudArticulo> detSolicitudArticuloList;
     @OneToMany(mappedBy = "idEmpleadoRev")
-    private List<DetSolicitudArticulo> detSolicitudArticuloList1;
-    @OneToMany(mappedBy = "idEmpleadoRev")
     private List<DetSolicitudPrenda> detSolicitudPrendaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmpleadoSol")
-    private List<DetSolicitudPrenda> detSolicitudPrendaList1;
     @JoinColumn(name = "id_area", referencedColumnName = "id_area")
     @ManyToOne
     private CatArea idArea;
@@ -280,14 +276,6 @@ public class DetEmpleado implements Serializable {
         this.detSolicitudPermisoList = detSolicitudPermisoList;
     }
 
-    public List<DetSolicitudPermiso> getDetSolicitudPermisoList1() {
-        return detSolicitudPermisoList1;
-    }
-
-    public void setDetSolicitudPermisoList1(List<DetSolicitudPermiso> detSolicitudPermisoList1) {
-        this.detSolicitudPermisoList1 = detSolicitudPermisoList1;
-    }
-
     public List<DetBiometrico> getDetBiometricoList() {
         return detBiometricoList;
     }
@@ -312,13 +300,6 @@ public class DetEmpleado implements Serializable {
         this.detSolicitudArticuloList = detSolicitudArticuloList;
     }
 
-    public List<DetSolicitudArticulo> getDetSolicitudArticuloList1() {
-        return detSolicitudArticuloList1;
-    }
-
-    public void setDetSolicitudArticuloList1(List<DetSolicitudArticulo> detSolicitudArticuloList1) {
-        this.detSolicitudArticuloList1 = detSolicitudArticuloList1;
-    }
 
     public List<DetSolicitudPrenda> getDetSolicitudPrendaList() {
         return detSolicitudPrendaList;
@@ -326,14 +307,6 @@ public class DetEmpleado implements Serializable {
 
     public void setDetSolicitudPrendaList(List<DetSolicitudPrenda> detSolicitudPrendaList) {
         this.detSolicitudPrendaList = detSolicitudPrendaList;
-    }
-
-    public List<DetSolicitudPrenda> getDetSolicitudPrendaList1() {
-        return detSolicitudPrendaList1;
-    }
-
-    public void setDetSolicitudPrendaList1(List<DetSolicitudPrenda> detSolicitudPrendaList1) {
-        this.detSolicitudPrendaList1 = detSolicitudPrendaList1;
     }
 
     public CatArea getIdArea() {
@@ -374,31 +347,6 @@ public class DetEmpleado implements Serializable {
 
     public void setIdPuesto(CatPuesto idPuesto) {
         this.idPuesto = idPuesto;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idEmpleado != null ? idEmpleado.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof DetEmpleado)) {
-            return false;
-        }
-        DetEmpleado other = (DetEmpleado) object;
-        if ((this.idEmpleado == null && other.idEmpleado != null) || (this.idEmpleado != null && !this.idEmpleado.equals(other.idEmpleado))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "mx.com.ferbo.model.DetEmpleado[ idEmpleado=" + idEmpleado + " ]";
     }
     
 }

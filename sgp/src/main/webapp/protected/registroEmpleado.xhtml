@@ -120,8 +120,12 @@
                                                 <p:inputText id="nEmpleado" value="#{registroEmpleadosBean.empleadoSelected.numEmpleado}" disabled="true"/>
                                             </div>
                                             <div class="field col">
-                                                <p:outputLabel for="@next" value="NSS" />
+                                                <p:outputLabel for="@next" value="RFC" />
                                                 <p:inputText id="nss" value="#{registroEmpleadosBean.empleadoSelected.nss}"/>
+                                            </div>
+                                            <div class="field col">
+                                                <p:outputLabel for="@next" value="NSS" />
+                                                <p:inputText id="rfc" value="#{registroEmpleadosBean.empleadoSelected.rfc}"/>
                                             </div>
                                             <div class="field col">
                                                 <p:outputLabel for="@next" value="Fecha de ingreso" />
@@ -134,6 +138,13 @@
                                                 <p:selectOneMenu id="soPerfil" value="#{registroEmpleadosBean.empleadoSelected.catPerfilDTO}" converter="entityConverter" autoWidth="false">
                                                     <f:selectItem itemLabel="--Seleccione--"/>
                                                     <f:selectItems value="#{registroEmpleadosBean.lstCatPerfil}" var="perfil" itemValue="#{perfil}" itemLabel="#{perfil.descripcion}"/>
+                                                </p:selectOneMenu>
+                                            </div>
+                                            <div class="field col">
+                                                <p:outputLabel for="@next" value="Empresa" />
+                                                <p:selectOneMenu id="soEmpresa" value="#{registroEmpleadosBean.empleadoSelected.catEmpresaDTO}" converter="entityConverter" autoWidth="false">
+                                                    <f:selectItem itemLabel="--Seleccione--"/>
+                                                    <f:selectItems value="#{registroEmpleadosBean.lstCatEmpresa}" var="empresa" itemValue="#{empresa}" itemLabel="#{empresa.descripcion}"/>
                                                 </p:selectOneMenu>
                                             </div>
                                             <div class="field col">

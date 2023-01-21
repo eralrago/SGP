@@ -96,31 +96,5 @@ public class CatPerfil implements Serializable {
 
     public void setDetEmpleadoList(List<DetEmpleado> detEmpleadoList) {
         this.detEmpleadoList = detEmpleadoList;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idPerfil != null ? idPerfil.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CatPerfil)) {
-            return false;
-        }
-        CatPerfil other = (CatPerfil) object;
-        if ((this.idPerfil == null && other.idPerfil != null) || (this.idPerfil != null && !this.idPerfil.equals(other.idPerfil))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "mx.com.ferbo.model.CatPerfil[ idPerfil=" + idPerfil + " ]";
-    }
-    
+    }    
 }

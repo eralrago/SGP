@@ -68,11 +68,12 @@ public class RegistroEmpleadosBean implements Serializable {
     public void init() {
         log.info("--Iniciando desde el postconstruct--");
         try {
-            lstCatEmpresa = catEmpresaDAO.buscarActivas();
-            lstCatPerfil = catPerfilDAO.buscarActivos();
-            lstCatPlanta = catPlantaDAO.buscarActivas();
-            lstCatPuesto = catPuestoDAO.buscarActivas();
-            lstCatArea = catAreaDAO.buscarActivas();
+            lstCatEmpresa = catEmpresaDAO.buscarActivo();
+            lstCatPerfil = catPerfilDAO.buscarActivo();
+            lstCatPlanta = catPlantaDAO.buscarActivo();
+            lstCatPuesto = catPuestoDAO.buscarActivo();
+            lstCatArea = catAreaDAO.buscarActivo();
+            lstEmpleados = empleadoDAO.buscarActivo();
         } catch (Exception ex) {
             log.info(ex);
         }
@@ -181,8 +182,7 @@ public class RegistroEmpleadosBean implements Serializable {
     public void setLstCatArea(List<CatAreaDTO> lstCatArea) {
         this.lstCatArea = lstCatArea;
     }
-
-//</editor-fold> 
+    
     public List<DetEmpleadoDTO> getLstEmpleados() {
         return lstEmpleados;
     }
@@ -198,5 +198,7 @@ public class RegistroEmpleadosBean implements Serializable {
     public void setLstEmpleadosSelected(List<DetEmpleadoDTO> lstEmpleadosSelected) {
         this.lstEmpleadosSelected = lstEmpleadosSelected;
     }
+
+//</editor-fold> 
 
 }

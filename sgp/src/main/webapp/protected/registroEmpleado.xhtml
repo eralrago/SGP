@@ -54,7 +54,7 @@
                             <p:ajax event="rowSelectCheckbox" update=":formRegistroEmpleado:btnEliminarEmp"/>
                             <p:ajax event="rowUnselectCheckbox" update=":formRegistroEmpleado:btnEliminarEmp" />
                             <p:ajax event="toggleSelect" update=":formRegistroEmpleado:btnEliminarEmp" />
-                            
+
                             <p:column selectionMode="multiple" exportable="false"></p:column>
 
                             <p:column headerText="Nombre" sortBy="#{empleado.nombre}" filterBy="#{empleado.nombre}">
@@ -154,7 +154,7 @@
                                                     <f:selectItems value="#{registroEmpleadosBean.lstCatPuesto}" var="puesto" itemValue="#{puesto}" itemLabel="#{puesto.descripcion}"/>
                                                 </p:selectOneMenu>
                                             </div>
-                                            
+
                                         </div>
                                         <div class="formgrid grid">
                                             <div class="field col">

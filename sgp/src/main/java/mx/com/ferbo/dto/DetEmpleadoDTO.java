@@ -37,7 +37,9 @@ public class DetEmpleadoDTO implements Serializable {
         catPuestoDTO = new CatPuestoDTO();
     }
 
-    public DetEmpleadoDTO(Integer idEmpleado, String numEmpleado, String nombre, String primerAp, String segundoAp, Date fechaNacimiento, Date fechaRegistro, Date fechaModificacion, String curp, String rfc, String correo, Date fechaIngreso, String nss, short activo) {
+    public DetEmpleadoDTO(Integer idEmpleado, String numEmpleado, String nombre, String primerAp, String segundoAp,
+                          Date fechaNacimiento, Date fechaRegistro, Date fechaModificacion, String curp, String rfc, String correo,
+                          Date fechaIngreso, String nss, short activo) {
         this.idEmpleado = idEmpleado;
         this.numEmpleado = numEmpleado;
         this.nombre = nombre;
@@ -52,6 +54,35 @@ public class DetEmpleadoDTO implements Serializable {
         this.fechaIngreso = fechaIngreso;
         this.nss = nss;
         this.activo = activo;
+    }
+
+    /*
+     * Método que utiliza la query findByActive
+     */
+    public DetEmpleadoDTO(Integer idEmpleado, String numEmpleado, String nombre, String primerAp, String segundoAp,
+                          Date fechaNacimiento, Date fechaRegistro, Date fechaModificacion, String curp, String rfc, String correo,
+                          Date fechaIngreso, String nss, short activo, Integer idArea, String descripcionArea, Integer idEmpresa,
+                          String descripcionEmpresa, Integer idPerfil, String descripcionPerfil, Integer idPlanta,
+                          String descripcionPlanta, Integer idPuesto, String descripcionPuesto) {
+        this.idEmpleado = idEmpleado;
+        this.numEmpleado = numEmpleado;
+        this.nombre = nombre;
+        this.primerAp = primerAp;
+        this.segundoAp = segundoAp;
+        this.fechaNacimiento = fechaNacimiento;
+        this.fechaRegistro = fechaRegistro;
+        this.fechaModificacion = fechaModificacion;
+        this.curp = curp;
+        this.rfc = rfc;
+        this.correo = correo;
+        this.fechaIngreso = fechaIngreso;
+        this.nss = nss;
+        this.activo = activo;
+        this.catAreaDTO = new CatAreaDTO(idArea, descripcionArea, (short) 1);
+        this.catEmpresaDTO = new CatEmpresaDTO(idEmpresa, descripcionEmpresa, (short) 1);
+        this.catPerfilDTO = new CatPerfilDTO(idPerfil, descripcionPerfil, (short) 1);
+        this.catPlantaDTO = new CatPlantaDTO(idPlanta, descripcionPlanta, (short) 1);
+        this.catPuestoDTO = new CatPuestoDTO(idPuesto, descripcionPuesto, (short) 1);
     }
 
     public Integer getIdEmpleado() {
@@ -205,7 +236,5 @@ public class DetEmpleadoDTO implements Serializable {
     public void setCatPuestoDTO(CatPuestoDTO catPuestoDTO) {
         this.catPuestoDTO = catPuestoDTO;
     }
-    
-    
 
 }

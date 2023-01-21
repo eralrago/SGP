@@ -28,6 +28,39 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "det_empleado")
 @NamedQueries({
+    @NamedQuery(name = "DetEmpleado.findByActive", query = "SELECT NEW mx.com.ferbo.dto.DetEmpleadoDTO("
+                                                           + "e.idEmpleado,"
+                                                           + " e.numEmpleado,"
+                                                           + " e.nombre,"
+                                                           + " e.primerAp,"
+                                                           + " e.segundoAp,"
+                                                           + " e.fechaNacimiento,"
+                                                           + " e.fechaRegistro,"
+                                                           + " e.fechaModificacion,"
+                                                           + " e.curp,"
+                                                           + " e.rfc,"
+                                                           + " e.correo,"
+                                                           + " e.fechaIngreso,"
+                                                           + " e.nss,"
+                                                           + " e.activo,"
+                                                           + " a.idArea,"
+                                                           + " a.descripcion,"
+                                                           + " em.idEmpresa,"
+                                                           + " em.descripcion,"
+                                                           + " p.idPerfil,"
+                                                           + " p.descripcion,"
+                                                           + " pl.idPlanta,"
+                                                           + " pl.descripcion,"
+                                                           + " pu.idPuesto,"
+                                                           + " pu.descripcion"
+                                                           + ")"
+                                                           + " FROM DetEmpleado e"
+                                                           + " LEFT JOIN e.idArea a"
+                                                           + " LEFT JOIN e.idEmpresa em"
+                                                           + " LEFT JOIN e.idPerfil p"
+                                                           + " LEFT JOIN e.idPlanta pl"
+                                                           + " LEFT JOIN e.idPuesto pu"
+                                                           + " WHERE e.activo = 1"),
     @NamedQuery(name = "DetEmpleado.getNumEmpleado", query = "SELECT COALESCE(MAX(e.idEmpleado),0) FROM DetEmpleado e")})
 public class DetEmpleado implements Serializable {
 
@@ -128,7 +161,8 @@ public class DetEmpleado implements Serializable {
         this.idEmpleado = idEmpleado;
     }
 
-    public DetEmpleado(Integer idEmpleado, String numEmpleado, String nombre, String primerAp, Date fechaNacimiento, Date fechaRegistro, String rfc, Date fechaIngreso, short activo) {
+    public DetEmpleado(Integer idEmpleado, String numEmpleado, String nombre, String primerAp, Date fechaNacimiento, Date fechaRegistro, String rfc,
+                       Date fechaIngreso, short activo) {
         this.idEmpleado = idEmpleado;
         this.numEmpleado = numEmpleado;
         this.nombre = nombre;
@@ -300,7 +334,6 @@ public class DetEmpleado implements Serializable {
         this.detSolicitudArticuloList = detSolicitudArticuloList;
     }
 
-
     public List<DetSolicitudPrenda> getDetSolicitudPrendaList() {
         return detSolicitudPrendaList;
     }
@@ -348,5 +381,5 @@ public class DetEmpleado implements Serializable {
     public void setIdPuesto(CatPuesto idPuesto) {
         this.idPuesto = idPuesto;
     }
-    
+
 }

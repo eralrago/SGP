@@ -38,9 +38,15 @@ public class CatAreaDAO extends IBaseDAO<CatAreaDTO, Integer> {
     public void guardar(CatAreaDTO e) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
-     public List<CatAreaDTO> buscarActivas() {
+
+    @Override
+    public List<CatAreaDTO> buscarActivo() {
         return emSGP.createNamedQuery("CatArea.findByActive", CatAreaDTO.class).getResultList();
     }
-    
+
+    @Override
+    public void eliminar(CatAreaDTO e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }

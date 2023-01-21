@@ -38,9 +38,15 @@ public class CatEmpresaDAO extends IBaseDAO<CatEmpresaDTO, Integer> {
     public void guardar(CatEmpresaDTO e) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
-     public List<CatEmpresaDTO> buscarActivas() {
+
+    @Override
+    public List<CatEmpresaDTO> buscarActivo() {
         return emSGP.createNamedQuery("CatEmpresa.findByActive", CatEmpresaDTO.class).getResultList();
+    }
+
+    @Override
+    public void eliminar(CatEmpresaDTO e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

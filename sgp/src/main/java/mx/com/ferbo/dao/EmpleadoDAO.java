@@ -31,6 +31,11 @@ public class EmpleadoDAO extends IBaseDAO<DetEmpleadoDTO, Integer> {
     public List<DetEmpleadoDTO> buscarTodos() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
+    @Override
+    public List<DetEmpleadoDTO> buscarActivo() {
+        return emSGP.createNamedQuery("DetEmpleado.findByActive", DetEmpleadoDTO.class).getResultList();
+    }
 
     @Override
     public List<DetEmpleadoDTO> buscarPorCriterios(DetEmpleadoDTO e) {
@@ -39,6 +44,11 @@ public class EmpleadoDAO extends IBaseDAO<DetEmpleadoDTO, Integer> {
 
     @Override
     public void actualizar(DetEmpleadoDTO e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    @Override
+    public void eliminar(DetEmpleadoDTO e) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -63,7 +73,7 @@ public class EmpleadoDAO extends IBaseDAO<DetEmpleadoDTO, Integer> {
             empleado.setIdPlanta(e.getCatPlantaDTO() != null ? emSGP.getReference(CatPlanta.class, e.getCatPlantaDTO().getIdPlanta()) : null);
             empleado.setFechaRegistro(new Date());
             empleado.setActivo((short) 1);
-            empleado.setNumEmpleado(String.format("%0" + 4 + "d", (Integer) emSGP.createNamedQuery("DetEmpleado.getNumEmpleado").getSingleResult() + 1));
+            empleado.setNumEmpleado(String.format("%0" + 4 + "d", (Long) emSGP.createNamedQuery("DetEmpleado.getNumEmpleado").getSingleResult() + 1));
             emSGP.persist(empleado);
             emSGP.getTransaction().commit();
             e.setIdEmpleado(empleado.getIdEmpleado());
@@ -71,7 +81,5 @@ public class EmpleadoDAO extends IBaseDAO<DetEmpleadoDTO, Integer> {
             emSGP.getTransaction().rollback();
             throw new SGPException("Error al guardar empleado");
         }
-
     }
-
 }

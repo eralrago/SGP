@@ -21,10 +21,14 @@ public abstract class IBaseDAO<E, ID> {
     public abstract E buscarPorId(ID id);
 
     public abstract List<E> buscarTodos();
+    
+    public abstract List<E> buscarActivo();
 
     public abstract List<E> buscarPorCriterios(E e);
 
     public abstract void actualizar(E e);
+    
+    public abstract void eliminar(E e);
 
     public abstract void guardar(E e) throws SGPException;
     

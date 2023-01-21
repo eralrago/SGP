@@ -7,12 +7,14 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import mx.com.ferbo.dao.CatAreaDAO;
 import mx.com.ferbo.dao.CatEmpresaDAO;
 import mx.com.ferbo.dao.CatPerfilDAO;
 import mx.com.ferbo.dao.CatPlantaDAO;
 import mx.com.ferbo.dao.CatPuestoDAO;
+import mx.com.ferbo.dao.EmpleadoDAO;
 import mx.com.ferbo.dto.CatAreaDTO;
 import mx.com.ferbo.dto.CatEmpresaDTO;
 import mx.com.ferbo.dto.CatPerfilDTO;
@@ -47,6 +49,7 @@ public class RegistroEmpleadosBean implements Serializable {
     private final CatPlantaDAO catPlantaDAO;
     private final CatPuestoDAO catPuestoDAO;
     private final CatAreaDAO catAreaDAO;
+    private final EmpleadoDAO empleadoDAO;
 
     public RegistroEmpleadosBean() {
         log.info("--Iniciando desde el constructor--");
@@ -55,6 +58,7 @@ public class RegistroEmpleadosBean implements Serializable {
         catPlantaDAO = new CatPlantaDAO();
         catPuestoDAO = new CatPuestoDAO();
         catAreaDAO = new CatAreaDAO();
+        empleadoDAO = new EmpleadoDAO();
         empleadoSelected = new DetEmpleadoDTO();
         lstEmpleados = new ArrayList<>();
         lstEmpleadosSelected = new ArrayList<>();
@@ -93,12 +97,21 @@ public class RegistroEmpleadosBean implements Serializable {
 
     public void guardarEmpleado() {
         if (this.empleadoSelected.getIdEmpleado() == null) {
-            empleadoSelected.setIdEmpleado(lstEmpleados.size() + 1);
-            empleadoSelected.setActivo((short) 1);
-            this.lstEmpleados.add(this.empleadoSelected);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Empleado agregado"));
+            try {
+                empleadoDAO.guardar(empleadoSelected);
+                this.lstEmpleados.add(this.empleadoSelected);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Empleado agregado"));
+            } catch (Exception ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Empleado no eliminado"));
+            }
+
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Empleado editado"));
+            try {
+                empleadoDAO.actualizar(empleadoSelected);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Empleado editado"));
+            } catch (Exception ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Empleado no eliminado"));
+            }
         }
 
         PrimeFaces.current().executeScript("PF('dialogEmpleado').hide()");

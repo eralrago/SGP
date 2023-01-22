@@ -21,12 +21,13 @@ import mx.com.ferbo.util.SGPException;
 @Stateless
 @LocalBean
 public class EmpleadoDAO extends IBaseDAO<DetEmpleadoDTO, Integer> {
-
+    
     @Override
     public DetEmpleadoDTO buscarPorId(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<DetEmpleadoDTO> empleado = emSGP.createNamedQuery("DetEmpleado.findByID", DetEmpleadoDTO.class).setParameter("idEmp", id).getResultList();
+        return empleado.isEmpty() ? new DetEmpleadoDTO() : empleado.get(0);
     }
-
+    
     @Override
     public List<DetEmpleadoDTO> buscarTodos() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -36,22 +37,62 @@ public class EmpleadoDAO extends IBaseDAO<DetEmpleadoDTO, Integer> {
     public List<DetEmpleadoDTO> buscarActivo() {
         return emSGP.createNamedQuery("DetEmpleado.findByActive", DetEmpleadoDTO.class).getResultList();
     }
-
+    
     @Override
     public List<DetEmpleadoDTO> buscarPorCriterios(DetEmpleadoDTO e) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
     @Override
-    public void actualizar(DetEmpleadoDTO e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void actualizar(DetEmpleadoDTO e)throws SGPException {
+        final DetEmpleado empleado = new DetEmpleado();
+        try {
+            emSGP.getTransaction().begin();
+            empleado.setIdEmpleado(e.getIdEmpleado());
+            empleado.setNombre(e.getNombre());
+            empleado.setPrimerAp(e.getPrimerAp());
+            empleado.setSegundoAp(e.getSegundoAp());
+            empleado.setCurp(e.getCurp());
+            empleado.setFechaNacimiento(e.getFechaNacimiento());
+            empleado.setCorreo(e.getCorreo());
+            empleado.setRfc(e.getRfc());
+            empleado.setNss(e.getNss());
+            empleado.setFechaIngreso(e.getFechaIngreso());
+            empleado.setIdPerfil(e.getCatPerfilDTO() != null ? emSGP.getReference(CatPerfil.class, e.getCatPerfilDTO().getIdPerfil()) : null);
+            empleado.setIdEmpresa(e.getCatEmpresaDTO() != null ? emSGP.getReference(CatEmpresa.class, e.getCatEmpresaDTO().getIdEmpresa()) : null);
+            empleado.setIdPuesto(e.getCatPuestoDTO() != null ? emSGP.getReference(CatPuesto.class, e.getCatPuestoDTO().getIdPuesto()) : null);
+            empleado.setIdArea(e.getCatAreaDTO() != null ? emSGP.getReference(CatArea.class, e.getCatAreaDTO().getIdArea()) : null);
+            empleado.setIdPlanta(e.getCatPlantaDTO() != null ? emSGP.getReference(CatPlanta.class, e.getCatPlantaDTO().getIdPlanta()) : null);
+            empleado.setFechaRegistro(e.getFechaRegistro());
+            empleado.setFechaModificacion(new Date());
+            empleado.setActivo(e.getActivo());
+            empleado.setNumEmpleado(e.getNumEmpleado());
+            emSGP.merge(empleado);
+            emSGP.getTransaction().commit();
+            emSGP.detach(empleado);
+        } catch (Exception ex) {
+            emSGP.getTransaction().rollback();
+            throw new SGPException("Error al guardar empleado");
+        }
     }
     
     @Override
-    public void eliminar(DetEmpleadoDTO e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void eliminar(DetEmpleadoDTO e) throws SGPException {
+        DetEmpleado empleado = new DetEmpleado();
+        try {
+            emSGP.getTransaction().begin();
+            empleado = emSGP.getReference(DetEmpleado.class, e.getIdEmpleado());
+            empleado.setActivo((short) 0);
+            empleado.setFechaModificacion(new Date());
+            emSGP.merge(empleado);
+            emSGP.getTransaction().commit();
+            emSGP.detach(empleado);
+        } catch (Exception ex) {
+            emSGP.getTransaction().rollback();
+            throw new SGPException("Error al eliminar al empleado");
+        }
     }
-
+    
     @Override
     public void guardar(DetEmpleadoDTO e) throws SGPException {
         final DetEmpleado empleado = new DetEmpleado();

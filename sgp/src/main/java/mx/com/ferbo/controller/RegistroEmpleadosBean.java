@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -79,6 +78,9 @@ public class RegistroEmpleadosBean implements Serializable {
         }
     }
 
+    /*
+     * Método para obtener el mensaje a mostrar en el botón eliminar
+     */
     public String getMensajeBotonEliminar() {
         if (isEmpleadoSeleccionado()) {
             int size = this.lstEmpleadosSelected.size();
@@ -88,14 +90,23 @@ public class RegistroEmpleadosBean implements Serializable {
         return "Eliminar";
     }
 
+    /*
+     * Método para eliminar verificar la seleccioón de n empleados
+     */
     public boolean isEmpleadoSeleccionado() {
         return this.lstEmpleadosSelected != null && !this.lstEmpleadosSelected.isEmpty();
     }
 
+    /*
+     * Método para inicializar objeto empleado
+     */
     public void agregarEmpleado() {
         this.empleadoSelected = new DetEmpleadoDTO();
     }
 
+    /*
+     * Método para guardar empleado
+     */
     public void guardarEmpleado() {
         if (this.empleadoSelected.getIdEmpleado() == null) {
             try {
@@ -103,7 +114,8 @@ public class RegistroEmpleadosBean implements Serializable {
                 this.lstEmpleados.add(this.empleadoSelected);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Empleado agregado"));
             } catch (Exception ex) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al guardar empleado"));
+                FacesContext.getCurrentInstance()
+                        .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al guardar empleado"));
             }
 
         } else {
@@ -111,7 +123,8 @@ public class RegistroEmpleadosBean implements Serializable {
                 empleadoDAO.actualizar(empleadoSelected);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Empleado editado"));
             } catch (Exception ex) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al guardar empleado"));
+                FacesContext.getCurrentInstance()
+                        .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al guardar empleado"));
             }
         }
 
@@ -119,18 +132,38 @@ public class RegistroEmpleadosBean implements Serializable {
         PrimeFaces.current().ajax().update("formRegistroEmpleado:messages", "formRegistroEmpleado:dtEmpleados");
     }
 
+    /*
+     * Método para eliminar listado de empleados
+     */
     public void eliminaEmpleadosSeleccionados() {
-        //TODO: eliminar registro en DB
-        this.lstEmpleados.removeAll(this.lstEmpleadosSelected);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Empleados Eliminados"));
+        try {
+            for (DetEmpleadoDTO empleado : lstEmpleadosSelected) {
+                empleadoDAO.eliminar(empleado);
+                this.lstEmpleados.remove(empleado);
+            }
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Empleados Eliminados"));
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance()
+                    .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al eliminar uno o varios empleados"));
+        }
+
         PrimeFaces.current().ajax().update("formRegistroEmpleado:messages", "formRegistroEmpleado:dtEmpleados");
         this.lstEmpleadosSelected.clear();
     }
 
+    /*
+     * Método para eliminar 1 empleado
+     */
     public void eliminaEmpleado() {
-        this.lstEmpleados.remove(this.empleadoSelected);
-        agregarEmpleado();
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Empleado Eliminado"));
+        try {
+            empleadoDAO.eliminar(empleadoSelected);
+            this.lstEmpleados.remove(this.empleadoSelected);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Empleado Eliminado"));
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance()
+                    .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al eliminar al empleado"));
+        }
+
         PrimeFaces.current().ajax().update("formRegistroEmpleado:messages", "formRegistroEmpleado:dtEmpleados");
     }
 
@@ -182,7 +215,7 @@ public class RegistroEmpleadosBean implements Serializable {
     public void setLstCatArea(List<CatAreaDTO> lstCatArea) {
         this.lstCatArea = lstCatArea;
     }
-    
+
     public List<DetEmpleadoDTO> getLstEmpleados() {
         return lstEmpleados;
     }
@@ -200,5 +233,4 @@ public class RegistroEmpleadosBean implements Serializable {
     }
 
 //</editor-fold> 
-
 }

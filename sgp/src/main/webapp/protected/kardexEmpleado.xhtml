@@ -31,27 +31,27 @@
                             <div class="ui-fluid formgrid grid">
                                 <div class="field col-12 md:col-4">
                                     <p:outputLabel for="@next" value="Nombre"/>
-                                    <p:inputText id="nombre" value="#{registroEmpleadosBean.empleadoSelected.nombre}" />
+                                    <p:inputText id="nombre" value="#{kardexBean.empleadoSelected.nombre}" />
                                 </div>
                                 <div class="field col-12 md:col-4">
                                     <p:outputLabel for="@next" value="Primer Apellido" />
-                                    <p:inputText id="pAp" value="#{registroEmpleadosBean.empleadoSelected.primerAp}"/>
+                                    <p:inputText id="pAp" value="#{kardexBean.empleadoSelected.primerAp}"/>
                                 </div>
                                 <div class="field col-12 md:col-4">
                                     <p:outputLabel for="@next" value="Segundo Apellido" />
-                                    <p:inputText id="sAp" value="#{registroEmpleadosBean.empleadoSelected.segundoAp}"/>
+                                    <p:inputText id="sAp" value="#{kardexBean.empleadoSelected.segundoAp}"/>
                                 </div>
                                 <div class="field col-12 md:col-4">
                                     <p:outputLabel for="@next" value="CURP" />
-                                    <p:inputText id="curp" value="#{registroEmpleadosBean.empleadoSelected.curp}"/>
+                                    <p:inputText id="curp" value="#{kardexBean.empleadoSelected.curp}"/>
                                 </div>
                                 <div class="field col-12 md:col-4">
                                     <p:outputLabel for="@next" value="Fecha de nacimiento" />
-                                    <p:calendar id="fNac" value="#{registroEmpleadosBean.empleadoSelected.fechaNacimiento}"/>
+                                    <p:calendar id="fNac" value="#{kardexBean.empleadoSelected.fechaNacimiento}"/>
                                 </div>
                                 <div class="field col-12 md:col-4">
                                     <p:outputLabel for="@next" value="Correo" />
-                                    <p:inputText id="sCorreo" value="#{registroEmpleadosBean.empleadoSelected.correo}"/>
+                                    <p:inputText id="sCorreo" value="#{kardexBean.empleadoSelected.correo}"/>
                                 </div>
                             </div>
                         </p:fieldset>
@@ -62,43 +62,43 @@
                                 <div class="field col-12 md:col-12 p-0 m-0">
                                     <div class="field col-12 md:col-4">
                                         <p:outputLabel for="@next" value="# Empleado"/>
-                                        <p:inputText id="nEmpleado" value="#{registroEmpleadosBean.empleadoSelected.numEmpleado}" disabled="true"/>
+                                        <p:inputText id="nEmpleado" value="#{kardexBean.empleadoSelected.numEmpleado}" disabled="true"/>
                                     </div>
                                 </div>
                                 <div class="field col-12 md:col-4">
                                     <p:outputLabel for="@next" value="NSS" />
-                                    <p:inputText id="nss" value="#{registroEmpleadosBean.empleadoSelected.nss}"/>
+                                    <p:inputText id="nss" value="#{kardexBean.empleadoSelected.nss}"/>
                                 </div>
                                 <div class="field col-12 md:col-4">
                                     <p:outputLabel for="@next" value="Fecha de ingreso" />
-                                    <p:calendar id="fIngreso" value="#{registroEmpleadosBean.empleadoSelected.fechaIngreso}"/>
+                                    <p:calendar id="fIngreso" value="#{kardexBean.empleadoSelected.fechaIngreso}"/>
                                 </div>
                                 <div class="field col-12 md:col-4">
                                     <p:outputLabel for="@next" value="Empresa" />
-                                    <p:selectOneMenu id="soEmpresa" value="#{registroEmpleadosBean.empleadoSelected.catEmpresaDTO}" converter="entityConverter" autoWidth="false">
+                                    <p:selectOneMenu id="soEmpresa" value="#{kardexBean.empleadoSelected.catEmpresaDTO.idEmpresa}" converter="entityConverter" autoWidth="false">
                                         <f:selectItem itemLabel="--Seleccione--"/>
-                                        <f:selectItems value="#{registroEmpleadosBean.lstCatEmpresa}" var="empresa" itemValue="#{empresa.idEmpresa}" itemLabel="#{empresa.descripcion}"/>
+                                        <f:selectItems value="#{kardexBean.lstCatEmpresa}" var="empresa" itemValue="#{empresa.idEmpresa}" itemLabel="#{empresa.descripcion}"/>
                                     </p:selectOneMenu>
                                 </div>
                                 <div class="field col-12 md:col-4">
                                     <p:outputLabel for="@next" value="Puesto" />
-                                    <p:selectOneMenu id="soPuesto" value="#{registroEmpleadosBean.empleadoSelected.catPuestoDTO}" converter="entityConverter" autoWidth="false">
+                                    <p:selectOneMenu id="soPuesto" value="#{kardexBean.empleadoSelected.catPuestoDTO.idPuesto}" converter="entityConverter" autoWidth="false">
                                         <f:selectItem itemLabel="--Seleccione--"/>
-                                        <f:selectItems value="#{registroEmpleadosBean.lstCatPuesto}" var="puesto" itemValue="#{puesto.idPuesto}" itemLabel="#{puesto.descripcion}"/>
+                                        <f:selectItems value="#{kardexBean.lstCatPuesto}" var="puesto" itemValue="#{puesto.idPuesto}" itemLabel="#{puesto.descripcion}"/>
                                     </p:selectOneMenu>
                                 </div>
                                 <div class="field col-12 md:col-4">
                                     <p:outputLabel for="@next" value="Área" />
-                                    <p:selectOneMenu id="soArea" value="#{registroEmpleadosBean.empleadoSelected.catAreaDTO}" converter="entityConverter" autoWidth="false">
+                                    <p:selectOneMenu id="soArea" value="#{kardexBean.empleadoSelected.catAreaDTO.idArea}" converter="entityConverter" autoWidth="false">
                                         <f:selectItem itemLabel="--Seleccione--"/>
-                                        <f:selectItems value="#{registroEmpleadosBean.lstCatArea}" var="area" itemValue="#{area.idArea}" itemLabel="#{area.descripcion}"/>
+                                        <f:selectItems value="#{kardexBean.lstCatArea}" var="area" itemValue="#{area.idArea}" itemLabel="#{area.descripcion}"/>
                                     </p:selectOneMenu>
                                 </div>
                                 <div class="field col-12 md:col-4">
                                     <p:outputLabel for="@next" value="Ubicación" />
-                                    <p:selectOneMenu id="soUbica" value="#{registroEmpleadosBean.empleadoSelected.catPlantaDTO}" converter="entityConverter" autoWidth="false">
+                                    <p:selectOneMenu id="soUbica" value="#{kardexBean.empleadoSelected.catPlantaDTO.idPlanta}" converter="entityConverter" autoWidth="false">
                                         <f:selectItem itemLabel="--Seleccione--"/>
-                                        <f:selectItems value="#{registroEmpleadosBean.lstCatPlanta}" var="planta" itemValue="#{planta.idPlanta}" itemLabel="#{planta.descripcion}"/>
+                                        <f:selectItems value="#{kardexBean.lstCatPlanta}" var="planta" itemValue="#{planta.idPlanta}" itemLabel="#{planta.descripcion}"/>
                                     </p:selectOneMenu>
                                 </div>
                             </div>

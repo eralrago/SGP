@@ -57,6 +57,9 @@
 
                             <p:column selectionMode="multiple" exportable="false"></p:column>
 
+                            <p:column headerText="# Empleado" sortBy="#{empleado.numEmpleado}" filterBy="#{empleado.numEmpleado}">
+                                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{empleado.numEmpleado}" />
+                            </p:column>
                             <p:column headerText="Nombre" sortBy="#{empleado.nombre}" filterBy="#{empleado.nombre}">
                                 <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{empleado.nombre}" />
                             </p:column>
@@ -80,7 +83,7 @@
                             </p:column>
                         </p:dataTable>
 
-                        <p:dialog header="Empleado" showEffect="fade" modal="true" widgetVar="dialogEmpleado" responsive="true">
+                        <p:dialog header="Empleado" showEffect="fade" modal="true" widgetVar="dialogEmpleado" responsive="true" draggable="false">
                             <p:outputPanel id="panelDialogEmpleado" class="ui-fluid">
                                 <p:outputPanel>
                                     <p:fieldset legend="Datos personales">
@@ -115,10 +118,10 @@
                                     </p:fieldset>
                                     <p:fieldset legend="Datos de empresa" styleClass="mt-4">
                                         <div class="formgrid grid">
-                                            <div class="field col">
-                                                <p:outputLabel for="@next" value="# Empleado"/>
-                                                <p:inputText id="nEmpleado" value="#{registroEmpleadosBean.empleadoSelected.numEmpleado}" disabled="true"/>
-                                            </div>
+                                            <!--                                            <div class="field col">
+                                                                                            <p:outputLabel for="@next" value="# Empleado"/>
+                                                                                            <p:inputText id="nEmpleado" value="#{registroEmpleadosBean.empleadoSelected.numEmpleado}" disabled="true"/>
+                                                                                        </div>-->
                                             <div class="field col">
                                                 <p:outputLabel for="@next" value="RFC" />
                                                 <p:inputText id="nss" value="#{registroEmpleadosBean.empleadoSelected.nss}"/>
@@ -157,22 +160,27 @@
 
                                         </div>
                                         <div class="formgrid grid">
-                                            <div class="field col">
+                                            <div class="field col-4">
                                                 <p:outputLabel for="@next" value="Área" />
                                                 <p:selectOneMenu id="soArea" value="#{registroEmpleadosBean.empleadoSelected.catAreaDTO.idArea}" autoWidth="false">
                                                     <f:selectItem itemLabel="--Seleccione--"/>
                                                     <f:selectItems value="#{registroEmpleadosBean.lstCatArea}" var="area" itemValue="#{area.idArea}" itemLabel="#{area.descripcion}"/>
                                                 </p:selectOneMenu>
                                             </div>
-                                            <div class="field col">
+                                            <div class="field col-4">
                                                 <p:outputLabel for="@next" value="Ubicación" />
                                                 <p:selectOneMenu id="soUbica" value="#{registroEmpleadosBean.empleadoSelected.catPlantaDTO.idPlanta}" autoWidth="false">
                                                     <f:selectItem itemLabel="--Seleccione--"/>
                                                     <f:selectItems value="#{registroEmpleadosBean.lstCatPlanta}" var="planta" itemValue="#{planta.idPlanta}" itemLabel="#{planta.descripcion}"/>
                                                 </p:selectOneMenu>
                                             </div>
-                                            <div class="field col align-self-end">
-                                                <p:commandButton value="Registrar biométrico" icon="pi pi-sync" iconPos="right" process="@this" immediate="true" update="soUbica"/>
+                                            <div class="formgrid grid align-self-end col-4">
+                                                <div class="field col-6">
+                                                    <p:commandButton value="Biométrico" icon="pi pi-sync" iconPos="right" process="@this" immediate="true"/>
+                                                </div>
+                                                <div class="field col-6">
+                                                    <p:commandButton value="Fotografía" icon="pi pi-camera" iconPos="right" process="@this" immediate="true"/>
+                                                </div>
                                             </div>
                                         </div>
                                     </p:fieldset>

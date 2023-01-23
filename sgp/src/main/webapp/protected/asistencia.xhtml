@@ -1,0 +1,75 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Asistencia</ui:define>
+
+    <ui:define name="head">
+        <h:outputScript library="recursos" name="js/primefaces_locale.js" />
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="formActividades">
+            <div class="grid table-demo">
+                <div class="col-12">
+                    <div class="card p-4">
+                        <p:growl id="messages" showDetail="true" life="2500"/>
+                        <!--<div class="col-12 md:col-8">-->
+                        <!--<p:panel header="Calendar" style="height:100%">-->
+                        <p:tabView>
+                            <p:tab title="Asistencia">
+                                <p:schedule value="#{calendarDemoView.eventModel}"/>
+                            </p:tab>
+                            <p:tab title="Vacaciones">
+                                <p:dataTable widgetVar="customersDT" var="customer" value="#{dataTableDemoView.customers1}" reflow="true"
+                                             selection="#{dataTableDemoView.selectedCustomers}" rowKey="#{customer.id}" 
+                                             paginator="true" rows="10" paginatorPosition="bottom" rowSelectMode="add" lazy="true">
+                                    <f:facet name="header">
+                                        <div class="customers-table-header">
+                                            <span style="font-weight: bold">Solicitudes registradas</span>
+                                            <p:toolbar styleClass="mb-0 p-0" style="border: none">
+                                                <p:toolbarGroup align="right">
+                                                    <p:commandButton value="Registrar" icon="pi pi-plus" styleClass="ui-button-success" style="margin-right: .5rem" process="@this"/>
+                                                    <p:commandButton value="Descargar" icon="pi pi-download" styleClass="ui-button-secondary" ajax="false">
+                                                        <p:dataExporter type="pdf" target="customersDT" fileName="empleados"/>
+                                                    </p:commandButton>
+                                                </p:toolbarGroup>
+                                            </p:toolbar>
+                                        </div>
+                                    </f:facet>
+                                    <p:column headerText="Fecha de inicio" sortBy="#{customer.date}" filterBy="#{customer.date}">
+                                        <h:outputText value="#{customer.date}" />
+                                    </p:column>
+                                    <p:column headerText="Fecha de fin" sortBy="#{customer.date}" filterBy="#{customer.date}">
+                                        <h:outputText value="#{customer.date}" />
+                                    </p:column>
+                                    <p:column headerText="Estatus" sortBy="#{customer.status}" filterBy="#{customer.status}">
+                                        <span class="customer-badge status-#{customer.status.name().toLowerCase()}" style="display: block; width: 7rem">#{customer.status eq 'UNQUALIFIED' ? 'RECHAZADO' :
+                                                                             customer.status eq  'PROPOSAL' ? 'ENVIADO' : 
+                                                                             customer.status eq 'RENEWAL' ? 'RENOVACIÓN':
+                                                                             customer.status eq 'NEW' ? 'OTRO' : 
+                                                                             customer.status eq 'QUALIFIED' ? 'AUTORIZADO': 
+                                                                             customer.status eq 'NEGOTIATION' ? 'NEGOCIADO' : ''}</span>
+                                    </p:column>
+                                    <p:column style="width: 3rem">
+                                        <p:commandButton class="ui-button-success rounded-button m-1" icon="pi pi-eye" process="@this">
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:tab>
+                            <p:tab title="Permisos">
+
+                            </p:tab>
+                        </p:tabView>
+                        <!--</p:panel>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

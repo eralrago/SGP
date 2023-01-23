@@ -72,13 +72,16 @@
                             <p:column headerText="Perfil" sortBy="#{empleado.catPerfilDTO.descripcion}" filterBy="#{empleado.activo}">
                                 <h:outputText value="#{empleado.catPerfilDTO.descripcion}" />
                             </p:column>
-                            <p:column style="width: 8rem; text-align: center;" exportable="false">
+                            <p:column exportable="false">
                                 <p:commandButton icon="pi pi-pencil" update=":formRegistroEmpleado:panelDialogEmpleado" oncomplete="PF('dialogEmpleado').show()" 
-                                                 styleClass="edit-button rounded-button ui-button-success m-1" process="@this">
+                                                 styleClass="edit-button rounded-button ui-button-warning m-1" process="@this">
                                     <f:setPropertyActionListener value="#{empleado}" target="#{registroEmpleadosBean.empleadoSelected}" />
                                 </p:commandButton>
-                                <p:commandButton class="ui-button-warning rounded-button m-1" icon="pi pi-trash" process="@this" oncomplete="PF('dialogEliminarEmpleado').show()" >
+                                <p:commandButton class="ui-button-danger rounded-button m-1" icon="pi pi-trash" process="@this" oncomplete="PF('dialogEliminarEmpleado').show()" >
                                     <f:setPropertyActionListener value="#{empleado}" target="#{registroEmpleadosBean.empleadoSelected}" />
+                                </p:commandButton>
+                                <p:commandButton class="ui-button-success rounded-button m-1" icon="pi pi-search" process="@this" actionListener="#{registroEmpleadosBean.redirectKardex()}">
+                                    <f:setPropertyActionListener value="#{empleado}" target="#{kardexBean.empleadoSelected}" />
                                 </p:commandButton>
                             </p:column>
                         </p:dataTable>
@@ -108,7 +111,8 @@
                                             </div>
                                             <div class="field col">
                                                 <p:outputLabel for="@next" value="Fecha de nacimiento" />
-                                                <p:calendar id="fNac" value="#{registroEmpleadosBean.empleadoSelected.fechaNacimiento}"/>
+                                                <p:datePicker id="fNac" value="#{registroEmpleadosBean.empleadoSelected.fechaNacimiento}" monthNavigator="true" yearNavigator="true"
+                                                              yearRange="1940:2015" pattern="dd-MM-yyyy" showIcon="true" readonlyInput="true"/>
                                             </div>
                                             <div class="field col">
                                                 <p:outputLabel for="@next" value="Correo"/>
@@ -132,7 +136,8 @@
                                             </div>
                                             <div class="field col">
                                                 <p:outputLabel for="@next" value="Fecha de ingreso" />
-                                                <p:calendar id="fIngreso" value="#{registroEmpleadosBean.empleadoSelected.fechaIngreso}"/>
+                                                <p:datePicker id="fIngreso" value="#{registroEmpleadosBean.empleadoSelected.fechaIngreso}" monthNavigator="true" yearNavigator="true"
+                                                              yearRange="1940:2015" pattern="dd-MM-yyyy" showIcon="true" readonlyInput="true"/>
                                             </div>
                                         </div>
                                         <div class="formgrid grid">
@@ -189,7 +194,7 @@
                             </p:outputPanel>
 
                             <f:facet name="footer">
-                                <p:commandButton value="Guardar" icon="pi pi-check" actionListener="#{registroEmpleadosBean.guardarEmpleado()}" update="formRegistroEmpleado:soUbica" 
+                                <p:commandButton value="Guardar" icon="pi pi-save" actionListener="#{registroEmpleadosBean.guardarEmpleado()}" update="formRegistroEmpleado:soUbica" 
                                                  process="panelDialogEmpleado @this" />
                                 <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('dialogEmpleado').hide()" class="ui-button-secondary" />
                             </f:facet>

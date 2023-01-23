@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -50,6 +51,8 @@ public class RegistroEmpleadosBean implements Serializable {
     private final CatAreaDAO catAreaDAO;
     private final EmpleadoDAO empleadoDAO;
 
+    private KardexBean kardexBean;
+
     public RegistroEmpleadosBean() {
         log.info("--Iniciando desde el constructor--");
         catEmpresaDAO = new CatEmpresaDAO();
@@ -61,6 +64,7 @@ public class RegistroEmpleadosBean implements Serializable {
         empleadoSelected = new DetEmpleadoDTO();
         lstEmpleados = new ArrayList<>();
         lstEmpleadosSelected = new ArrayList<>();
+        kardexBean = new KardexBean();
     }
 
     @PostConstruct
@@ -72,10 +76,17 @@ public class RegistroEmpleadosBean implements Serializable {
             lstCatPlanta = catPlantaDAO.buscarActivo();
             lstCatPuesto = catPuestoDAO.buscarActivo();
             lstCatArea = catAreaDAO.buscarActivo();
-            lstEmpleados = empleadoDAO.buscarActivo();
+            consultaEmpleados();
         } catch (Exception ex) {
             log.info(ex);
         }
+    }
+    
+    /*
+     * Método para consultar a los empleados
+     */
+    private void consultaEmpleados() {
+        lstEmpleados = empleadoDAO.buscarActivo();
     }
 
     /*
@@ -111,7 +122,7 @@ public class RegistroEmpleadosBean implements Serializable {
         if (this.empleadoSelected.getIdEmpleado() == null) {
             try {
                 empleadoDAO.guardar(empleadoSelected);
-                this.lstEmpleados.add(this.empleadoSelected);
+                consultaEmpleados();
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Empleado agregado"));
             } catch (Exception ex) {
                 FacesContext.getCurrentInstance()
@@ -139,8 +150,8 @@ public class RegistroEmpleadosBean implements Serializable {
         try {
             for (DetEmpleadoDTO empleado : lstEmpleadosSelected) {
                 empleadoDAO.eliminar(empleado);
-                this.lstEmpleados.remove(empleado);
             }
+            consultaEmpleados();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Empleados Eliminados"));
         } catch (Exception ex) {
             FacesContext.getCurrentInstance()
@@ -157,7 +168,7 @@ public class RegistroEmpleadosBean implements Serializable {
     public void eliminaEmpleado() {
         try {
             empleadoDAO.eliminar(empleadoSelected);
-            this.lstEmpleados.remove(this.empleadoSelected);
+            consultaEmpleados();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Empleado Eliminado"));
         } catch (Exception ex) {
             FacesContext.getCurrentInstance()
@@ -165,6 +176,20 @@ public class RegistroEmpleadosBean implements Serializable {
         }
 
         PrimeFaces.current().ajax().update("formRegistroEmpleado:messages", "formRegistroEmpleado:dtEmpleados");
+    }
+
+    /*
+     * Método para redirigir al kárdex
+     */
+    public void redirectKardex() {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("kardexEmpleado.xhtml");
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance()
+                    .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No es posible acceder al recurso"));
+            PrimeFaces.current().ajax().update("formRegistroEmpleado:messages");
+        }
+
     }
 
 //<editor-fold defaultstate="collapsed" desc="Getters&Setters">

@@ -93,4 +93,8 @@
         <extension>svg#fontawesomeregular</extension>
         <mime-type>image/svg+xml</mime-type>
     </mime-mapping>
+    <error-page> 
+        <exception-type>java.lang.Exception</exception-type> 
+        <location>/error.xhtml</location> 
+    </error-page> 
 </web-app>

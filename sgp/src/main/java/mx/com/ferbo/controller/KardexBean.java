@@ -53,7 +53,7 @@ public class KardexBean implements Serializable {
         catPuestoDAO = new CatPuestoDAO();
         catAreaDAO = new CatAreaDAO();
         empleadoDAO = new EmpleadoDAO();
-        empleadoSelected = empleadoDAO.buscarPorId(1);
+//        empleadoSelected = empleadoDAO.buscarPorId(1);
     }
 
     @PostConstruct

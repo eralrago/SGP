@@ -30,6 +30,7 @@ PrimeFaces.locales ['es_MX'] = {
     week: 'semana',
     day: 'Día',
     allDayText: 'Todo el día',
+    today: 'Hoy',
     messages: {  //optional for Client Side Validation
         'javax.faces.component.UIInput.REQUIRED': '{0}: Error de validación: El valor es requerido.',
         'javax.faces.converter.IntegerConverter.INTEGER': '{2}: \'{0}\' debe ser un numero consistente de uno o más dígitos.',

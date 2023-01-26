@@ -55,14 +55,16 @@ public class asistenciaBean implements Serializable {
         for (DetRegistroDTO registro : registros) {
             DefaultScheduleEvent evento = DefaultScheduleEvent.builder()
                     .title(sdf.format(registro.getFechaEntrada()) + (registro.getFechaSalida() != null
-                            ? " - " + sdf.format(registro.getFechaSalida())
-                            : "")
+                                                                     ? " - " + sdf.format(registro.getFechaSalida())
+                                                                     : "")
                     )
                     .startDate(convertirDateToLocalDateTime(registro.getFechaEntrada()))
                     .endDate(registro.getFechaSalida() != null
                              ? convertirDateToLocalDateTime(registro.getFechaSalida())
                              : convertirDateToLocalDateTime(registro.getFechaEntrada()))
-                                        .description(registro.getFechaSalida() != null ? sdf.format(registro.getFechaSalida()) : null)
+                    .description(registro.getFechaSalida() != null ? sdf.format(registro.getFechaSalida()) : null)
+                    .backgroundColor(findBgColor(registro.getCatEstatusRegistroDTO().getIdEstatus()))
+                    .dynamicProperty("estatus",registro.getCatEstatusRegistroDTO().getDescripcion())
                     .build();
             calendario.addEvent(evento);
         }
@@ -99,6 +101,18 @@ public class asistenciaBean implements Serializable {
 
     public void diaSeleccionado(SelectEvent<LocalDateTime> selectEvent) {
         evento = DefaultScheduleEvent.builder().startDate(selectEvent.getObject()).endDate(selectEvent.getObject()).build();
+    }
+
+    private String findBgColor(Integer idEstatus) {
+        String color = null;
+        switch (idEstatus) {
+            case 2:
+                color = "#ef6262";
+                break;
+            default:
+                color = "#689F38";
+        }
+        return color;
     }
 
     public ScheduleModel getCalendario() {

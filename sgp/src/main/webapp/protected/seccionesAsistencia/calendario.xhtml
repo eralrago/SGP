@@ -20,9 +20,13 @@
             </div>
             <div class="field">
                 <p:outputLabel for="hSalida" value="Hora de salida" />
-                <p:calendar id="hSalida" value="#{asistenciaBean.evento.description != null ? asistenciaBean.evento.endDate : null}" 
-                            pattern="hh:mm:ss a" disabled="true"
-                            timeZone="Mexico/General"/>
+                <p:calendar id="hSalida" rendered="#{asistenciaBean.evento.description ne null}" value="#{asistenciaBean.evento.endDate}" 
+                            pattern="hh:mm:ss a" disabled="true" timeZone="Mexico/General"/>
+                <p:inputText id="registro" rendered="#{asistenciaBean.evento.description eq null}" value="Sin registro" disabled="true"/>
+            </div>
+            <div class="field">
+                <p:outputLabel for="estatus" value="Estatus" />
+                <p:inputText id="estatus" value="#{asistenciaBean.evento.dynamicProperties.get('estatus')}" disabled="true"/>
             </div>
         </p:outputPanel>
     </p:dialog>   

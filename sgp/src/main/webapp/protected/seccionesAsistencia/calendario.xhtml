@@ -7,8 +7,6 @@
     <p:schedule value="#{asistenciaBean.calendario}" draggable="false" resizable="false" widgetVar="actividades" timeZone="Mexico/General" styleClass="ferbo-schedule">
         <p:ajax event="eventSelect" listener="#{asistenciaBean.eventoSeleccionado}" update="formActividades:tabView:pnlDetalleRegistro"
                 oncomplete="PF('eventDialog').show();"/>
-        <p:ajax event="dateSelect" listener="#{asistenciaBean.diaSeleccionado}" update="formActividades:tabView:pnlDetalleRegistro"
-                oncomplete="PF('eventDialog').show();"/>
     </p:schedule>
 
     <p:dialog widgetVar="eventDialog" header="Detalle del registro" showEffect="fade" width="350" responsive="true" modal="true">

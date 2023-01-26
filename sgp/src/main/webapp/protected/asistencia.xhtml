@@ -9,6 +9,7 @@
 
     <ui:define name="head">
         <h:outputScript library="recursos" name="js/primefaces_locale.js" />
+        <h:outputStylesheet name="css/estilos.css" library="recursos"/>
     </ui:define>
 
     <ui:define name="content">
@@ -17,89 +18,20 @@
                 <div class="col-12">
                     <div class="card p-4">
                         <p:growl id="messages" showDetail="true" life="2500"/>
-                        <!--<div class="col-12 md:col-8">-->
-                        <!--<p:panel header="Calendar" style="height:100%">-->
-                        <p:tabView>
+                        <p:tabView id="tabView">
                             <p:tab title="Asistencia">
-                                <p:schedule value="#{asistenciaBean.calendario}" draggable="false" resizable="false" widgetVar="actividades" timeZone="Mexico/General" styleClass="ferbo-schedule">
-                                    <p:ajax event="eventSelect" listener="#{asistenciaBean.eventoSeleccionado}" update="formActividades:pnlDetalleRegistro"
-                                            oncomplete="PF('eventDialog').show();"/>
-                                    <p:ajax event="dateSelect" listener="#{asistenciaBean.diaSeleccionado}" update="formActividades:pnlDetalleRegistro"
-                                            oncomplete="PF('eventDialog').show();"/>
-                                </p:schedule>
+                                <ui:include src="/protected/seccionesAsistencia/calendario.xhtml" />
                             </p:tab>
                             <p:tab title="Vacaciones">
-                                <p:dataTable widgetVar="customersDT" var="customer" value="#{dataTableDemoView.customers1}" reflow="true"
-                                             selection="#{dataTableDemoView.selectedCustomers}" rowKey="#{customer.id}" 
-                                             paginator="true" rows="10" paginatorPosition="bottom" rowSelectMode="add" lazy="true" >
-                                    <f:facet name="header">
-                                        <div class="customers-table-header">
-                                            <span style="font-weight: bold">Solicitudes registradas</span>
-                                            <p:toolbar styleClass="mb-0 p-0" style="border: none">
-                                                <p:toolbarGroup align="right">
-                                                    <p:commandButton value="Registrar" icon="pi pi-plus" styleClass="ui-button-success" style="margin-right: .5rem" process="@this"/>
-                                                    <p:commandButton value="Descargar" icon="pi pi-download" styleClass="ui-button-secondary" ajax="false">
-                                                        <p:dataExporter type="pdf" target="customersDT" fileName="empleados"/>
-                                                    </p:commandButton>
-                                                </p:toolbarGroup>
-                                            </p:toolbar>
-                                        </div>
-                                    </f:facet>
-                                    <p:column headerText="Fecha de inicio" sortBy="#{customer.date}" filterBy="#{customer.date}">
-                                        <h:outputText value="#{customer.date}" />
-                                    </p:column>
-                                    <p:column headerText="Fecha de fin" sortBy="#{customer.date}" filterBy="#{customer.date}">
-                                        <h:outputText value="#{customer.date}" />
-                                    </p:column>
-                                    <p:column headerText="Estatus" sortBy="#{customer.status}" filterBy="#{customer.status}">
-                                        <span class="customer-badge status-#{customer.status.name().toLowerCase()}" style="display: block; width: 7rem">#{customer.status eq 'UNQUALIFIED' ? 'RECHAZADO' :
-                                                                             customer.status eq  'PROPOSAL' ? 'ENVIADO' : 
-                                                                             customer.status eq 'RENEWAL' ? 'RENOVACIÓN':
-                                                                             customer.status eq 'NEW' ? 'OTRO' : 
-                                                                             customer.status eq 'QUALIFIED' ? 'AUTORIZADO': 
-                                                                             customer.status eq 'NEGOTIATION' ? 'NEGOCIADO' : ''}</span>
-                                    </p:column>
-                                    <p:column style="width: 3rem">
-                                        <p:commandButton class="ui-button-success rounded-button m-1" icon="pi pi-eye" process="@this">
-                                        </p:commandButton>
-                                    </p:column>
-                                </p:dataTable>
+                                <ui:include src="/protected/seccionesAsistencia/vacaciones.xhtml" />
                             </p:tab>
                             <p:tab title="Permisos">
-
+                                <ui:include src="/protected/seccionesAsistencia/permisos.xhtml" />
                             </p:tab>
-                        </p:tabView>
-                        <!--</p:panel>-->
-                        <!--</div>-->
-
-                        <p:dialog widgetVar="eventDialog" header="Detalle del registro" showEffect="fade" width="350" responsive="true" modal="true">
-                            <p:outputPanel id="pnlDetalleRegistro" styleClass="ui-fluid">
-                                <div class="field">
-                                    <p:outputLabel for="from" value="Hora de entrada" />
-                                    <p:calendar id="from" value="#{asistenciaBean.evento.startDate}" pattern="hh:mm:ss a" disabled="true"
-                                                    timeZone="Mexico/General"/>
-                                </div>
-                                <div class="field">
-                                    <p:outputLabel for="to" value="Hora de salida" />
-                                    <p:calendar id="to" value="#{asistenciaBean.evento.endDate}" pattern="hh:mm:ss a" disabled="true"
-                                                   timeZone="Mexico/General"/>
-                                </div>
-                            </p:outputPanel>
-                        </p:dialog>   
+                        </p:tabView>                        
                     </div>
                 </div>
             </div>
-            <style>
-                .ferbo-schedule{
-                    
-                }
-                .ferbo-schedule .fc-event-time{
-                    display: none;
-                }
-                .ferbo-schedule .fc-toolbar-title:first-letter{
-                    text-transform: uppercase;
-                }
-            </style>
         </h:form>
     </ui:define>
 

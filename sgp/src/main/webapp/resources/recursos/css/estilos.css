@@ -17,3 +17,14 @@
     width: 4em;
     height: 2em;
 }
+
+.ferbo-schedule{
+}
+
+.ferbo-schedule .fc-event-time{
+    display: none;
+}
+
+.ferbo-schedule .fc-toolbar-title:first-letter{
+    text-transform: uppercase;
+}

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <p:dataTable widgetVar="customersDT" var="customer" value="#{dataTableDemoView.customers1}" reflow="true"
+                 selection="#{dataTableDemoView.selectedCustomers}" rowKey="#{customer.id}" 
+                 paginator="true" rows="10" paginatorPosition="bottom" rowSelectMode="add" lazy="true" >
+        <f:facet name="header">
+            <div class="customers-table-header">
+                <span style="font-weight: bold">Solicitudes registradas</span>
+                <p:toolbar styleClass="mb-0 p-0" style="border: none">
+                    <p:toolbarGroup align="right">
+                        <p:commandButton value="Registrar" icon="pi pi-plus" styleClass="ui-button-success" style="margin-right: .5rem" process="@this"/>
+                        <p:commandButton value="Descargar" icon="pi pi-download" styleClass="ui-button-secondary" ajax="false">
+                            <p:dataExporter type="pdf" target="customersDT" fileName="empleados"/>
+                        </p:commandButton>
+                    </p:toolbarGroup>
+                </p:toolbar>
+            </div>
+        </f:facet>
+        <p:column headerText="Fecha de inicio" sortBy="#{customer.date}" filterBy="#{customer.date}">
+            <p:outputLabel value="#{customer.date}" />
+        </p:column>
+        <p:column headerText="Fecha de fin" sortBy="#{customer.date}" filterBy="#{customer.date}">
+            <p:outputLabel value="#{customer.date}" />
+        </p:column>
+        <p:column headerText="Estatus" sortBy="#{customer.status}" filterBy="#{customer.status}">
+            <span class="customer-badge status-#{customer.status.name().toLowerCase()}" style="display: block; width: 7rem">#{customer.status eq 'UNQUALIFIED' ? 'RECHAZADO' :
+                                                 customer.status eq  'PROPOSAL' ? 'ENVIADO' : 
+                                                 customer.status eq 'RENEWAL' ? 'RENOVACIÓN':
+                                                 customer.status eq 'NEW' ? 'OTRO' : 
+                                                 customer.status eq 'QUALIFIED' ? 'AUTORIZADO': 
+                                                 customer.status eq 'NEGOTIATION' ? 'NEGOCIADO' : ''}</span>
+        </p:column>
+        <p:column style="width: 3rem">
+            <p:commandButton class="ui-button-success rounded-button m-1" icon="pi pi-eye" process="@this">
+            </p:commandButton>
+        </p:column>
+    </p:dataTable>
+
+</ui:composition>

@@ -62,7 +62,7 @@ public class asistenciaBean implements Serializable {
                     .endDate(registro.getFechaSalida() != null
                              ? convertirDateToLocalDateTime(registro.getFechaSalida())
                              : convertirDateToLocalDateTime(registro.getFechaEntrada()))
-                    //                    .description("Gather Requirements")
+                                        .description(registro.getFechaSalida() != null ? sdf.format(registro.getFechaSalida()) : null)
                     .build();
             calendario.addEvent(evento);
         }

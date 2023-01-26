@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:schedule value="#{asistenciaBean.calendario}" draggable="false" resizable="false" widgetVar="actividades" timeZone="Mexico/General" styleClass="ferbo-schedule">
+        <p:ajax event="eventSelect" listener="#{asistenciaBean.eventoSeleccionado}" update="formActividades:tabView:pnlDetalleRegistro"
+                oncomplete="PF('eventDialog').show();"/>
+        <p:ajax event="dateSelect" listener="#{asistenciaBean.diaSeleccionado}" update="formActividades:tabView:pnlDetalleRegistro"
+                oncomplete="PF('eventDialog').show();"/>
+    </p:schedule>
+
+    <p:dialog widgetVar="eventDialog" header="Detalle del registro" showEffect="fade" width="350" responsive="true" modal="true">
+        <p:outputPanel id="pnlDetalleRegistro" styleClass="ui-fluid">
+            <div class="field">
+                <p:outputLabel for="hEntrada" value="Hora de entrada" />
+                <p:calendar id="hEntrada" value="#{asistenciaBean.evento.startDate}" pattern="hh:mm:ss a" disabled="true"
+                            timeZone="Mexico/General"/>
+            </div>
+            <div class="field">
+                <p:outputLabel for="hSalida" value="Hora de salida" />
+                <p:calendar id="hSalida" value="#{asistenciaBean.evento.description != null ? asistenciaBean.evento.endDate : null}" 
+                            pattern="hh:mm:ss a" disabled="true"
+                            timeZone="Mexico/General"/>
+            </div>
+        </p:outputPanel>
+    </p:dialog>   
+</ui:composition>

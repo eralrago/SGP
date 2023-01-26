@@ -21,12 +21,17 @@
                         <!--<p:panel header="Calendar" style="height:100%">-->
                         <p:tabView>
                             <p:tab title="Asistencia">
-                                <p:schedule value="#{calendarDemoView.eventModel}"/>
+                                <p:schedule value="#{asistenciaBean.calendario}" draggable="false" resizable="false" widgetVar="actividades" timeZone="Mexico/General" styleClass="ferbo-schedule">
+                                    <p:ajax event="eventSelect" listener="#{asistenciaBean.eventoSeleccionado}" update="formActividades:pnlDetalleRegistro"
+                                            oncomplete="PF('eventDialog').show();"/>
+                                    <p:ajax event="dateSelect" listener="#{asistenciaBean.diaSeleccionado}" update="formActividades:pnlDetalleRegistro"
+                                            oncomplete="PF('eventDialog').show();"/>
+                                </p:schedule>
                             </p:tab>
                             <p:tab title="Vacaciones">
                                 <p:dataTable widgetVar="customersDT" var="customer" value="#{dataTableDemoView.customers1}" reflow="true"
                                              selection="#{dataTableDemoView.selectedCustomers}" rowKey="#{customer.id}" 
-                                             paginator="true" rows="10" paginatorPosition="bottom" rowSelectMode="add" lazy="true">
+                                             paginator="true" rows="10" paginatorPosition="bottom" rowSelectMode="add" lazy="true" >
                                     <f:facet name="header">
                                         <div class="customers-table-header">
                                             <span style="font-weight: bold">Solicitudes registradas</span>
@@ -66,9 +71,35 @@
                         </p:tabView>
                         <!--</p:panel>-->
                         <!--</div>-->
+
+                        <p:dialog widgetVar="eventDialog" header="Detalle del registro" showEffect="fade" width="350" responsive="true" modal="true">
+                            <p:outputPanel id="pnlDetalleRegistro" styleClass="ui-fluid">
+                                <div class="field">
+                                    <p:outputLabel for="from" value="Hora de entrada" />
+                                    <p:calendar id="from" value="#{asistenciaBean.evento.startDate}" pattern="hh:mm:ss a" disabled="true"
+                                                    timeZone="Mexico/General"/>
+                                </div>
+                                <div class="field">
+                                    <p:outputLabel for="to" value="Hora de salida" />
+                                    <p:calendar id="to" value="#{asistenciaBean.evento.endDate}" pattern="hh:mm:ss a" disabled="true"
+                                                   timeZone="Mexico/General"/>
+                                </div>
+                            </p:outputPanel>
+                        </p:dialog>   
                     </div>
                 </div>
             </div>
+            <style>
+                .ferbo-schedule{
+                    
+                }
+                .ferbo-schedule .fc-event-time{
+                    display: none;
+                }
+                .ferbo-schedule .fc-toolbar-title:first-letter{
+                    text-transform: uppercase;
+                }
+            </style>
         </h:form>
     </ui:define>
 

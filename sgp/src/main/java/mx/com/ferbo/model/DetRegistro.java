@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package mx.com.ferbo.model;
 
 import java.io.Serializable;
@@ -27,7 +23,16 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "det_registro")
 @NamedQueries({
-    @NamedQuery(name = "DetRegistro.findAll", query = "SELECT d FROM DetRegistro d")})
+    @NamedQuery(name = "DetRegistro.findAll", query = "SELECT d FROM DetRegistro d"),
+    @NamedQuery(name = "DetRegistro.findByIdEmp", query = "SELECT NEW mx.com.ferbo.dto.DetRegistroDTO("
+                                                  + " d.idRegistro,"
+                                                  + " d.fechaEntrada,"
+                                                  + " d.fechaSalida"
+                                                  + ")"
+                                                  + " FROM DetRegistro d"
+                                                  + " INNER JOIN d.idEmpleado e"
+                                                  + " WHERE e.idEmpleado = :idEmp")
+})
 public class DetRegistro implements Serializable {
 
     private static final long serialVersionUID = 1L;

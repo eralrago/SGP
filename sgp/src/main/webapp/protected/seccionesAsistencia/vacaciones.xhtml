@@ -1,11 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" 
                 xmlns:ui="http://java.sun.com/jsf/facelets" 
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core">
 
-    <p:dataTable widgetVar="customersDT" var="customer" value="#{dataTableDemoView.customers1}" reflow="true"
+    <p:dataTable widgetVar="vacacionesDT" var="customer" value="#{dataTableDemoView.customers1}" reflow="true"
                  selection="#{dataTableDemoView.selectedCustomers}" rowKey="#{customer.id}" 
                  paginator="true" rows="10" paginatorPosition="bottom" rowSelectMode="add" lazy="true" >
         <f:facet name="header">
@@ -13,9 +11,10 @@
                 <span style="font-weight: bold">Solicitudes registradas</span>
                 <p:toolbar styleClass="mb-0 p-0" style="border: none">
                     <p:toolbarGroup align="right">
-                        <p:commandButton value="Registrar" icon="pi pi-plus" styleClass="ui-button-success" style="margin-right: .5rem" process="@this"/>
+                        <p:commandButton value="Registrar" icon="pi pi-plus" styleClass="ui-button-success" style="margin-right: .5rem" process="@this"
+                                         oncomplete="PF('dialogVacaciones').show();"/>
                         <p:commandButton value="Descargar" icon="pi pi-download" styleClass="ui-button-secondary" ajax="false">
-                            <p:dataExporter type="pdf" target="customersDT" fileName="empleados"/>
+                            <p:dataExporter type="pdf" target="vacacionesDT" fileName="empleados"/>
                         </p:commandButton>
                     </p:toolbarGroup>
                 </p:toolbar>
@@ -41,4 +40,18 @@
         </p:column>
     </p:dataTable>
 
+    <p:dialog widgetVar="dialogVacaciones" header="Solicitud de vacaciones" showEffect="fade" responsive="true" modal="true" styleClass="ferbo-dialog">
+        <p:outputPanel id="pnlDetalleVacaciones" styleClass="ui-fluid">
+            <!--<p:outputPanel>-->
+            <p:datePicker id="fInicio" styleClass="ferbo-datePicker" panelStyleClass="ferbo-datePicker-panel" 
+                          pattern="dd-MM-yyyy" showIcon="true" readonlyInput="true" timeZone="Mexico/General" 
+                          mindate="#{asistenciaBean.minDate}" inline="true" selectionMode="range"/>
+
+            <!--</p:outputPanel>-->
+        </p:outputPanel>
+        <f:facet name="footer">
+            <p:commandButton value="Guardar" icon="pi pi-save" process="pnlDetalleVacaciones @this" />
+            <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('dialogVacaciones').hide()" class="ui-button-secondary" />
+        </f:facet>
+    </p:dialog>
 </ui:composition>

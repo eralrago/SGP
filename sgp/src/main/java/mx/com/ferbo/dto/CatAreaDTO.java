@@ -7,6 +7,7 @@ import java.io.Serializable;
  * @author Gabo
  */
 public class CatAreaDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Integer idArea;
     private String descripcion;

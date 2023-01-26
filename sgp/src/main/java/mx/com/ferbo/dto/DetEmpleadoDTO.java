@@ -8,6 +8,7 @@ import java.util.Date;
  * @author Gabo
  */
 public class DetEmpleadoDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Integer idEmpleado;
     private String numEmpleado;

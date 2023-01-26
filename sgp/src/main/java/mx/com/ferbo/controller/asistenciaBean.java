@@ -1,13 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package mx.com.ferbo.controller;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -15,7 +12,9 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import mx.com.ferbo.dao.RegistroDAO;
+import mx.com.ferbo.dao.SolicitudPermisoDAO;
 import mx.com.ferbo.dto.DetRegistroDTO;
+import mx.com.ferbo.dto.DetSolicitudPermisoDTO;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
@@ -28,18 +27,22 @@ import org.primefaces.model.ScheduleModel;
  */
 @Named(value = "asistenciaBean")
 @ViewScoped
-public class asistenciaBean implements Serializable {
+public class AsistenciaBean implements Serializable {
 
     private ScheduleModel calendario;
     private ScheduleEvent evento;
     private RegistroDAO registroDAO;
+    private SolicitudPermisoDAO solicitudPermisoDAO;
     private final SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
+    private final Date minDate = new Date();
 
     private List<DetRegistroDTO> lstRegistros;
+    private List<DetSolicitudPermisoDTO> lstSolicitudesVacaciones;
 
-    public asistenciaBean() {
+    public AsistenciaBean() {
         calendario = new DefaultScheduleModel();
         registroDAO = new RegistroDAO();
+        solicitudPermisoDAO = new SolicitudPermisoDAO();
         sdf.setTimeZone(TimeZone.getTimeZone(ZoneId.of("America/Mexico_City").normalized()));
     }
 
@@ -48,6 +51,8 @@ public class asistenciaBean implements Serializable {
         evento = new DefaultScheduleEvent();
         lstRegistros = registroDAO.consultaRegistrosPorIdEmp(1);
         generaEventos(lstRegistros);
+
+        lstSolicitudesVacaciones = solicitudPermisoDAO.consultaPorIdEmpleado(1);
     }
 
     private void generaEventos(List<DetRegistroDTO> registros) {
@@ -64,7 +69,7 @@ public class asistenciaBean implements Serializable {
                              : convertirDateToLocalDateTime(registro.getFechaEntrada()))
                     .description(registro.getFechaSalida() != null ? sdf.format(registro.getFechaSalida()) : null)
                     .backgroundColor(findBgColor(registro.getCatEstatusRegistroDTO().getIdEstatus()))
-                    .dynamicProperty("estatus",registro.getCatEstatusRegistroDTO().getDescripcion())
+                    .dynamicProperty("estatus", registro.getCatEstatusRegistroDTO().getDescripcion())
                     .build();
             calendario.addEvent(evento);
         }
@@ -130,5 +135,9 @@ public class asistenciaBean implements Serializable {
     public void setEvento(ScheduleEvent evento) {
         this.evento = evento;
     }
+
+    public Date getMinDate() {
+        return minDate;
+    }  
 
 }

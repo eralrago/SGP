@@ -15,7 +15,7 @@ PrimeFaces.locales ['es_MX'] = {
     dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
     weekHeader: 'Semana',
     weekNumberTitle: 'S',
-    firstDay: 1,
+    firstDay: 0,
     isRTL: false,
     showMonthAfterYear: false,
     yearSuffix:'',

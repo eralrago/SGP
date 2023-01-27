@@ -26,7 +26,7 @@ import org.primefaces.model.ScheduleModel;
  */
 @Named(value = "asistenciaBean")
 @ViewScoped
-public class AsistenciaBean2 implements Serializable {
+public class AsistenciaBean implements Serializable {
 
     private ScheduleModel calendario;
     private ScheduleEvent evento;
@@ -38,7 +38,7 @@ public class AsistenciaBean2 implements Serializable {
     private List<DetRegistroDTO> lstRegistros;
     private List<DetSolicitudPermisoDTO> lstSolicitudesVacaciones;
 
-    public AsistenciaBean2() {
+    public AsistenciaBean() {
         calendario = new DefaultScheduleModel();
         registroDAO = new RegistroDAO();
         solicitudPermisoDAO = new SolicitudPermisoDAO();

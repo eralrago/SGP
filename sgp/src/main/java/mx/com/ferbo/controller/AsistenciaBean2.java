@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -27,7 +26,7 @@ import org.primefaces.model.ScheduleModel;
  */
 @Named(value = "asistenciaBean")
 @ViewScoped
-public class AsistenciaBean implements Serializable {
+public class AsistenciaBean2 implements Serializable {
 
     private ScheduleModel calendario;
     private ScheduleEvent evento;
@@ -39,7 +38,7 @@ public class AsistenciaBean implements Serializable {
     private List<DetRegistroDTO> lstRegistros;
     private List<DetSolicitudPermisoDTO> lstSolicitudesVacaciones;
 
-    public AsistenciaBean() {
+    public AsistenciaBean2() {
         calendario = new DefaultScheduleModel();
         registroDAO = new RegistroDAO();
         solicitudPermisoDAO = new SolicitudPermisoDAO();

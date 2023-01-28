@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -19,7 +18,6 @@ import org.apache.log4j.Logger;
 
 import mx.com.ferbo.dao.EmpleadoDAO;
 import mx.com.ferbo.dto.DetEmpleadoDTO;
-import mx.com.ferbo.model.DetEmpleado;
 
 @Named(value = "loginBean")
 @SessionScoped
@@ -59,42 +57,23 @@ public class LoginBean implements Serializable {
     }
 	
 	public void login() throws IOException {
-		FacesMessage message = null;
 		empleadoSelected.setNumEmpleado(numEmpleado);
 		if (contador <= 3) {
 			DetEmpleadoDTO x = lstEmpleados.stream().filter(s -> {return s.getNumEmpleado().equals(numEmpleado);}).findAny().orElse(new DetEmpleadoDTO());
 			if(numEmpleado.equals(x.getNumEmpleado()) && x.getNumEmpleado() != null) {
 				faceContext = FacesContext.getCurrentInstance();
                 httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
-//	                httpServletRequest.getSession(true).setAttribute("idCliente", cliente.getIdCliente());                
+                httpServletRequest.getSession(true).setAttribute("idEmpleado", x.getIdEmpleado());                
                 log.info("Entrando al caso de exito");
-                message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Acceso correcto", null);
-                FacesContext.getCurrentInstance().addMessage(null, message);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Empleado agregado"));
                 faceContext.getExternalContext().redirect("dashboard.xhtml");
             } else {
-//	                cliente = new Cliente();
-                message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Verifique su usuario.", null);
-                FacesContext.getCurrentInstance().addMessage(null, message);
+                x = new DetEmpleadoDTO();
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Verifique su usuario."));
                 contador++;
 			}
-			//}
-			/*if(lstEmpleados.contains(message)) {
-            	faceContext = FacesContext.getCurrentInstance();
-                httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
-//                httpServletRequest.getSession(true).setAttribute("idCliente", cliente.getIdCliente());                
-                log.info("Entrando al caso de exito");
-                message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Acceso correcto", null);
-                FacesContext.getCurrentInstance().addMessage(null, message);
-                faceContext.getExternalContext().redirect("dashboard.xhtml");
-            } else {
-//                cliente = new Cliente();
-                message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Verifique su usuario.", null);
-                FacesContext.getCurrentInstance().addMessage(null, message);
-                contador++;
-            }*/
         } else {
-        	message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contacte al Administrador.", null);
-            FacesContext.getCurrentInstance().addMessage(null, message);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Contacte al Administrador."));
         }
 	}
 

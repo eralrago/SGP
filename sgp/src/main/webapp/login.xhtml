@@ -19,8 +19,9 @@
 
 <h:body styleClass="login-body">
 	<h:form id="login_form">
-		<p:growl id="growl" life="2000" />
+	<p:growl id="growl" showDetail="true" life="2500" />
 		<div id="login-wrapper">
+			
 			<div id="login-wrapper">
 
 				<p:graphicImage name="images/login.png" library="recursos"
@@ -33,12 +34,11 @@
 							value="Ingrese su Número de Empleado: " />
 						<p:keyboard id="keypad" value="#{loginBean.numEmpleado}"
 							layout="custom" layoutTemplate="123,456,789,space-0-space"
-							styleClass="ferbo-keyboard" class="ferbo-keyboard-class"
-							process="@this login_form" update="login_form" />
+							styleClass="ferbo-keyboard" class="ferbo-keyboard-class" />
 
 					</div>
 					<div>
-						<p:commandButton action="#{loginBean.login}" value="Entrar" />
+						<p:commandButton actionListener="#{loginBean.login}" value="Entrar" update="growl"/>
 					</div>
 				</div>
 				<!-- 				<div> -->
@@ -47,11 +47,10 @@
 				<div class="login-footer">Ferbo</div>
 			</div>
 		</div>
-		<h:outputStylesheet name="css/primeicons.css" library="omega-layout" />
-		<h:outputStylesheet name="css/primeflex.min.css"
-			library="omega-layout" />
-		<h:outputStylesheet name="css/layout-#{guestPreferences.layout}.css"
-			library="omega-layout" />
 	</h:form>
+	<h:outputStylesheet name="css/primeicons.css" library="omega-layout" />
+	<h:outputStylesheet name="css/primeflex.min.css" library="omega-layout" />
+	<h:outputStylesheet name="css/layout-#{guestPreferences.layout}.css"
+		library="omega-layout" />
 </h:body>
 </html>

@@ -1,0 +1,10 @@
+/target/
+tag/target/
+tag/nb-configuration.xml
+sgp/nb-configuration.xml
+sgp/target/
+sgp/.settings/
+sgp/.metadata/
+sgp/src/.settings/
+/.metadata/
+Servers/

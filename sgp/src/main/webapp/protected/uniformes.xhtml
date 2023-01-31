@@ -1,0 +1,42 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">Uniformes</ui:define>
+
+	<ui:define name="content">
+		<div class="dashboard grid ui-fluid">
+			<div class="col-12 md:col-4">
+			<p:outputLabel value="#{bienvenidaBean.empleadoSelected.nombre}" style="font-size:24px"/>
+			<p:outputLabel value="#{bienvenidaBean.empleadoSelected.catPerfilDTO.descripcion}" style="font-size:24px"/>
+			</div>
+		</div>
+		<p:dataTable id="dt-uniformes" widgetVar="dtUniformes" var="uniforme"
+			value="#{uniformes.prendas}" reflow="true"
+			styleClass="products-table" selection="#{uniformes.selectedPrendas}"
+			rowKey="#{uniforme.idPrenda}" paginator="true" rows="10"
+			rowSelectMode="add" paginatorPosition="bottom">
+			<f:facet name="header">
+				<div class="products-table-header">
+					<span style="font-weight: bold">Uniforme</span> <span
+						class="filter-container ui-input-icon-left"> <i
+						class="pi pi-search"></i> <p:inputText id="globalFilter"
+							onkeyup="PF('dtProducts').filter()" placeholder="Search" />
+					</span>
+				</div>
+			</f:facet>
+			<p:column selectionMode="multiple" exportable="false"></p:column>
+			<p:column exportable="false">
+				<p:rowToggler />
+			</p:column>
+			<p:column headerText="Articulo Solicitado"
+				sortBy="#{uniforme.descripcion}" filterBy="#{uniforme.descripcion}">
+				<h:outputText value="#{uniforme.descripcion}" />
+			</p:column>
+		</p:dataTable>
+
+	</ui:define>
+
+</ui:composition>

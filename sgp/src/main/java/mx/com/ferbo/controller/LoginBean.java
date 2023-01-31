@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 
 import mx.com.ferbo.dao.EmpleadoDAO;
 import mx.com.ferbo.dto.DetEmpleadoDTO;
+import mx.com.ferbo.model.DetEmpleado;
 
 @Named(value = "loginBean")
 @SessionScoped
@@ -56,19 +57,26 @@ public class LoginBean implements Serializable {
         lstEmpleados = empleadoDAO.buscarActivo();
     }
 	
+    /**
+     * Realizar consulta en DAO por numero Empleado
+     * @throws IOException
+     */
 	public void login() throws IOException {
-		empleadoSelected.setNumEmpleado(numEmpleado);
+		// empleadoSelected.setNumEmpleado(numEmpleado);
+		empleadoSelected = empleadoDAO.buscarPorNumEmpl(numEmpleado);
 		if (contador <= 3) {
-			DetEmpleadoDTO x = lstEmpleados.stream().filter(s -> {return s.getNumEmpleado().equals(numEmpleado);}).findAny().orElse(new DetEmpleadoDTO());
-			if(numEmpleado.equals(x.getNumEmpleado()) && x.getNumEmpleado() != null) {
-				faceContext = FacesContext.getCurrentInstance();
-                httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
-                httpServletRequest.getSession(true).setAttribute("idEmpleado", x.getIdEmpleado());                
-                log.info("Entrando al caso de exito");
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Empleado agregado"));
-                faceContext.getExternalContext().redirect("dashboard.xhtml");
+			// DetEmpleadoDTO x = lstEmpleados.stream().filter(s -> {return s.getNumEmpleado().equals(numEmpleado);}).findAny().orElse(new DetEmpleadoDTO());
+			if(empleadoSelected != null) {
+				/*faceContext = FacesContext.getCurrentInstance();
+		        httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
+		        httpServletRequest.getSession(true).setAttribute("empleado", x);                
+		        this.setDetEmpleadoDTO(x);*/
+		        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Acceso correcto", null));
+// 		        FacesContext.getCurrentInstance().getExternalContext().redirect(new BienvenidaBean().pasoDeEmpleado(empleadoSelected));
+		        FacesContext.getCurrentInstance().getExternalContext().redirect(new BienvenidaBean().empleadoLogeado());
+		        // FacesContext.getCurrentInstance().getExternalContext().redirect("protected/registroAsistencia.xhtml");
             } else {
-                x = new DetEmpleadoDTO();
+            	empleadoSelected = new DetEmpleadoDTO();
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Verifique su usuario."));
                 contador++;
 			}

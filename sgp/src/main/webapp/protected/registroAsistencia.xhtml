@@ -34,19 +34,19 @@
 				</p:row>
 				<p:row id="my-row-id-two" styleClass="my-heading-row">
 					<p:row id="my-row-id-two-0">
-						<p:outputLabel value="Ernesto Alejandro Ramírez Gómez" style="font-size:24px"/>
+						<p:outputLabel value="#{bienvenidaBean.empleadoSelected.nombre}" style="font-size:24px"/>
 					</p:row>
 				</p:row>
 
 				<p:row id="my-row-id-three" styleClass="my-heading-row">
 					<p:row id="my-row-id-three-0">
-						<p:outputLabel value="Gerente de Planta" style="font-size:24px"/>
+						<p:outputLabel value="#{bienvenidaBean.empleadoSelected.catPerfilDTO.descripcion}" style="font-size:24px"/>
 					</p:row>
 				</p:row>
 				
 				<p:row id="my-row-id-four" styleClass="my-heading-row">
 					<p:row id="my-row-id-four-0">
-						<p:outputLabel value="2023-01-28 6:00 / 8:00 - 20:00" style="font-size:24px"/>
+						<p:outputLabel value="#{bienvenidaBean.empleadoSelected.fechaIngreso}" style="font-size:24px"/>
 					</p:row>
 				</p:row>
 			</p:panelGrid>
@@ -54,7 +54,7 @@
 				layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
 				style="border:0px none; background-color:transparent; text-align: center">
 				<p:row id="my-row-id-five" styleClass="my-heading-row">
-					<p:outputLabel value="¡Feliz Cumpleaños Ernesto Alejandro Ramírez Gómez!" style="font-size:36px"/>
+					<p:outputLabel value="¡Feliz Cumpleaños #{bienvenidaBean.empleadoSelected.nombre}!" style="font-size:36px"/>
 				</p:row>
 			</p:panelGrid>
 		</div>

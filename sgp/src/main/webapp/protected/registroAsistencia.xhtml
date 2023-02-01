@@ -34,7 +34,7 @@
 				</p:row>
 				<p:row id="my-row-id-two" styleClass="my-heading-row">
 					<p:row id="my-row-id-two-0">
-						<p:outputLabel value="#{bienvenidaBean.empleadoSelected.nombre}" style="font-size:24px"/>
+						<p:outputLabel value="#{bienvenidaBean.empleadoSelected.nombre} #{bienvenidaBean.empleadoSelected.primerAp} #{bienvenidaBean.empleadoSelected.segundoAp}" style="font-size:24px"/>
 					</p:row>
 				</p:row>
 
@@ -46,7 +46,9 @@
 				
 				<p:row id="my-row-id-four" styleClass="my-heading-row">
 					<p:row id="my-row-id-four-0">
-						<p:outputLabel value="#{bienvenidaBean.empleadoSelected.fechaIngreso}" style="font-size:24px"/>
+						<p:outputLabel value="#{bienvenidaBean.empleadoSelected.fechaIngreso}" style="font-size:24px">
+						<f:convertDateTime pattern="yyyy-MM-dd HH:mm" type="both" locale="es_MX"/>
+					</p:outputLabel>
 					</p:row>
 				</p:row>
 			</p:panelGrid>

@@ -78,20 +78,15 @@ public class LoginBean implements Serializable {
 		empleadoSelected = empleadoDAO.buscarPorNumEmpl(numEmpleado);
 		if (contador <= 3) {
 			if(empleadoSelected != null) {
-				/*faceContext = FacesContext.getCurrentInstance();
-		        httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
-		        httpServletRequest.getSession(true).setAttribute("empleado", x);                
-		        this.setDetEmpleadoDTO(x);*/
-		        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Acceso correcto", null));
-		        FacesContext.getCurrentInstance().getExternalContext().redirect(new BienvenidaBean().empleadoLogeado());
-		        // Insertar en BD el registro
-		        registroEmpleado.setDetEmpleadoDTO(empleadoSelected);
+				registroEmpleado.setDetEmpleadoDTO(empleadoSelected);
 		        registroEmpleado.setFechaEntrada(new Date());
 		        registroEmpleado.setFechaSalida(null);
 		        catEstatusRegistro.setIdEstatus(1);
 		        registroEmpleado.setCatEstatusRegistroDTO(catEstatusRegistro);;
 		        try {
 					registroDAO.guardar(registroEmpleado);
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Acceso correcto", null));
+			        FacesContext.getCurrentInstance().getExternalContext().redirect(new BienvenidaBean().empleadoLogeado());
 				} catch (SGPException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

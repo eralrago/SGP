@@ -7,36 +7,66 @@
 	<ui:define name="title">Uniformes</ui:define>
 
 	<ui:define name="content">
-		<div class="dashboard grid ui-fluid">
-			<div class="col-12 md:col-4">
-			<p:outputLabel value="#{bienvenidaBean.empleadoSelected.nombre}" style="font-size:24px"/>
-			<p:outputLabel value="#{bienvenidaBean.empleadoSelected.catPerfilDTO.descripcion}" style="font-size:24px"/>
-			</div>
-		</div>
+		<p:panelGrid columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6"
+			layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+			style="border:0px none; background-color:transparent;">
+			<p:row id="my-row-id-one" styleClass="my-heading-row">
+				<p:column styleClass="ui-grid-col-6">
+					<p:outputLabel value="#{bienvenidaBean.empleadoSelected.nombre}"
+						style="font-size:16px" />
+				</p:column>
+				<p:column styleClass="ui-grid-col-6">
+					<p:outputLabel
+						value="#{bienvenidaBean.empleadoSelected.catPerfilDTO.descripcion}"
+						style="font-size:16px" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
 		<p:dataTable id="dt-uniformes" widgetVar="dtUniformes" var="uniforme"
 			value="#{uniformes.prendas}" reflow="true"
 			styleClass="products-table" selection="#{uniformes.selectedPrendas}"
 			rowKey="#{uniforme.idPrenda}" paginator="true" rows="10"
 			rowSelectMode="add" paginatorPosition="bottom">
-			<f:facet name="header">
-				<div class="products-table-header">
-					<span style="font-weight: bold">Uniforme</span> <span
-						class="filter-container ui-input-icon-left"> <i
-						class="pi pi-search"></i> <p:inputText id="globalFilter"
-							onkeyup="PF('dtProducts').filter()" placeholder="Search" />
-					</span>
-				</div>
-			</f:facet>
 			<p:column selectionMode="multiple" exportable="false"></p:column>
-			<p:column exportable="false">
-				<p:rowToggler />
-			</p:column>
 			<p:column headerText="Articulo Solicitado"
-				sortBy="#{uniforme.descripcion}" filterBy="#{uniforme.descripcion}">
+				sortBy="#{uniforme.descripcion}">
 				<h:outputText value="#{uniforme.descripcion}" />
 			</p:column>
 		</p:dataTable>
-
+			<div class="col-12">
+                <div class="card">
+                    <h5>DATOS PARA PAGO DEL UNIFORME</h5>
+                    <div class="ui-fluid formgrid grid">
+                        <div class="field col-12 md:col-12">
+                            <p:outputLabel for="razonSocial" value="RAZÓN SOCIAL" />
+                            <p:inputText id="razonSocial" />
+                        </div>
+                        <div class="field col-4 md:col-4">
+                            <p:outputLabel for="rfc" value="RFC" />
+                            <p:inputText id="rfc" value="123456789123456789"/>
+                        </div>
+                        <div class="field col-12">
+                            <p:outputLabel for="referenciaPago" value="REFERENCIA DE PAGO" />
+                            <p:inputText id="referenciaPago" />
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <p:outputLabel for="banco" value="BANCO" />
+                            <p:inputText id="banco" />
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <p:outputLabel for="cuenta" value="CUENTA" />
+                            <p:inputText id="cuenta" />
+                        </div>
+                        <div class="field col-4 md:col-4">
+                            <p:outputLabel for="clabeBancaria" value="CLABE INTERBANCARIA" />
+                            <p:inputText id="clabeBancaria" value="123456789123456789"/>
+                        </div>
+                    </div>
+                    <p:commandButton value="New" icon="pi pi-plus"  
+                                    styleClass="ui-button-success" style="margin-right: .5rem" />
+                </div>
+                
+            </div>
 	</ui:define>
 
 </ui:composition>

@@ -130,14 +130,14 @@ public class EmpleadoDAO extends IBaseDAO<DetEmpleadoDTO, Integer> {
     	// DetEmpleadoDTO detEmpleado = new DetEmpleado();
     	// List<DetEmpleadoDTO> empleado = emSGP.createNamedQuery("DetEmpleado.findByNumEmpl", DetEmpleadoDTO.class).setParameter("numEmpl", numEmpl).getResultList();
     	List<DetEmpleadoDTO> empleado = emSGP.createNamedQuery("DetEmpleado.findByNumEmpl", DetEmpleadoDTO.class).setParameter("numEmpl", numEmpl).getResultList();
-    	System.out.println(empleado.size());
+    	/*System.out.println(empleado.size());
     	if (empleado.size() > 0) {
     		return empleado.get(0);
     	} else {
     		empleado = null;
     		return (DetEmpleadoDTO) empleado;
-    	}
-    	
+    	}*/
+    	return empleado.size() > 0 ? empleado.get(0) : null;
     }
    
 }

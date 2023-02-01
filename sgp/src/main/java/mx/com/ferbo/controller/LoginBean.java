@@ -6,7 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -17,8 +19,13 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import mx.com.ferbo.dao.EmpleadoDAO;
+import mx.com.ferbo.dao.RegistroDAO;
+import mx.com.ferbo.dto.CatEstatusRegistroDTO;
 import mx.com.ferbo.dto.DetEmpleadoDTO;
+import mx.com.ferbo.dto.DetRegistroDTO;
+import mx.com.ferbo.dto.CatEstatusRegistroDTO;
 import mx.com.ferbo.model.DetEmpleado;
+import mx.com.ferbo.util.SGPException;
 
 @Named(value = "loginBean")
 @SessionScoped
@@ -27,6 +34,8 @@ public class LoginBean implements Serializable {
 	Logger log = LogManager.getRootLogger();
 	private DetEmpleadoDTO empleadoSelected;
 	private DetEmpleadoDTO detEmpleadoDTO;
+	private DetRegistroDTO registroEmpleado;
+	private CatEstatusRegistroDTO catEstatusRegistro;
 	private String numEmpleado;
 	
 	private List<DetEmpleadoDTO> lstEmpleados;
@@ -36,12 +45,16 @@ public class LoginBean implements Serializable {
     private HttpServletRequest httpServletRequest;
 	
 	private final EmpleadoDAO empleadoDAO;
+	private final RegistroDAO registroDAO;
 	
 	public LoginBean() {
 		empleadoDAO = new EmpleadoDAO();
+		registroDAO = new RegistroDAO();
         empleadoSelected = new DetEmpleadoDTO();
         lstEmpleados = new ArrayList<>();
         detEmpleadoDTO = new DetEmpleadoDTO();
+        registroEmpleado = new DetRegistroDTO();
+        catEstatusRegistro = new CatEstatusRegistroDTO();
 	}
 
 	@PostConstruct
@@ -62,19 +75,27 @@ public class LoginBean implements Serializable {
      * @throws IOException
      */
 	public void login() throws IOException {
-		// empleadoSelected.setNumEmpleado(numEmpleado);
 		empleadoSelected = empleadoDAO.buscarPorNumEmpl(numEmpleado);
 		if (contador <= 3) {
-			// DetEmpleadoDTO x = lstEmpleados.stream().filter(s -> {return s.getNumEmpleado().equals(numEmpleado);}).findAny().orElse(new DetEmpleadoDTO());
 			if(empleadoSelected != null) {
 				/*faceContext = FacesContext.getCurrentInstance();
 		        httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
 		        httpServletRequest.getSession(true).setAttribute("empleado", x);                
 		        this.setDetEmpleadoDTO(x);*/
 		        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Acceso correcto", null));
-// 		        FacesContext.getCurrentInstance().getExternalContext().redirect(new BienvenidaBean().pasoDeEmpleado(empleadoSelected));
 		        FacesContext.getCurrentInstance().getExternalContext().redirect(new BienvenidaBean().empleadoLogeado());
-		        // FacesContext.getCurrentInstance().getExternalContext().redirect("protected/registroAsistencia.xhtml");
+		        // Insertar en BD el registro
+		        registroEmpleado.setDetEmpleadoDTO(empleadoSelected);
+		        registroEmpleado.setFechaEntrada(new Date());
+		        registroEmpleado.setFechaSalida(null);
+		        catEstatusRegistro.setIdEstatus(1);
+		        registroEmpleado.setCatEstatusRegistroDTO(catEstatusRegistro);;
+		        try {
+					registroDAO.guardar(registroEmpleado);
+				} catch (SGPException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             } else {
             	empleadoSelected = new DetEmpleadoDTO();
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Verifique su usuario."));
@@ -119,6 +140,14 @@ public class LoginBean implements Serializable {
 
 	public EmpleadoDAO getEmpleadoDAO() {
 		return empleadoDAO;
+	}
+
+	public CatEstatusRegistroDTO getCatEstatusRegistro() {
+		return catEstatusRegistro;
+	}
+
+	public void setCatEstatusRegistro(CatEstatusRegistroDTO catEstatusRegistro) {
+		this.catEstatusRegistro = catEstatusRegistro;
 	}
 
 		

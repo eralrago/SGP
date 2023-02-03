@@ -3,8 +3,8 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core">
 
-    <p:dataTable widgetVar="vacacionesDT" var="customer" value="#{dataTableDemoView.customers1}" reflow="true"
-                 selection="#{dataTableDemoView.selectedCustomers}" rowKey="#{customer.id}" 
+    <p:dataTable widgetVar="vacacionesDT" var="solicitud" value="#{asistenciaBean.lstSolicitudes}" reflow="true"
+                 selection="#{asistenciaBean.solicitudSelected}" rowKey="#{solicitud.idSolicitud}" 
                  paginator="true" rows="10" paginatorPosition="bottom" rowSelectMode="add" lazy="true" >
         <f:facet name="header">
             <div class="customers-table-header">
@@ -23,19 +23,19 @@
         <p:column headerText="Tipo de solicitud">
             <p:outputLabel value="Vacaciones" />
         </p:column>
-        <p:column headerText="Fecha de inicio" sortBy="#{customer.date}" filterBy="#{customer.date}">
-            <p:outputLabel value="#{customer.date}" />
+        <p:column headerText="Fecha de inicio" sortBy="#{solicitud.fechaInicio}" filterBy="#{solicitud.fechaInicio}">
+            <p:outputLabel value="#{solicitud.fechaInicio}">
+                <f:convertDateTime type="date" pattern="dd-MM-yyyy" timeZone="Mexico/General"/>
+            </p:outputLabel>
         </p:column>
-        <p:column headerText="Fecha de fin" sortBy="#{customer.date}" filterBy="#{customer.date}">
-            <p:outputLabel value="#{customer.date}" />
+        <p:column headerText="Fecha de fin" sortBy="#{solicitud.fechaFin}" filterBy="#{solicitud.fechaFin}">
+            <p:outputLabel value="#{solicitud.fechaFin}">
+                <f:convertDateTime type="date" pattern="dd-MM-yyyy" timeZone="Mexico/General"/>
+            </p:outputLabel>
         </p:column>
-        <p:column headerText="Estatus" sortBy="#{customer.status}" filterBy="#{customer.status}">
-            <span class="customer-badge status-#{customer.status.name().toLowerCase()}" style="display: block; width: 7rem">#{customer.status eq 'UNQUALIFIED' ? 'RECHAZADO' :
-                                                 customer.status eq  'PROPOSAL' ? 'ENVIADO' : 
-                                                 customer.status eq 'RENEWAL' ? 'RENOVACIÓN':
-                                                 customer.status eq 'NEW' ? 'OTRO' : 
-                                                 customer.status eq 'QUALIFIED' ? 'AUTORIZADO': 
-                                                 customer.status eq 'NEGOTIATION' ? 'NEGOCIADO' : ''}</span>
+        <p:column headerText="Estatus" sortBy="#{solicitud.aprobada}" filterBy="#{solicitud.aprobada}">
+            <span class="customer-badge status-#{solicitud.aprobada eq null ? 'proposal' : solicitud.aprobada eq  1 ? 'qualified' : 'unqualified'}" style="display: block; width: 7rem">
+                #{solicitud.aprobada eq null ? 'ENVIADA' : solicitud.aprobada eq  1 ? 'APROBADA' : 'RECHAZADA'}</span>
         </p:column>
         <p:column style="width: 4rem">
             <p:commandButton class="ui-button-success rounded-button m-1" icon="pi pi-eye" process="@this">

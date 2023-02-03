@@ -19,17 +19,20 @@ public class DetSolicitudPermisoDTO implements Serializable {
     private Short aprobada;
     private DetEmpleadoDTO empleadoSol;
     private DetEmpleadoDTO empleadoRev;
+    private CatTipoSolicitudDTO catTipoSolicitud;
 
     public DetSolicitudPermisoDTO() {
     }
-    
-    public DetSolicitudPermisoDTO(Integer idSolicitud, Date fechaCap, Date fechaMod, Date fechaInicio, Date fechaFin, Short aprobada) {
+
+    public DetSolicitudPermisoDTO(Integer idSolicitud, Date fechaCap, Date fechaMod, Date fechaInicio, Date fechaFin, Short aprobada,
+                                  Integer idTipoSolicitud, String descripcionTipo) {
         this.idSolicitud = idSolicitud;
         this.fechaCap = fechaCap;
         this.fechaMod = fechaMod;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.aprobada = aprobada;
+        this.catTipoSolicitud = new CatTipoSolicitudDTO(idTipoSolicitud, descripcionTipo);
     }
 
     public Integer getIdSolicitud() {
@@ -94,6 +97,14 @@ public class DetSolicitudPermisoDTO implements Serializable {
 
     public void setEmpleadoRev(DetEmpleadoDTO empleadoRev) {
         this.empleadoRev = empleadoRev;
+    }
+
+    public CatTipoSolicitudDTO getCatTipoSolicitud() {
+        return catTipoSolicitud;
+    }
+
+    public void setCatTipoSolicitud(CatTipoSolicitudDTO catTipoSolicitud) {
+        this.catTipoSolicitud = catTipoSolicitud;
     }
 
 }

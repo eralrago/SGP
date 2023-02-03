@@ -32,11 +32,12 @@ public class AsistenciaBean implements Serializable {
     private ScheduleEvent evento;
     private RegistroDAO registroDAO;
     private SolicitudPermisoDAO solicitudPermisoDAO;
+    private DetSolicitudPermisoDTO solicitudSelected;
     private final SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
     private final Date minDate = new Date();
 
     private List<DetRegistroDTO> lstRegistros;
-    private List<DetSolicitudPermisoDTO> lstSolicitudesVacaciones;
+    private List<DetSolicitudPermisoDTO> lstSolicitudes;
 
     public AsistenciaBean() {
         calendario = new DefaultScheduleModel();
@@ -51,7 +52,7 @@ public class AsistenciaBean implements Serializable {
         lstRegistros = registroDAO.consultaRegistrosPorIdEmp(1);
         generaEventos(lstRegistros);
 
-        lstSolicitudesVacaciones = solicitudPermisoDAO.consultaPorIdEmpleado(1);
+        lstSolicitudes = solicitudPermisoDAO.consultaPorIdEmpleado(1);
     }
 
     private void generaEventos(List<DetRegistroDTO> registros) {
@@ -138,5 +139,21 @@ public class AsistenciaBean implements Serializable {
     public Date getMinDate() {
         return minDate;
     }  
+
+    public List<DetSolicitudPermisoDTO> getLstSolicitudes() {
+        return lstSolicitudes;
+    }
+
+    public void setLstSolicitudes(List<DetSolicitudPermisoDTO> lstSolicitudes) {
+        this.lstSolicitudes = lstSolicitudes;
+    }
+
+    public DetSolicitudPermisoDTO getSolicitudSelected() {
+        return solicitudSelected;
+    }
+
+    public void setSolicitudSelected(DetSolicitudPermisoDTO solicitudSelected) {
+        this.solicitudSelected = solicitudSelected;
+    }
 
 }

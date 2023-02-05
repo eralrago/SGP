@@ -3,10 +3,10 @@ package mx.com.ferbo.controller;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,8 +23,6 @@ import mx.com.ferbo.dao.RegistroDAO;
 import mx.com.ferbo.dto.CatEstatusRegistroDTO;
 import mx.com.ferbo.dto.DetEmpleadoDTO;
 import mx.com.ferbo.dto.DetRegistroDTO;
-import mx.com.ferbo.dto.CatEstatusRegistroDTO;
-import mx.com.ferbo.model.DetEmpleado;
 import mx.com.ferbo.util.SGPException;
 
 @Named(value = "loginBean")
@@ -43,6 +41,7 @@ public class LoginBean implements Serializable {
 	private Integer contador;
 	private FacesContext faceContext;
     private HttpServletRequest httpServletRequest;
+    private HttpSession session;
 	
 	private final EmpleadoDAO empleadoDAO;
 	private final RegistroDAO registroDAO;
@@ -75,6 +74,7 @@ public class LoginBean implements Serializable {
      * @throws IOException
      */
 	public void login() throws IOException {
+		FacesMessage message = null;
 		empleadoSelected = empleadoDAO.buscarPorNumEmpl(numEmpleado);
 		if (contador <= 3) {
 			if(empleadoSelected != null) {
@@ -85,8 +85,13 @@ public class LoginBean implements Serializable {
 		        registroEmpleado.setCatEstatusRegistroDTO(catEstatusRegistro);;
 		        try {
 					registroDAO.guardar(registroEmpleado);
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Acceso correcto", null));
-			        FacesContext.getCurrentInstance().getExternalContext().redirect(new BienvenidaBean().empleadoLogeado());
+					
+					//en caso de que todas las validaciones se encuentren correctas, se procederá a registrar
+					//el usuario en sesión y redirigir a la página de bienvenida.
+			        httpServletRequest = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+			        httpServletRequest.getSession(true).setAttribute("empleado", empleadoSelected);                
+			        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Acceso correcto", null));
+			        FacesContext.getCurrentInstance().getExternalContext().redirect("protected/registroAsistencia.xhtml");
 				} catch (SGPException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -100,6 +105,22 @@ public class LoginBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Contacte al Administrador."));
         }
 	}
+	
+	public void logout() {
+		DetEmpleadoDTO empleado = null;
+    	
+    	try {
+    		empleado = (DetEmpleadoDTO) session.getAttribute("usuario");
+    		log.info("El usuario intenta finalizar su sesión: " + empleado.getUsuario());
+    		session.setAttribute("usuario", null);
+    		session.setAttribute("idCliente", null);
+    		session.invalidate();
+    		faceContext.getExternalContext().redirect("login.xhtml");
+    	} catch(Exception ex) {
+    		log.error("Problema en el cierre de sesión del usuario...", ex);
+    	}
+    }
+
 
 	public DetEmpleadoDTO getEmpleadoSelected() {
 		return empleadoSelected;
@@ -143,6 +164,14 @@ public class LoginBean implements Serializable {
 
 	public void setCatEstatusRegistro(CatEstatusRegistroDTO catEstatusRegistro) {
 		this.catEstatusRegistro = catEstatusRegistro;
+	}
+
+	public HttpSession getSession() {
+		return session;
+	}
+
+	public void setSession(HttpSession session) {
+		this.session = session;
 	}
 
 		

@@ -20,9 +20,13 @@
                     <i class="pi pi-fw pi-cog"/>
                 </a>
                 <ul>
-                    <li><a href="#"><i class="pi pi-fw pi-sliders-h"/><span>Account</span></a></li>
-                    <li><a href="#"><i class="pi pi-fw pi-bell"/><span>Notifications</span><span class="menu-badge">2</span></a></li>
-                    <li><a href="#"><i class="pi pi-fw pi-sign-out"/><span>Logout</span></a></li>
+                    <li>
+                        	<!-- <a href="login.xhtml"><i class="pi pi-fw pi-sign-out"/><span>Logout</span></a> -->
+                        	<span>
+		                        <i class="pi pi-fw pi-sign-out"/>
+		                        <p:commandLink class="pi pi-fw" value="Salir" action="#{loginBean.logout}" process="@this" />
+                        	</span>
+                       	</li>
                 </ul>
             </div>
             <div class="menu">

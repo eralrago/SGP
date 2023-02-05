@@ -5,14 +5,15 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 //import javax.faces.context.FacesContext;
 import javax.inject.Named;
 //import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import mx.com.ferbo.dao.EmpleadoDAO;
 import mx.com.ferbo.dto.DetEmpleadoDTO;
@@ -32,13 +33,16 @@ public class BienvenidaBean implements Serializable {
 	private String strFechaActual;
 	private String strFechaCumpleanios;
 	
+	private FacesContext faceContext;
+    private HttpServletRequest httpServletRequest;
+	
 	/*private FacesContext faceContext;
     private HttpServletRequest httpServletRequest;*/
 	
 	public BienvenidaBean() {
 		empleadoDAO = new EmpleadoDAO();
 		empleadoSelected = new DetEmpleadoDTO();
-		setNumeroEmpl("0006");
+		// setNumeroEmpl("0006");
 		dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
 		fechaActual = new Date();
 		strFechaActual = getDateFormat().format(getFechaActual());
@@ -48,7 +52,10 @@ public class BienvenidaBean implements Serializable {
 	
 	@PostConstruct
     public void init() {
-		empleadoLogeado();
+		faceContext = FacesContext.getCurrentInstance();
+        httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
+        this.empleadoSelected = (DetEmpleadoDTO) httpServletRequest.getSession(true).getAttribute("empleado");  
+        empleadoLogeado();
     }
 
 	public String pasoDeEmpleado (DetEmpleadoDTO detEmpleadoDTO) {
@@ -56,20 +63,18 @@ public class BienvenidaBean implements Serializable {
 		return "protected/registroAsistencia.xhtml";
 	}
 	
-	public String empleadoLogeado() {
-		empleadoSelected = empleadoDAO.buscarPorNumEmpl(getNumeroEmpl());
+	public void empleadoLogeado() {
+		// empleadoSelected = empleadoDAO.buscarPorNumEmpl(getNumeroEmpl());
 		int diaActual = currentDate.getDayOfMonth();
 		int mesActual = currentDate.getMonthValue();
 		strFechaCumpleanios = getDateFormat().format(empleadoSelected.getFechaNacimiento());
 		fechaCumpleanios = LocalDate.parse(strFechaCumpleanios);
 		int diaCumpleanios = fechaCumpleanios.getDayOfMonth();
 		int mesCumpleanios = fechaCumpleanios.getMonthValue();
-		System.out.println(diaActual + " " + mesActual + " // " + diaCumpleanios + " " + mesCumpleanios);
 		if(diaActual == diaCumpleanios && mesActual == mesCumpleanios) {
-			//setStrCumpleanios("¡Feliz Cumpleaños " + empleadoSelected.getNombre() + " " + empleadoSelected.getPrimerAp() + " " + empleadoSelected.getSegundoAp() + "!");
 			strCumpleanios = "¡Feliz Cumpleaños " + empleadoSelected.getNombre() + " " + empleadoSelected.getPrimerAp() + " " + empleadoSelected.getSegundoAp() + "!";
 		} 
-		return "protected/registroAsistencia.xhtml";
+		// return "protected/registroAsistencia.xhtml";
 	}
 
 	public DetEmpleadoDTO getEmpleadoSelected() {

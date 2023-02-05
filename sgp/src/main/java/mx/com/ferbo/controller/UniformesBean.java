@@ -1,21 +1,28 @@
 package mx.com.ferbo.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import mx.com.ferbo.dao.CatPrendaDAO;
+import mx.com.ferbo.dao.DetSolicitudPrendaDAO;
 import mx.com.ferbo.dao.EmpleadoDAO;
 import mx.com.ferbo.dto.CatPrendaDTO;
 import mx.com.ferbo.dto.DetEmpleadoDTO;
+import mx.com.ferbo.dto.DetSolicitudPrendaDTO;
 import mx.com.ferbo.model.CatPrenda;
+import mx.com.ferbo.util.SGPException;
 
 
-@Named(value = "uniformes")
+@Named(value = "uniformesBean")
 @ViewScoped
 public class UniformesBean implements Serializable {
 
@@ -23,46 +30,72 @@ public class UniformesBean implements Serializable {
 	
 	private String numeroEmpl;
 
-	private List<CatPrendaDTO> prendas;
+	private List<CatPrendaDTO> lstPrendasActivas;
+	private List<CatPrendaDTO> selectedPrendas;
 	
 	private DetEmpleadoDTO empleadoSelected;
-	private CatPrendaDTO selectedPrenda;
-	
-	private List<CatPrendaDTO> selectedPrendas;
+	private DetSolicitudPrendaDTO solicitud;
 	
 	private CatPrendaDAO uniformesDAO;
 	private final EmpleadoDAO empleadoDAO;
+	private DetSolicitudPrendaDAO detSolicitudPrendaDAO;
 	
 	public UniformesBean() {
 		empleadoSelected = new DetEmpleadoDTO();
-		prendas = new ArrayList<>();
-		selectedPrenda = new CatPrendaDTO();
+		lstPrendasActivas = new ArrayList<>();
 		selectedPrendas = new ArrayList<>();
+		solicitud = new DetSolicitudPrendaDTO();
 		uniformesDAO = new CatPrendaDAO();
 		empleadoDAO = new EmpleadoDAO();
+		detSolicitudPrendaDAO = new DetSolicitudPrendaDAO();
 		setNumeroEmpl("0006");
 	}
 	
 	@PostConstruct
     public void init() {
 		empleadoSelected = empleadoDAO.buscarPorNumEmpl(getNumeroEmpl());
-		prendas = uniformesDAO.buscarActivo();
+		lstPrendasActivas = uniformesDAO.buscarActivo();
+	}
+	
+	public String getDeleteButtonMessage() {
+		if (hasSelectedPrendas()) {
+            int size = this.selectedPrendas.size();
+            return size > 1 ? size + " Prendas Seleccionada" : "1 Prenda Seleccionada";
+        }
+        return "Agregar";
 	}
 
-	public List<CatPrendaDTO> getPrendas() {
-		return prendas;
+	public boolean hasSelectedPrendas() {
+        return this.selectedPrendas != null && !this.selectedPrendas.isEmpty();
+    }
+	
+	public void registro() {
+		for(CatPrendaDTO prenda : selectedPrendas) {
+//			System.out.println(prenda.getDescripcion());
+			solicitud.setIdPrenda(prenda.getIdPrenda());
+			solicitud.setIdEmpleadoSol(empleadoSelected.getIdEmpleado());
+			solicitud.setCantidad(1);
+			solicitud.setAprobada((short) 0);
+			solicitud.setFechaCap(new Date());
+			solicitud.setFechaMod(null);
+			solicitud.setIdEmpleadoRev(null);
+			try {
+				detSolicitudPrendaDAO.guardar(solicitud);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Registro exitoso."));
+				FacesContext.getCurrentInstance().getExternalContext().redirect("uniformes.xhtml");
+			} catch (SGPException | IOException e) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al Registrar la Solicitud"));
+			}
+			
+		}
 	}
 
-	public void setPrendas(List<CatPrendaDTO> prendas) {
-		this.prendas = prendas;
+	public List<CatPrendaDTO> getLstPrendasActivas() {
+		return lstPrendasActivas;
 	}
 
-	public CatPrendaDTO getSelectedPrenda() {
-		return selectedPrenda;
-	}
-
-	public void setSelectedPrenda(CatPrendaDTO selectedPrenda) {
-		this.selectedPrenda = selectedPrenda;
+	public void setLstPrendasActivas(List<CatPrendaDTO> lstPrendasActivas) {
+		this.lstPrendasActivas = lstPrendasActivas;
 	}
 
 	public List<CatPrendaDTO> getSelectedPrendas() {
@@ -100,6 +133,7 @@ public class UniformesBean implements Serializable {
 	public void setNumeroEmpl(String numeroEmpl) {
 		this.numeroEmpl = numeroEmpl;
 	}
+
 	
 	
 }

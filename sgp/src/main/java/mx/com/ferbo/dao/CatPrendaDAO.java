@@ -28,7 +28,7 @@ public class CatPrendaDAO extends IBaseDAO<CatPrendaDTO, Integer>{
 
 	@Override
 	public List<CatPrendaDTO> buscarActivo() {
-		return emSGP.createNamedQuery("CatPrenda.findAll", CatPrendaDTO.class).getResultList();
+		return emSGP.createNamedQuery("CatPrenda.findAllActive", CatPrendaDTO.class).getResultList();
 	}
 
 	@Override

@@ -10,6 +10,9 @@ public class CatPrendaDTO implements Serializable {
     private short activo;
     
 	public CatPrendaDTO() {
+	}
+
+	public CatPrendaDTO(Integer idPrenda, String descripcion, short activo) {
 		this.idPrenda = idPrenda;
 		this.descripcion = descripcion;
 		this.activo = activo;

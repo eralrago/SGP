@@ -76,24 +76,6 @@ public class AsistenciaBean implements Serializable {
     }
 
     public LocalDateTime convertirDateToLocalDateTime(Date fecha) {
-//        System.out.println(fecha.toInstant()
-//                .atZone(ZoneId.of("UTC"))
-//                .toLocalDateTime());
-//        System.out.println(fecha.toInstant()
-//                .atZone(ZoneId.of("Mexico/General"))
-//                .toLocalDateTime());
-//        
-//        System.out.println(fecha.toInstant()
-//                .atZone(ZoneId.of("America/Mexico_City"))
-//                .toLocalDateTime());
-//        
-//        System.out.println(fecha.toInstant()
-//                .atZone(ZoneId.of("GMT-6"))
-//                .toLocalDateTime());
-//        System.out.println(fecha.toInstant()
-//                .atZone(ZoneId.of("UTC-6"))
-//                .toLocalDateTime());
-
         return fecha.toInstant()
                 .atZone(ZoneId.of("America/Mexico_City"))
                 .toLocalDateTime();

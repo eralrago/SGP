@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import mx.com.ferbo.model.DetEmpleado;
+import mx.com.ferbo.dto.DetEmpleadoDTO;
 
 /**
  * Servlet Filter implementation class SessionFilter
@@ -65,7 +65,7 @@ public class SessionFilter implements Filter {
 		String              context   = null;
 		String              pagina    = null;
 		
-		DetEmpleado            usuario   = null;
+		DetEmpleadoDTO            usuario   = null;
 		
 		context   = request.getContextPath();
 		pagina    = request.getServletPath();
@@ -101,7 +101,7 @@ public class SessionFilter implements Filter {
 		
 		log.debug("Id de sesion: " + session.getId());
 		log.debug("Verificando existencia datos de inicio de sesion...");
-		usuario = (DetEmpleado) session.getAttribute("nombre");
+		usuario = (DetEmpleadoDTO) session.getAttribute("empleado");
 		
 		log.debug("Verificando existencia de usuario en sesion...");
 		

@@ -467,3 +467,26 @@ ADD CONSTRAINT `fk_empleado_area`
   REFERENCES `sgp`.`cat_area` (`id_area`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
+
+
+--------------30-01-2023-------------------------
+
+CREATE TABLE `sgp`.`cat_tipo_solicitud` (
+  `id_tipo_solicitud` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `descripcion` VARCHAR(45) NOT NULL,
+  `activo` TINYINT NULL DEFAULT 1,
+  PRIMARY KEY (`id_tipo_solicitud`));
+
+INSERT INTO `sgp`.`cat_tipo_solicitud` (`descripcion`, `activo`) VALUES ('Permiso', '1');
+INSERT INTO `sgp`.`cat_tipo_solicitud` (`descripcion`) VALUES ('Vacaciones');
+
+ALTER TABLE `sgp`.`det_solicitud_permiso` 
+ADD COLUMN `id_tipo_solicitud` INT UNSIGNED NOT NULL AFTER `id_empleado_rev`,
+ADD INDEX `fk_sol_tipo_sol_idx` (`id_tipo_solicitud` ASC) VISIBLE;
+
+ALTER TABLE `sgp`.`det_solicitud_permiso` 
+ADD CONSTRAINT `fk_sol_tipo_sol`
+  FOREIGN KEY (`id_tipo_solicitud`)
+  REFERENCES `sgp`.`cat_tipo_solicitud` (`id_tipo_solicitud`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;

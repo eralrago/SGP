@@ -86,6 +86,13 @@ public class DetEmpleadoDTO implements Serializable {
         this.catPuestoDTO = new CatPuestoDTO(idPuesto, descripcionPuesto, (short) 1);
     }
 
+    /*
+     * Método que utiliza la query guardar Registro
+     */
+    public DetEmpleadoDTO(Integer idEmpleado) {
+        this.idEmpleado = idEmpleado;
+    }
+
     public Integer getIdEmpleado() {
         return idEmpleado;
     }

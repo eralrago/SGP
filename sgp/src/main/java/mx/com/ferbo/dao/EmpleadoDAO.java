@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+
 import mx.com.ferbo.commons.dao.IBaseDAO;
 import mx.com.ferbo.dto.DetEmpleadoDTO;
 import mx.com.ferbo.model.CatArea;
@@ -123,4 +125,19 @@ public class EmpleadoDAO extends IBaseDAO<DetEmpleadoDTO, Integer> {
             throw new SGPException("Error al guardar empleado");
         }
     }
+    
+    public DetEmpleadoDTO buscarPorNumEmpl(String numEmpl) {
+    	// DetEmpleadoDTO detEmpleado = new DetEmpleado();
+    	// List<DetEmpleadoDTO> empleado = emSGP.createNamedQuery("DetEmpleado.findByNumEmpl", DetEmpleadoDTO.class).setParameter("numEmpl", numEmpl).getResultList();
+    	List<DetEmpleadoDTO> empleado = emSGP.createNamedQuery("DetEmpleado.findByNumEmpl", DetEmpleadoDTO.class).setParameter("numEmpl", numEmpl).getResultList();
+    	/*System.out.println(empleado.size());
+    	if (empleado.size() > 0) {
+    		return empleado.get(0);
+    	} else {
+    		empleado = null;
+    		return (DetEmpleadoDTO) empleado;
+    	}*/
+    	return empleado.size() > 0 ? empleado.get(0) : null;
+    }
+   
 }

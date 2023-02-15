@@ -22,6 +22,7 @@ public class DetSolicitudPermisoDTO implements Serializable {
     private CatTipoSolicitudDTO catTipoSolicitud;
 
     public DetSolicitudPermisoDTO() {
+        catTipoSolicitud = new CatTipoSolicitudDTO();
     }
 
     public DetSolicitudPermisoDTO(Integer idSolicitud, Date fechaCap, Date fechaMod, Date fechaInicio, Date fechaFin, Short aprobada,

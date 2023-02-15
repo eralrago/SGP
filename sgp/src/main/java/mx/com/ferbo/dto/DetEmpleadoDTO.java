@@ -37,6 +37,9 @@ public class DetEmpleadoDTO implements Serializable {
         catPlantaDTO = new CatPlantaDTO();
         catPuestoDTO = new CatPuestoDTO();
     }
+    public DetEmpleadoDTO(Integer idEmpleado){
+        this.idEmpleado = idEmpleado;
+    }
 
     public DetEmpleadoDTO(Integer idEmpleado, String numEmpleado, String nombre, String primerAp, String segundoAp,
                           Date fechaNacimiento, Date fechaRegistro, Date fechaModificacion, String curp, String rfc, String correo,

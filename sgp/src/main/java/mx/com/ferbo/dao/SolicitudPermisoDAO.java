@@ -5,9 +5,13 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import mx.com.ferbo.commons.dao.IBaseDAO;
+import mx.com.ferbo.dto.DetIncidenciaDTO;
 import mx.com.ferbo.dto.DetSolicitudPermisoDTO;
+import mx.com.ferbo.model.CatEstatusIncidencia;
+import mx.com.ferbo.model.CatTipoIncidencia;
 import mx.com.ferbo.model.CatTipoSolicitud;
 import mx.com.ferbo.model.DetEmpleado;
+import mx.com.ferbo.model.DetIncidencia;
 import mx.com.ferbo.model.DetSolicitudPermiso;
 import mx.com.ferbo.util.SGPException;
 
@@ -53,6 +57,7 @@ public class SolicitudPermisoDAO extends IBaseDAO<DetSolicitudPermisoDTO, Intege
     public void guardar(DetSolicitudPermisoDTO e) throws SGPException {
         
         final DetSolicitudPermiso solicitud = new DetSolicitudPermiso();
+        /*Se guarda Solicitud*/
         try {
             emSGP.getTransaction().begin();
             solicitud.setFechaCap(new Date());
@@ -64,6 +69,13 @@ public class SolicitudPermisoDAO extends IBaseDAO<DetSolicitudPermisoDTO, Intege
             emSGP.getTransaction().commit();
             e.setIdSolicitud(solicitud.getIdSolicitud());
             e.getCatTipoSolicitud().setDescripcion(solicitud.getIdTipoSolicitud().getDescripcion());
+            
+            IncidenciaDAO incidenciaDAO = new IncidenciaDAO();
+            DetIncidenciaDTO incidencia = new DetIncidenciaDTO();
+            incidencia.setDetSolicitudPermisoDTO(new DetSolicitudPermisoDTO(solicitud.getIdSolicitud()));
+            incidencia.setIdEmpleado(e.getEmpleadoSol().getIdEmpleado());
+            incidenciaDAO.guardar(incidencia);
+            
         } catch (Exception ex) {
             emSGP.getTransaction().rollback();
             throw new SGPException("Error al guardar la solicitud");

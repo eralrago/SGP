@@ -128,7 +128,6 @@ public class AsistenciaBean implements Serializable {
     }
 
     public void guardaSolicitud() {
-        System.out.println("Guardar");
         if (fechaSeleccionada != null) {
             solicitudSelected.setFechaInicio(fechaSeleccionada);
             solicitudSelected.setFechaFin(fechaSeleccionada);

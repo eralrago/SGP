@@ -25,6 +25,9 @@ public class DetSolicitudPermisoDTO implements Serializable {
         catTipoSolicitud = new CatTipoSolicitudDTO();
     }
 
+    public DetSolicitudPermisoDTO(Integer idSolicitud) {
+        this.idSolicitud = idSolicitud;
+    }
     public DetSolicitudPermisoDTO(Integer idSolicitud, Date fechaCap, Date fechaMod, Date fechaInicio, Date fechaFin, Short aprobada,
                                   Integer idTipoSolicitud, String descripcionTipo) {
         this.idSolicitud = idSolicitud;

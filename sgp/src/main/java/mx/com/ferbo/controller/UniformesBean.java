@@ -40,6 +40,8 @@ public class UniformesBean implements Serializable {
 	private final EmpleadoDAO empleadoDAO;
 	private DetSolicitudPrendaDAO detSolicitudPrendaDAO;
 	
+	private CatPrendaDTO prendaSelected;
+	
 	public UniformesBean() {
 		empleadoSelected = new DetEmpleadoDTO();
 		lstPrendasActivas = new ArrayList<>();
@@ -48,7 +50,8 @@ public class UniformesBean implements Serializable {
 		uniformesDAO = new CatPrendaDAO();
 		empleadoDAO = new EmpleadoDAO();
 		detSolicitudPrendaDAO = new DetSolicitudPrendaDAO();
-		setNumeroEmpl("0006");
+		// setNumeroEmpl("0006");
+		prendaSelected = new CatPrendaDTO();
 	}
 	
 	@PostConstruct
@@ -134,6 +137,13 @@ public class UniformesBean implements Serializable {
 		this.numeroEmpl = numeroEmpl;
 	}
 
-	
+	public CatPrendaDTO getPrendaSelected() {
+		return prendaSelected;
+	}
+
+	public void setPrendaSelected(CatPrendaDTO prendaSelected) {
+		this.prendaSelected = prendaSelected;
+	}
+
 	
 }

@@ -490,3 +490,39 @@ ADD CONSTRAINT `fk_sol_tipo_sol`
   REFERENCES `sgp`.`cat_tipo_solicitud` (`id_tipo_solicitud`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
+
+--------------16-02-2023-------------------------
+CREATE TABLE `sgp`.`cat_talla` (
+  `id_talla` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `descripcion` VARCHAR(45) NOT NULL,
+  `activo` TINYINT NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id_talla`));
+
+
+ALTER TABLE `sgp`.`det_solicitud_prenda` 
+ADD COLUMN `id_talla` INT UNSIGNED NULL AFTER `id_empleado_rev`,
+ADD INDEX `fk_sol_talla_idx` (`id_talla` ASC) VISIBLE;
+
+ALTER TABLE `sgp`.`det_solicitud_prenda` 
+ADD CONSTRAINT `fk_sol_talla`
+  FOREIGN KEY (`id_talla`)
+  REFERENCES `sgp`.`cat_talla` (`id_talla`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+
+INSERT INTO `sgp`.`cat_talla` (`descripcion`) VALUES ('CH');
+INSERT INTO `sgp`.`cat_talla` (`descripcion`) VALUES ('MD');
+INSERT INTO `sgp`.`cat_talla` (`descripcion`) VALUES ('G/L');
+INSERT INTO `sgp`.`cat_talla` (`descripcion`) VALUES ('XG');
+
+update det_solicitud_prenda set id_talla = 1;
+
+ALTER TABLE `sgp`.`det_solicitud_prenda` 
+DROP FOREIGN KEY `fk_sol_talla`;
+ALTER TABLE `sgp`.`det_solicitud_prenda` 
+CHANGE COLUMN `id_talla` `id_talla` INT UNSIGNED NOT NULL ;
+ALTER TABLE `sgp`.`det_solicitud_prenda` 
+ADD CONSTRAINT `fk_sol_talla`
+  FOREIGN KEY (`id_talla`)
+  REFERENCES `sgp`.`cat_talla` (`id_talla`);

@@ -1,14 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package mx.com.ferbo.dao;
 
+import java.util.Date;
 import java.util.List;
 import mx.com.ferbo.commons.dao.IBaseDAO;
 import mx.com.ferbo.dto.DetIncidenciaDTO;
 import mx.com.ferbo.model.CatEstatusIncidencia;
 import mx.com.ferbo.model.CatTipoIncidencia;
+import mx.com.ferbo.model.DetEmpleado;
 import mx.com.ferbo.model.DetIncidencia;
 import mx.com.ferbo.model.DetSolicitudPermiso;
 import mx.com.ferbo.util.SGPException;
@@ -26,7 +24,7 @@ public class IncidenciaDAO extends IBaseDAO<DetIncidenciaDTO, Integer> {
 
     @Override
     public List<DetIncidenciaDTO> buscarTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return emSGP.createNamedQuery("DetIncidencia.findAll", DetIncidenciaDTO.class).getResultList();
     }
 
     @Override
@@ -58,7 +56,8 @@ public class IncidenciaDAO extends IBaseDAO<DetIncidenciaDTO, Integer> {
             incidencia.setIdTipo(emSGP.getReference(CatTipoIncidencia.class, 1));
             incidencia.setVisible((short) 1);
             incidencia.setIdEstatus(emSGP.getReference(CatEstatusIncidencia.class, 1));
-            incidencia.setIdEmpleado(e.getIdEmpleado());
+            incidencia.setIdEmpleado(emSGP.getReference(DetEmpleado.class, e.getDetEmpleadoDTO().getIdEmpleado()));
+            incidencia.setFechaCap(new Date());
             emSGP.persist(incidencia);
             emSGP.getTransaction().commit();
 
@@ -67,5 +66,5 @@ public class IncidenciaDAO extends IBaseDAO<DetIncidenciaDTO, Integer> {
             throw new SGPException("Error al guardar la Incidencia " + ex);
         }
     }
-
+    
 }

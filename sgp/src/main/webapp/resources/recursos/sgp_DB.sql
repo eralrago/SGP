@@ -526,3 +526,15 @@ ALTER TABLE `sgp`.`det_solicitud_prenda`
 ADD CONSTRAINT `fk_sol_talla`
   FOREIGN KEY (`id_talla`)
   REFERENCES `sgp`.`cat_talla` (`id_talla`);
+
+--------------17-02-2023-------------------------
+
+ALTER TABLE sgp.det_incidencia ADD fecha_cap datetime NULL;
+ALTER TABLE sgp.det_incidencia ADD fecha_mod datetime NULL;
+
+UPDATE det_incidencia SET fecha_cap = now()
+WHERE fecha_cap IS NULL;
+
+ALTER TABLE sgp.det_incidencia MODIFY COLUMN fecha_cap datetime NOT NULL;
+
+ALTER TABLE sgp.det_incidencia ADD CONSTRAINT fk_incidencia_empleado FOREIGN KEY (id_empleado) REFERENCES sgp.det_empleado(id_empleado);

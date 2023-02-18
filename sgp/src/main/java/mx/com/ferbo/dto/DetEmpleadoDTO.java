@@ -88,6 +88,17 @@ public class DetEmpleadoDTO implements Serializable {
         this.catPlantaDTO = new CatPlantaDTO(idPlanta, descripcionPlanta, (short) 1);
         this.catPuestoDTO = new CatPuestoDTO(idPuesto, descripcionPuesto, (short) 1);
     }
+    
+    /*
+     * Método que utiliza la query findAll
+     */
+    public DetEmpleadoDTO(Integer idEmpleado, String numEmpleado, String nombre, String primerAp, String segundoAp){
+        this.idEmpleado = idEmpleado;
+        this.numEmpleado = numEmpleado;
+        this.nombre = nombre;
+        this.primerAp = primerAp;
+        this.segundoAp = segundoAp;
+    }
 
     public Integer getIdEmpleado() {
         return idEmpleado;

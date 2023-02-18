@@ -1,6 +1,7 @@
 package mx.com.ferbo.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
@@ -10,8 +11,10 @@ public class DetIncidenciaDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Integer idIncidencia;
-    private Integer idEmpleado;
+    private DetEmpleadoDTO detEmpleadoDTO;
     private Short visible;
+    private Date fechaCap;
+    private Date fechaMod;
     private CatEstatusIncidenciaDTO catEstatusIncidenciaDTO;
     private CatTipoIncidenciaDTO catTipoIncidenciaDTO;
     private DetSolicitudArticuloDTO detSolicitudArticuloDTO;
@@ -21,6 +24,19 @@ public class DetIncidenciaDTO implements Serializable {
     public DetIncidenciaDTO() {
     }
 
+    public DetIncidenciaDTO(Integer idIncidencia, Short visible, Date fechaCap, Date fechaMod, Integer idEmpleado, String numEmpleado, 
+            String nombre, String primerAp, String segundoAp,Integer idTipoIncidencia, String descripcionTipo, Integer idEstatus, String descripcionEstatus,
+            Date fechaInicio, Date fechaFin, Integer idTipoSolicitud, String descripcion) {
+        this.idIncidencia = idIncidencia;
+        this.visible = visible;
+        this.fechaCap = fechaCap;
+        this.fechaMod = fechaMod;
+        this.detEmpleadoDTO = new DetEmpleadoDTO(idEmpleado, numEmpleado, nombre, primerAp, segundoAp);
+        this.catTipoIncidenciaDTO = new CatTipoIncidenciaDTO(idTipoIncidencia, descripcionTipo);
+        this.catEstatusIncidenciaDTO = new CatEstatusIncidenciaDTO(idEstatus, descripcionEstatus, (short)1);
+        this.detSolicitudPermisoDTO = new DetSolicitudPermisoDTO(null, null, null, fechaInicio, fechaFin, null, idTipoSolicitud, descripcion);
+    }
+    
     public Integer getIdIncidencia() {
         return idIncidencia;
     }
@@ -29,12 +45,12 @@ public class DetIncidenciaDTO implements Serializable {
         this.idIncidencia = idIncidencia;
     }
 
-    public Integer getIdEmpleado() {
-        return idEmpleado;
+    public DetEmpleadoDTO getDetEmpleadoDTO() {
+        return detEmpleadoDTO;
     }
 
-    public void setIdEmpleado(Integer idEmpleado) {
-        this.idEmpleado = idEmpleado;
+    public void setDetEmpleadoDTO(DetEmpleadoDTO detEmpleadoDTO) {
+        this.detEmpleadoDTO = detEmpleadoDTO;
     }
 
     public Short getVisible() {
@@ -83,6 +99,22 @@ public class DetIncidenciaDTO implements Serializable {
 
     public void setDetSolicitudPrendaDTO(DetSolicitudPrendaDTO detSolicitudPrendaDTO) {
         this.detSolicitudPrendaDTO = detSolicitudPrendaDTO;
+    }
+
+    public Date getFechaCap() {
+        return fechaCap;
+    }
+
+    public void setFechaCap(Date fechaCap) {
+        this.fechaCap = fechaCap;
+    }
+
+    public Date getFechaMod() {
+        return fechaMod;
+    }
+
+    public void setFechaMod(Date fechaMod) {
+        this.fechaMod = fechaMod;
     }
     
     

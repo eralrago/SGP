@@ -16,6 +16,12 @@ public class CatEstatusIncidenciaDTO implements Serializable {
     public CatEstatusIncidenciaDTO() {
     }
 
+    public CatEstatusIncidenciaDTO(Integer idEstatus, String descripcion, short activo) {
+        this.idEstatus = idEstatus;
+        this.descripcion = descripcion;
+        this.activo = activo;
+    }
+
     public Integer getIdEstatus() {
         return idEstatus;
     }

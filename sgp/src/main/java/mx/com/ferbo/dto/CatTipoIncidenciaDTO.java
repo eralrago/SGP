@@ -6,12 +6,18 @@ import java.io.Serializable;
  *
  * @author Gabriel
  */
-public class CatTipoIncidenciaDTO implements Serializable{
+public class CatTipoIncidenciaDTO implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private Integer idTipo;
     private String descripcion;
-    
-    public CatTipoIncidenciaDTO(){
+
+    public CatTipoIncidenciaDTO() {
+    }
+
+    public CatTipoIncidenciaDTO(Integer idTipo, String descripcion) {
+        this.idTipo = idTipo;
+        this.descripcion = descripcion;
     }
 
     public Integer getIdTipo() {
@@ -29,6 +35,5 @@ public class CatTipoIncidenciaDTO implements Serializable{
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    
-    
+
 }

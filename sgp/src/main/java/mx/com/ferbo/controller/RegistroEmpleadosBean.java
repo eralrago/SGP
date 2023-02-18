@@ -51,7 +51,6 @@ public class RegistroEmpleadosBean implements Serializable {
     private final CatAreaDAO catAreaDAO;
     private final EmpleadoDAO empleadoDAO;
 
-    private KardexBean kardexBean;
 
     public RegistroEmpleadosBean() {
         log.info("--Iniciando desde el constructor--");
@@ -64,7 +63,6 @@ public class RegistroEmpleadosBean implements Serializable {
         empleadoSelected = new DetEmpleadoDTO();
         lstEmpleados = new ArrayList<>();
         lstEmpleadosSelected = new ArrayList<>();
-        kardexBean = new KardexBean();
     }
 
     @PostConstruct

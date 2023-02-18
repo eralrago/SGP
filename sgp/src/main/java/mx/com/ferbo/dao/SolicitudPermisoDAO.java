@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import mx.com.ferbo.commons.dao.IBaseDAO;
+import mx.com.ferbo.dto.DetEmpleadoDTO;
 import mx.com.ferbo.dto.DetIncidenciaDTO;
 import mx.com.ferbo.dto.DetSolicitudPermisoDTO;
 import mx.com.ferbo.model.CatEstatusIncidencia;
@@ -73,7 +74,7 @@ public class SolicitudPermisoDAO extends IBaseDAO<DetSolicitudPermisoDTO, Intege
             IncidenciaDAO incidenciaDAO = new IncidenciaDAO();
             DetIncidenciaDTO incidencia = new DetIncidenciaDTO();
             incidencia.setDetSolicitudPermisoDTO(new DetSolicitudPermisoDTO(solicitud.getIdSolicitud()));
-            incidencia.setIdEmpleado(e.getEmpleadoSol().getIdEmpleado());
+            incidencia.setDetEmpleadoDTO(new DetEmpleadoDTO(e.getEmpleadoSol().getIdEmpleado()));
             incidenciaDAO.guardar(incidencia);
             
         } catch (Exception ex) {

@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Incidencias</ui:define>
+
+    <ui:define name="head">
+        <h:outputScript library="recursos" name="js/primefaces_locale.js" />
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="formIncidencias">
+            <div class="grid table-demo">
+                <div class="col-12">
+                    <div class="card p-4">
+
+                        <p:growl id="messages" showDetail="true" life="2500"/>
+
+                        <p:toolbar styleClass="mb-4">
+                            <p:toolbarGroup align="right">
+                                <p:commandButton value="Descargar" icon="pi pi-download" styleClass="ui-button-secondary" ajax="false">
+                                    <p:dataExporter type="pdf" target="dtIncidencias" fileName="incidencias"/>
+                                </p:commandButton>
+                            </p:toolbarGroup>
+                        </p:toolbar>
+
+                        <p:dataTable id="dtIncidencias" widgetVar="dtIncidencias" lazy="false" value="#{incidenciaBean.lstIncidencias}" var="incidencia" rowKey="#{incidencia.idIncidencia}">
+                            <p:column headerText="# Empleado">
+                                <p:outputLabel value="#{incidencia.detEmpleadoDTO.numEmpleado}"/>
+                            </p:column>
+                            <p:column headerText="Nombre">
+                                <p:outputLabel value="#{incidencia.detEmpleadoDTO.nombre} #{incidencia.detEmpleadoDTO.primerAp} #{incidencia.detEmpleadoDTO.segundoAp}"/>
+                            </p:column>
+                            <p:column headerText="Tipo Incidencia">
+                                <p:outputLabel value="#{incidencia.catTipoIncidenciaDTO.idTipo eq 1 ? incidencia.detSolicitudPermisoDTO.catTipoSolicitud.descripcion :''}"/>
+                            </p:column>
+                            <p:column headerText="Fecha Inicio">
+                                <p:outputLabel value="#{incidencia.catTipoIncidenciaDTO.idTipo eq 1 ? incidencia.detSolicitudPermisoDTO.fechaInicio :''}">
+                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Fecha Fin">
+                                <p:outputLabel value="#{incidencia.catTipoIncidenciaDTO.idTipo eq 1 ? incidencia.detSolicitudPermisoDTO.fechaFin :''}">
+                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Fecha Captura">
+                                <p:outputLabel value="#{incidencia.catTipoIncidenciaDTO.idTipo eq 1 ? incidencia.fechaCap :''}">
+                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Estatus">
+                                <p:outputLabel value="#{incidencia.catEstatusIncidenciaDTO.descripcion}"/>
+                            </p:column>
+                            <p:column exportable="false">
+                                <p:button icon="pi pi-check" styleClass="rounded-button ui-button-success mr-2 mb-2" />
+                                <p:button icon="pi pi-times" styleClass="rounded-button ui-button-danger mr-2 mb-2" />
+                            </p:column>
+                            
+                        </p:dataTable>
+                        
+                    </div>
+                </div>                
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

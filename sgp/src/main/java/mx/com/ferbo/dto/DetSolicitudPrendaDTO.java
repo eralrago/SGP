@@ -18,13 +18,14 @@ public class DetSolicitudPrendaDTO implements Serializable {
 	private Date fechaMod;
 	private Integer idEmpleadoSol;
 	private Integer idEmpleadoRev;
+	private Integer idTalla;
 	
 	public DetSolicitudPrendaDTO() {
 		
 	}
 
 	public DetSolicitudPrendaDTO(Integer idSolicitud, Integer idPrenda, int cantidad, Short aprobada, Date fechaCap,
-			Date fechaMod, Integer idEmpleadoSol, Integer idEmpleadoRev) {
+			Date fechaMod, Integer idEmpleadoSol, Integer idEmpleadoRev, Integer idTalla) {
 		super();
 		this.idSolicitud = idSolicitud;
 		this.idPrenda = idPrenda;
@@ -34,6 +35,7 @@ public class DetSolicitudPrendaDTO implements Serializable {
 		this.fechaMod = fechaMod;
 		this.idEmpleadoSol = idEmpleadoSol;
 		this.idEmpleadoRev = idEmpleadoRev;
+		this.idTalla = idTalla;
 	}
 
 	public Integer getIdSolicitud() {
@@ -98,6 +100,14 @@ public class DetSolicitudPrendaDTO implements Serializable {
 
 	public void setIdEmpleadoRev(Integer idEmpleadoRev) {
 		this.idEmpleadoRev = idEmpleadoRev;
+	}
+
+	public Integer getIdTalla() {
+		return idTalla;
+	}
+
+	public void setIdTalla(Integer idTalla) {
+		this.idTalla = idTalla;
 	}
 	
 	

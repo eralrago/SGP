@@ -36,13 +36,9 @@ public class BienvenidaBean implements Serializable {
 	private FacesContext faceContext;
     private HttpServletRequest httpServletRequest;
 	
-	/*private FacesContext faceContext;
-    private HttpServletRequest httpServletRequest;*/
-	
 	public BienvenidaBean() {
 		empleadoDAO = new EmpleadoDAO();
 		empleadoSelected = new DetEmpleadoDTO();
-		// setNumeroEmpl("0006");
 		dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
 		fechaActual = new Date();
 		strFechaActual = getDateFormat().format(getFechaActual());
@@ -64,7 +60,6 @@ public class BienvenidaBean implements Serializable {
 	}
 	
 	public void empleadoLogeado() {
-		// empleadoSelected = empleadoDAO.buscarPorNumEmpl(getNumeroEmpl());
 		int diaActual = currentDate.getDayOfMonth();
 		int mesActual = currentDate.getMonthValue();
 		strFechaCumpleanios = getDateFormat().format(empleadoSelected.getFechaNacimiento());
@@ -74,7 +69,6 @@ public class BienvenidaBean implements Serializable {
 		if(diaActual == diaCumpleanios && mesActual == mesCumpleanios) {
 			strCumpleanios = "¡Feliz Cumpleaños " + empleadoSelected.getNombre() + " " + empleadoSelected.getPrimerAp() + " " + empleadoSelected.getSegundoAp() + "!";
 		} 
-		// return "protected/registroAsistencia.xhtml";
 	}
 
 	public DetEmpleadoDTO getEmpleadoSelected() {

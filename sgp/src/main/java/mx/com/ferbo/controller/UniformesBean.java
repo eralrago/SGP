@@ -1,29 +1,32 @@
 package mx.com.ferbo.controller;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+
+import org.primefaces.PrimeFaces;
 
 import mx.com.ferbo.dao.CatPrendaDAO;
+import mx.com.ferbo.dao.CatTallaDAO;
 import mx.com.ferbo.dao.DetSolicitudPrendaDAO;
 import mx.com.ferbo.dao.EmpleadoDAO;
 import mx.com.ferbo.dto.CatPrendaDTO;
+import mx.com.ferbo.dto.CatTallaDTO;
 import mx.com.ferbo.dto.DetEmpleadoDTO;
 import mx.com.ferbo.dto.DetSolicitudPrendaDTO;
-import mx.com.ferbo.model.CatPrenda;
-import mx.com.ferbo.util.SGPException;
 
 
 @Named(value = "uniformesBean")
-@ViewScoped
+@RequestScoped
 public class UniformesBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -31,7 +34,9 @@ public class UniformesBean implements Serializable {
 	private String numeroEmpl;
 
 	private List<CatPrendaDTO> lstPrendasActivas;
-	private List<CatPrendaDTO> selectedPrendas;
+	private List<CatTallaDTO> lstTallasActivas;
+	private List<Integer> lstCantidad;
+	private List<DetSolicitudPrendaDTO> lstSolicitudPrendas;
 	
 	private DetEmpleadoDTO empleadoSelected;
 	private DetSolicitudPrendaDTO solicitud;
@@ -39,58 +44,57 @@ public class UniformesBean implements Serializable {
 	private CatPrendaDAO uniformesDAO;
 	private final EmpleadoDAO empleadoDAO;
 	private DetSolicitudPrendaDAO detSolicitudPrendaDAO;
+	private CatTallaDAO tallaDAO;
 	
 	private CatPrendaDTO prendaSelected;
+	private CatTallaDTO tallaSelected;
+	private Integer cantidadSelected;
+	
+	private FacesContext faceContext;
+	private HttpServletRequest httpServletRequest;
 	
 	public UniformesBean() {
-		empleadoSelected = new DetEmpleadoDTO();
 		lstPrendasActivas = new ArrayList<>();
-		selectedPrendas = new ArrayList<>();
+		lstTallasActivas = new ArrayList<>();
+		lstCantidad = new ArrayList<>(
+	            Arrays.asList(1, 2, 3));
+		
+		empleadoSelected = new DetEmpleadoDTO();
+		prendaSelected = new CatPrendaDTO();
+		tallaSelected = new CatTallaDTO();
+		cantidadSelected = 0;
 		solicitud = new DetSolicitudPrendaDTO();
+		
 		uniformesDAO = new CatPrendaDAO();
+		tallaDAO = new CatTallaDAO();
 		empleadoDAO = new EmpleadoDAO();
 		detSolicitudPrendaDAO = new DetSolicitudPrendaDAO();
-		// setNumeroEmpl("0006");
-		prendaSelected = new CatPrendaDTO();
+
+		faceContext = FacesContext.getCurrentInstance();
+		httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
+        this.empleadoSelected = (DetEmpleadoDTO) httpServletRequest.getSession(true).getAttribute("empleado");
 	}
 	
 	@PostConstruct
     public void init() {
-		empleadoSelected = empleadoDAO.buscarPorNumEmpl(getNumeroEmpl());
+		lstSolicitudPrendas = new ArrayList<>();
 		lstPrendasActivas = uniformesDAO.buscarActivo();
+		lstTallasActivas = tallaDAO.buscarActivo();
 	}
 	
-	public String getDeleteButtonMessage() {
-		if (hasSelectedPrendas()) {
-            int size = this.selectedPrendas.size();
-            return size > 1 ? size + " Prendas Seleccionada" : "1 Prenda Seleccionada";
-        }
-        return "Agregar";
-	}
-
-	public boolean hasSelectedPrendas() {
-        return this.selectedPrendas != null && !this.selectedPrendas.isEmpty();
-    }
-	
-	public void registro() {
-		for(CatPrendaDTO prenda : selectedPrendas) {
-//			System.out.println(prenda.getDescripcion());
-			solicitud.setIdPrenda(prenda.getIdPrenda());
-			solicitud.setIdEmpleadoSol(empleadoSelected.getIdEmpleado());
-			solicitud.setCantidad(1);
-			solicitud.setAprobada((short) 0);
-			solicitud.setFechaCap(new Date());
-			solicitud.setFechaMod(null);
-			solicitud.setIdEmpleadoRev(null);
-			try {
-				detSolicitudPrendaDAO.guardar(solicitud);
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Registro exitoso."));
-				FacesContext.getCurrentInstance().getExternalContext().redirect("uniformes.xhtml");
-			} catch (SGPException | IOException e) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al Registrar la Solicitud"));
-			}
-			
-		}
+	public void preRegistro() {
+		solicitud.setIdPrenda(prendaSelected.getIdPrenda());
+		solicitud.setCantidad(cantidadSelected);
+		solicitud.setIdEmpleadoSol(empleadoSelected.getIdEmpleado());
+		solicitud.setIdTalla(tallaSelected.getIdTalla());
+		solicitud.setFechaCap(new Date());
+		solicitud.setAprobada((short)0);
+		lstSolicitudPrendas.add(solicitud);
+		
+		
+		
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Uniforme Registrtado"));
+        PrimeFaces.current().ajax().update("form:messages", "form:dt-uniformes");
 	}
 
 	public List<CatPrendaDTO> getLstPrendasActivas() {
@@ -99,14 +103,6 @@ public class UniformesBean implements Serializable {
 
 	public void setLstPrendasActivas(List<CatPrendaDTO> lstPrendasActivas) {
 		this.lstPrendasActivas = lstPrendasActivas;
-	}
-
-	public List<CatPrendaDTO> getSelectedPrendas() {
-		return selectedPrendas;
-	}
-
-	public void setSelectedPrendas(List<CatPrendaDTO> selectedPrendas) {
-		this.selectedPrendas = selectedPrendas;
 	}
 
 	public DetEmpleadoDTO getEmpleadoSelected() {
@@ -143,6 +139,46 @@ public class UniformesBean implements Serializable {
 
 	public void setPrendaSelected(CatPrendaDTO prendaSelected) {
 		this.prendaSelected = prendaSelected;
+	}
+
+	public List<CatTallaDTO> getLstTallasActivas() {
+		return lstTallasActivas;
+	}
+
+	public void setLstTallasActivas(List<CatTallaDTO> lstTallasActivas) {
+		this.lstTallasActivas = lstTallasActivas;
+	}
+
+	public CatTallaDTO getTallaSelected() {
+		return tallaSelected;
+	}
+
+	public void setTallaSelected(CatTallaDTO tallaSelected) {
+		this.tallaSelected = tallaSelected;
+	}
+
+	public List<Integer> getLstCantidad() {
+		return lstCantidad;
+	}
+
+	public void setLstCantidad(List<Integer> lstCantidad) {
+		this.lstCantidad = lstCantidad;
+	}
+
+	public Integer getCantidadSelected() {
+		return cantidadSelected;
+	}
+
+	public void setCantidadSelected(Integer cantidadSelected) {
+		this.cantidadSelected = cantidadSelected;
+	}
+
+	public List<DetSolicitudPrendaDTO> getLstSolicitudPrendas() {
+		return lstSolicitudPrendas;
+	}
+
+	public void setLstSolicitudPrendas(List<DetSolicitudPrendaDTO> lstSolicitudPrendas) {
+		this.lstSolicitudPrendas = lstSolicitudPrendas;
 	}
 
 	

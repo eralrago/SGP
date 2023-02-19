@@ -57,6 +57,9 @@ public class DetSolicitudPrenda implements Serializable {
     @JoinColumn(name = "id_empleado_sol", referencedColumnName = "id_empleado")
     @ManyToOne(optional = false)
     private DetEmpleado idEmpleadoSol;
+    @JoinColumn(name = "id_talla", referencedColumnName = "id_talla")
+    @ManyToOne(optional = false)
+    private CatTalla idTalla;
 
     public DetSolicitudPrenda() {
     }

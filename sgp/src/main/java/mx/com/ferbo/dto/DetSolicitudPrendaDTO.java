@@ -11,31 +11,31 @@ public class DetSolicitudPrendaDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer idSolicitud;
-	private Integer idPrenda;
+	private CatPrendaDTO prenda;
 	private int cantidad;
 	private Short aprobada;
 	private Date fechaCap;
 	private Date fechaMod;
 	private Integer idEmpleadoSol;
 	private Integer idEmpleadoRev;
-	private Integer idTalla;
+	private CatTallaDTO talla;
 	
 	public DetSolicitudPrendaDTO() {
 		
 	}
 
-	public DetSolicitudPrendaDTO(Integer idSolicitud, Integer idPrenda, int cantidad, Short aprobada, Date fechaCap,
-			Date fechaMod, Integer idEmpleadoSol, Integer idEmpleadoRev, Integer idTalla) {
+	public DetSolicitudPrendaDTO(Integer idSolicitud, CatPrendaDTO prenda, int cantidad, Short aprobada, Date fechaCap,
+			Date fechaMod, Integer idEmpleadoSol, Integer idEmpleadoRev, CatTallaDTO talla) {
 		super();
 		this.idSolicitud = idSolicitud;
-		this.idPrenda = idPrenda;
+		this.prenda = prenda;
 		this.cantidad = cantidad;
 		this.aprobada = aprobada;
 		this.fechaCap = fechaCap;
 		this.fechaMod = fechaMod;
 		this.idEmpleadoSol = idEmpleadoSol;
 		this.idEmpleadoRev = idEmpleadoRev;
-		this.idTalla = idTalla;
+		this.talla = talla;
 	}
 
 	public Integer getIdSolicitud() {
@@ -46,12 +46,12 @@ public class DetSolicitudPrendaDTO implements Serializable {
 		this.idSolicitud = idSolicitud;
 	}
 
-	public Integer getIdPrenda() {
-		return idPrenda;
+	public CatPrendaDTO getPrenda() {
+		return prenda;
 	}
 
-	public void setIdPrenda(Integer idPrenda) {
-		this.idPrenda = idPrenda;
+	public void setPrenda(CatPrendaDTO prenda) {
+		this.prenda = prenda;
 	}
 
 	public int getCantidad() {
@@ -102,12 +102,12 @@ public class DetSolicitudPrendaDTO implements Serializable {
 		this.idEmpleadoRev = idEmpleadoRev;
 	}
 
-	public Integer getIdTalla() {
-		return idTalla;
+	public CatTallaDTO getTalla() {
+		return talla;
 	}
 
-	public void setIdTalla(Integer idTalla) {
-		this.idTalla = idTalla;
+	public void setTalla(CatTallaDTO talla) {
+		this.talla = talla;
 	}
 	
 	

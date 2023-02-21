@@ -4,12 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,7 +28,7 @@ import mx.com.ferbo.dto.DetSolicitudPrendaDTO;
 
 
 @Named(value = "uniformesBean")
-@RequestScoped
+@ViewScoped
 public class UniformesBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -37,6 +39,8 @@ public class UniformesBean implements Serializable {
 	private List<CatTallaDTO> lstTallasActivas;
 	private List<Integer> lstCantidad;
 	private List<DetSolicitudPrendaDTO> lstSolicitudPrendas;
+	
+	private Hashtable<String, String> prendasTallasCantidad;
 	
 	private DetEmpleadoDTO empleadoSelected;
 	private DetSolicitudPrendaDTO solicitud;
@@ -58,12 +62,13 @@ public class UniformesBean implements Serializable {
 		lstTallasActivas = new ArrayList<>();
 		lstCantidad = new ArrayList<>(
 	            Arrays.asList(1, 2, 3));
+		prendasTallasCantidad = new Hashtable<String, String>();
 		
 		empleadoSelected = new DetEmpleadoDTO();
 		prendaSelected = new CatPrendaDTO();
 		tallaSelected = new CatTallaDTO();
 		cantidadSelected = 0;
-		solicitud = new DetSolicitudPrendaDTO();
+		// solicitud = new DetSolicitudPrendaDTO();
 		
 		uniformesDAO = new CatPrendaDAO();
 		tallaDAO = new CatTallaDAO();
@@ -83,17 +88,21 @@ public class UniformesBean implements Serializable {
 	}
 	
 	public void preRegistro() {
-		solicitud.setIdPrenda(prendaSelected.getIdPrenda());
+		solicitud = new DetSolicitudPrendaDTO();
+		
+		this.prendaSelected = uniformesDAO.buscarPorId(prendaSelected.getIdPrenda());
+		this.tallaSelected = tallaDAO.buscarPorId(tallaSelected.getIdTalla());
+		
+		solicitud.setPrenda(prendaSelected);
+		solicitud.setTalla(tallaSelected);
 		solicitud.setCantidad(cantidadSelected);
-		solicitud.setIdEmpleadoSol(empleadoSelected.getIdEmpleado());
-		solicitud.setIdTalla(tallaSelected.getIdTalla());
 		solicitud.setFechaCap(new Date());
 		solicitud.setAprobada((short)0);
+		solicitud.setIdEmpleadoSol(empleadoSelected.getIdEmpleado());
+
 		lstSolicitudPrendas.add(solicitud);
 		
-		
-		
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Uniforme Registrtado"));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Uniforme Registrado"));
         PrimeFaces.current().ajax().update("form:messages", "form:dt-uniformes");
 	}
 
@@ -179,6 +188,14 @@ public class UniformesBean implements Serializable {
 
 	public void setLstSolicitudPrendas(List<DetSolicitudPrendaDTO> lstSolicitudPrendas) {
 		this.lstSolicitudPrendas = lstSolicitudPrendas;
+	}
+
+	public Hashtable<String, String> getPrendasTallasCantidad() {
+		return prendasTallasCantidad;
+	}
+
+	public void setPrendasTallasCantidad(Hashtable<String, String> prendasTallasCantidad) {
+		this.prendasTallasCantidad = prendasTallasCantidad;
 	}
 
 	

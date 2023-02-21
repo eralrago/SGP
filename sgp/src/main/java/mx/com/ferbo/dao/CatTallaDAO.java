@@ -11,8 +11,7 @@ public class CatTallaDAO extends IBaseDAO<CatTallaDTO, Integer>{
 
 	@Override
 	public CatTallaDTO buscarPorId(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return emSGP.createNamedQuery("CatTalla.findForId", CatTallaDTO.class).setParameter("idTalla", id).getSingleResult();
 	}
 
 	@Override

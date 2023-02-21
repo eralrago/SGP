@@ -40,16 +40,17 @@
 						<p:dataTable id="dt-uniformes" widgetVar="dtUniformes"
 							var="uniforme" value="#{uniformesBean.lstSolicitudPrendas}"
 							reflow="true" styleClass="products-table">
-							<p:column headerText="Prenda" sortBy="#{uniforme.getIdPrenda()}" width="100px">
-								<h:outputText value="#{uniforme.getIdPrenda()}" />
+							<p:column headerText="Prenda" sortBy="#{uniforme.getPrenda().idPrenda}" width="100px">
+								<h:outputText value="#{uniforme.getPrenda().descripcion}" />
 							</p:column>
-							<p:column headerText="Cantidad" sortBy="#{uniforme.getCantidad()}" width="100px">
-								<h:outputText value="#{uniforme.getCantidad()}" />
+							<p:column headerText="Cantidad" sortBy="#{uniforme.cantidad}" width="100px">
+								<h:outputText value="#{uniforme.cantidad}" />
 							</p:column>
-							<p:column headerText="Talla" sortBy="#{uniforme.getIdTalla()}" width="100px">
-								<h:outputText value="#{uniforme.getIdTalla()}" />
+							<p:column headerText="Talla" sortBy="#{uniforme.getTalla().idTalla}" width="100px">
+								<h:outputText value="#{uniforme.getTalla().descripcion}" />
 							</p:column>
 						</p:dataTable>
+
 
 						<div class="col-12">
 							<div class="card">

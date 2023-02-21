@@ -12,6 +12,7 @@ public class DetIncidenciaDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer idIncidencia;
     private DetEmpleadoDTO detEmpleadoDTO;
+    private DetEmpleadoDTO detEmpleadoRevDTO;
     private Short visible;
     private Date fechaCap;
     private Date fechaMod;
@@ -24,9 +25,13 @@ public class DetIncidenciaDTO implements Serializable {
     public DetIncidenciaDTO() {
     }
 
+    /*
+     * Método que se utilizar para la NamedQuery:
+     * DetIncidencia.findAll
+     */
     public DetIncidenciaDTO(Integer idIncidencia, Short visible, Date fechaCap, Date fechaMod, Integer idEmpleado, String numEmpleado, 
             String nombre, String primerAp, String segundoAp,Integer idTipoIncidencia, String descripcionTipo, Integer idEstatus, String descripcionEstatus,
-            Date fechaInicio, Date fechaFin, Integer idTipoSolicitud, String descripcion) {
+            Integer idSolicitud, Date fechaCapSol, Date fechaModSol, Date fechaInicio, Date fechaFin, Short aprobada, Integer idTipoSolicitud, String descripcion) {
         this.idIncidencia = idIncidencia;
         this.visible = visible;
         this.fechaCap = fechaCap;
@@ -34,7 +39,7 @@ public class DetIncidenciaDTO implements Serializable {
         this.detEmpleadoDTO = new DetEmpleadoDTO(idEmpleado, numEmpleado, nombre, primerAp, segundoAp);
         this.catTipoIncidenciaDTO = new CatTipoIncidenciaDTO(idTipoIncidencia, descripcionTipo);
         this.catEstatusIncidenciaDTO = new CatEstatusIncidenciaDTO(idEstatus, descripcionEstatus, (short)1);
-        this.detSolicitudPermisoDTO = new DetSolicitudPermisoDTO(null, null, null, fechaInicio, fechaFin, null, idTipoSolicitud, descripcion);
+        this.detSolicitudPermisoDTO = new DetSolicitudPermisoDTO(idSolicitud, fechaCapSol, fechaModSol, fechaInicio, fechaFin, aprobada, idTipoSolicitud, descripcion, idEmpleado);
     }
     
     public Integer getIdIncidencia() {
@@ -51,6 +56,14 @@ public class DetIncidenciaDTO implements Serializable {
 
     public void setDetEmpleadoDTO(DetEmpleadoDTO detEmpleadoDTO) {
         this.detEmpleadoDTO = detEmpleadoDTO;
+    }
+
+    public DetEmpleadoDTO getDetEmpleadoRevDTO() {
+        return detEmpleadoRevDTO;
+    }
+
+    public void setDetEmpleadoRevDTO(DetEmpleadoDTO detEmpleadoRevDTO) {
+        this.detEmpleadoRevDTO = detEmpleadoRevDTO;
     }
 
     public Short getVisible() {

@@ -17,6 +17,7 @@ public class DetSolicitudPermisoDTO implements Serializable {
     private Date fechaInicio;
     private Date fechaFin;
     private Short aprobada;
+    private String descripcionRechazo;
     private DetEmpleadoDTO empleadoSol;
     private DetEmpleadoDTO empleadoRev;
     private CatTipoSolicitudDTO catTipoSolicitud;
@@ -29,7 +30,7 @@ public class DetSolicitudPermisoDTO implements Serializable {
         this.idSolicitud = idSolicitud;
     }
     public DetSolicitudPermisoDTO(Integer idSolicitud, Date fechaCap, Date fechaMod, Date fechaInicio, Date fechaFin, Short aprobada,
-                                  Integer idTipoSolicitud, String descripcionTipo) {
+                                  Integer idTipoSolicitud, String descripcionTipo, Integer idEmpleado) {
         this.idSolicitud = idSolicitud;
         this.fechaCap = fechaCap;
         this.fechaMod = fechaMod;
@@ -37,6 +38,7 @@ public class DetSolicitudPermisoDTO implements Serializable {
         this.fechaFin = fechaFin;
         this.aprobada = aprobada;
         this.catTipoSolicitud = new CatTipoSolicitudDTO(idTipoSolicitud, descripcionTipo);
+        this.empleadoSol = new DetEmpleadoDTO(idEmpleado);
     }
 
     public Integer getIdSolicitud() {
@@ -111,4 +113,11 @@ public class DetSolicitudPermisoDTO implements Serializable {
         this.catTipoSolicitud = catTipoSolicitud;
     }
 
+    public String getDescripcionRechazo() {
+        return descripcionRechazo;
+    }
+
+    public void setDescripcionRechazo(String descripcionRechazo) {
+        this.descripcionRechazo = descripcionRechazo;
+    }
 }

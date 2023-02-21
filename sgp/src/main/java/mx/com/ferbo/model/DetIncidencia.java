@@ -38,8 +38,12 @@ import javax.validation.constraints.NotNull;
             + " ct.descripcion,"
             + " ce.idEstatus,"
             + " ce.descripcion,"
+            + " sp.idSolicitud,"
+            + " sp.fechaCap,"
+            + " sp.fechaMod,"
             + " sp.fechaInicio,"
             + " sp.fechaFin,"
+            + " sp.aprobada,"
             + " tp.idTipoSolicitud,"
             + " tp.descripcion"
             + ")"
@@ -61,6 +65,9 @@ public class DetIncidencia implements Serializable {
     @JoinColumn(name = "id_empleado", referencedColumnName = "id_empleado")
     @ManyToOne
     private DetEmpleado idEmpleado;
+    @JoinColumn(name = "id_empleado_rev", referencedColumnName = "id_empleado")
+    @ManyToOne
+    private DetEmpleado idEmpleadoRev;
     @Column(name = "visible")
     private Short visible;
     @JoinColumn(name = "id_estatus", referencedColumnName = "id_estatus")
@@ -108,6 +115,13 @@ public class DetIncidencia implements Serializable {
 
     public void setIdEmpleado(DetEmpleado idEmpleado) {
         this.idEmpleado = idEmpleado;
+    }
+    public DetEmpleado getIdEmpleadoRev() {
+        return idEmpleadoRev;
+    }
+
+    public void setIdEmpleadoRev(DetEmpleado idEmpleadoRev) {
+        this.idEmpleadoRev = idEmpleadoRev;
     }
 
     public Short getVisible() {

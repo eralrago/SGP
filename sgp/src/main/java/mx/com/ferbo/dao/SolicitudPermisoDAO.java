@@ -8,11 +8,8 @@ import mx.com.ferbo.commons.dao.IBaseDAO;
 import mx.com.ferbo.dto.DetEmpleadoDTO;
 import mx.com.ferbo.dto.DetIncidenciaDTO;
 import mx.com.ferbo.dto.DetSolicitudPermisoDTO;
-import mx.com.ferbo.model.CatEstatusIncidencia;
-import mx.com.ferbo.model.CatTipoIncidencia;
 import mx.com.ferbo.model.CatTipoSolicitud;
 import mx.com.ferbo.model.DetEmpleado;
-import mx.com.ferbo.model.DetIncidencia;
 import mx.com.ferbo.model.DetSolicitudPermiso;
 import mx.com.ferbo.util.SGPException;
 
@@ -46,7 +43,26 @@ public class SolicitudPermisoDAO extends IBaseDAO<DetSolicitudPermisoDTO, Intege
     
     @Override
     public void actualizar(DetSolicitudPermisoDTO e) throws SGPException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            emSGP.getTransaction().begin();
+            final DetSolicitudPermiso solicitud = new DetSolicitudPermiso();
+            solicitud.setIdSolicitud(e.getIdSolicitud());
+            solicitud.setAprobada(e.getAprobada());
+            solicitud.setFechaCap(e.getFechaCap());
+            solicitud.setFechaInicio(e.getFechaInicio());
+            solicitud.setFechaFin(e.getFechaFin());
+            solicitud.setFechaMod(new Date());
+            solicitud.setIdEmpleadoRev(emSGP.getReference(DetEmpleado.class,e.getEmpleadoRev().getIdEmpleado()));
+            solicitud.setIdEmpleadoSol(emSGP.getReference(DetEmpleado.class, e.getEmpleadoSol().getIdEmpleado()));
+            solicitud.setIdTipoSolicitud(emSGP.getReference(CatTipoSolicitud.class, e.getCatTipoSolicitud().getIdTipoSolicitud()));
+            solicitud.setDescripcionRechazo(e.getDescripcionRechazo());
+            emSGP.merge(solicitud);
+            emSGP.getTransaction().commit();
+            emSGP.detach(solicitud);
+        } catch (Exception ex) {
+            emSGP.getTransaction().rollback();
+            throw new SGPException("Error al guardar la solicitud");
+        }
     }
     
     @Override

@@ -538,3 +538,9 @@ WHERE fecha_cap IS NULL;
 ALTER TABLE sgp.det_incidencia MODIFY COLUMN fecha_cap datetime NOT NULL;
 
 ALTER TABLE sgp.det_incidencia ADD CONSTRAINT fk_incidencia_empleado FOREIGN KEY (id_empleado) REFERENCES sgp.det_empleado(id_empleado);
+
+--------------20-02-2023-------------------------
+ALTER TABLE sgp.det_solicitud_permiso ADD descripcion_rechazo varchar(150) NULL;
+ALTER TABLE sgp.det_incidencia ADD id_empleado_rev int unsigned NULL;
+
+ALTER TABLE sgp.det_incidencia ADD CONSTRAINT fk_incidencia_empleado_rev FOREIGN KEY (id_empleado_rev) REFERENCES sgp.det_empleado(id_empleado);

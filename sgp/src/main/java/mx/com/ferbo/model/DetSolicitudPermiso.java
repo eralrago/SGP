@@ -71,6 +71,8 @@ public class DetSolicitudPermiso implements Serializable {
     private Date fechaFin;
     @Column(name = "aprobada")
     private Short aprobada;
+    @Column(name = "descripcion_rechazo")
+    private String descripcionRechazo;
     @OneToMany(mappedBy = "idSolPermiso")
     private List<DetIncidencia> detIncidenciaList;
     @JoinColumn(name = "id_tipo_solicitud", referencedColumnName = "id_tipo_solicitud")
@@ -176,4 +178,13 @@ public class DetSolicitudPermiso implements Serializable {
     public void setIdEmpleadoRev(DetEmpleado idEmpleadoRev) {
         this.idEmpleadoRev = idEmpleadoRev;
     }
+
+    public String getDescripcionRechazo() {
+        return descripcionRechazo;
+    }
+
+    public void setDescripcionRechazo(String descripcionRechazo) {
+        this.descripcionRechazo = descripcionRechazo;
+    }
+    
 }

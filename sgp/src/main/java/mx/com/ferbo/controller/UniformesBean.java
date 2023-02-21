@@ -6,9 +6,10 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -62,7 +63,6 @@ public class UniformesBean implements Serializable {
 		lstTallasActivas = new ArrayList<>();
 		lstCantidad = new ArrayList<>(
 	            Arrays.asList(1, 2, 3));
-		prendasTallasCantidad = new Hashtable<String, String>();
 		
 		empleadoSelected = new DetEmpleadoDTO();
 		prendaSelected = new CatPrendaDTO();
@@ -100,46 +100,34 @@ public class UniformesBean implements Serializable {
 		solicitud.setAprobada((short)0);
 		solicitud.setIdEmpleadoSol(empleadoSelected.getIdEmpleado());
 		
-//		if (lstSolicitudPrendas.isEmpty()) {
-//			if (lstSolicitudPrendas.contains(prendaSelected.getDescripcion())) {
-//				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning", "Ya ha agregado esa prenda a su solicitud."));
-//		        PrimeFaces.current().ajax().update("form:messages", "form:dt-uniformes");
-//			} if (lstSolicitudPrendas.contains(prendaSelected.getDescripcion()) && lstSolicitudPrendas.contains(cantidadSelected)) {
-//				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning", "Ha sobrepasado la cantidad de esa prenda."));
-//		        PrimeFaces.current().ajax().update("form:messages", "form:dt-uniformes");
-//			} else {
-//				lstSolicitudPrendas.add(solicitud);
-//			}
-//		} else {
-//			if (lstSolicitudPrendas.contains(prendaSelected.getDescripcion())) {
-//				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning", "Ya ha agregado esa prenda a su solicitud."));
-//		        PrimeFaces.current().ajax().update("form:messages", "form:dt-uniformes");
-//			} else {
-//				lstSolicitudPrendas.add(solicitud);
-//			}
-//		}
-
-		// lstSolicitudPrendas.add(solicitud);
 		if (lstSolicitudPrendas.isEmpty()) {
 			lstSolicitudPrendas.add(solicitud);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Uniforme Registrado"));
 	        PrimeFaces.current().ajax().update("form:messages", "form:dt-uniformes");
 		} else {
-			for(DetSolicitudPrendaDTO detSolicitudPrendaDTO : lstSolicitudPrendas) {
-				if(detSolicitudPrendaDTO.getPrenda().getDescripcion().equals(prendaSelected.getDescripcion())) {
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning", "Ya ha agregado esa prenda a su solicitud."));
-			        PrimeFaces.current().ajax().update("form:messages", "form:dt-uniformes");
-			        break;
-				} else {
+			Stream<DetSolicitudPrendaDTO> streamDeLista = lstSolicitudPrendas.stream();
+		    try (Stream<DetSolicitudPrendaDTO> streamFiltrado = streamDeLista.filter(elemento -> elemento.getPrenda().getDescripcion().equals(prendaSelected.getDescripcion()))) {
+				Optional<DetSolicitudPrendaDTO> elementoEncontrado = streamFiltrado.findFirst();
+				DetSolicitudPrendaDTO resultado = elementoEncontrado.orElse(null);
+				// System.out.println(resultado.getPrenda().getDescripcion());
+				if (resultado == null){
 					lstSolicitudPrendas.add(solicitud);
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Uniforme Registrado"));
 			        PrimeFaces.current().ajax().update("form:messages", "form:dt-uniformes");
-			        break;
+				} else {
+					if (resultado.getPrenda().getDescripcion().isEmpty() || resultado.getPrenda().getDescripcion() == null || resultado.getPrenda().getDescripcion().equals("")) {
+						lstSolicitudPrendas.add(solicitud);
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Uniforme Registrado"));
+				        PrimeFaces.current().ajax().update("form:messages", "form:dt-uniformes");
+				    } 
+					else {
+				    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning", "Ya ha agregado esa prenda a su solicitud."));
+				        PrimeFaces.current().ajax().update("form:messages", "form:dt-uniformes");
+				    }
 				}
 			}
 		}
-		
-		
+
 	}
 
 	public List<CatPrendaDTO> getLstPrendasActivas() {

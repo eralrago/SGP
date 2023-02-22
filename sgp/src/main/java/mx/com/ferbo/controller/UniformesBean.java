@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -70,7 +69,6 @@ public class UniformesBean implements Serializable {
 		prendaSelected = new CatPrendaDTO();
 		tallaSelected = new CatTallaDTO();
 		cantidadSelected = 0;
-		// solicitud = new DetSolicitudPrendaDTO();
 		
 		uniformesDAO = new CatPrendaDAO();
 		tallaDAO = new CatTallaDAO();
@@ -103,7 +101,6 @@ public class UniformesBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning", "Ya ha agregado esa prenda a su solicitud."));
 		}
 		PrimeFaces.current().ajax().update("form:messages", "form:dt-uniformes", "form:uniformeDialog");
-		
 		solicitud = new DetSolicitudPrendaDTO();
 	}
 	
@@ -219,6 +216,5 @@ public class UniformesBean implements Serializable {
 	public void setSolicitud(DetSolicitudPrendaDTO solicitud) {
 		this.solicitud = solicitud;
 	}
-
 	
 }

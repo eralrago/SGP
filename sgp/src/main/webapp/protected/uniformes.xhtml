@@ -39,18 +39,21 @@
 
 						<p:dataTable id="dt-uniformes" widgetVar="dtUniformes"
 							var="uniforme" value="#{uniformesBean.lstSolicitudPrendas}"
-							reflow="true" styleClass="products-table" rowKey="uniforme.idSolicitud">
-							<p:column headerText="Prenda" sortBy="#{uniforme.getPrenda().idPrenda}" width="100px">
+							reflow="true" styleClass="products-table"
+							rowKey="uniforme.idSolicitud">
+							<p:column headerText="Prenda"
+								sortBy="#{uniforme.getPrenda().idPrenda}" width="100px">
 								<h:outputText value="#{uniforme.getPrenda().descripcion}" />
 							</p:column>
-							<p:column headerText="Cantidad" sortBy="#{uniforme.cantidad}" width="100px">
+							<p:column headerText="Cantidad" sortBy="#{uniforme.cantidad}"
+								width="100px">
 								<h:outputText value="#{uniforme.cantidad}" />
 							</p:column>
-							<p:column headerText="Talla" sortBy="#{uniforme.getTalla().idTalla}" width="100px">
+							<p:column headerText="Talla"
+								sortBy="#{uniforme.getTalla().idTalla}" width="100px">
 								<h:outputText value="#{uniforme.getTalla().descripcion}" />
 							</p:column>
 						</p:dataTable>
-
 
 						<div class="col-12">
 							<div class="card">
@@ -90,8 +93,8 @@
 				</div>
 			</div>
 
-			<p:dialog id="uniformeDialog" header="Uniformes" showEffect="fade" modal="true"
-				widgetVar="manageUniformeDialog" responsive="true">
+			<p:dialog id="uniformeDialog" header="Uniformes" showEffect="fade"
+				modal="true" widgetVar="manageUniformeDialog" responsive="true">
 				<p:outputPanel id="manage-uniforme-content" class="ui-fluid">
 					<p:outputPanel>
 

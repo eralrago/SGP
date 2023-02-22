@@ -80,6 +80,8 @@ public class UniformesBean implements Serializable {
 		faceContext = FacesContext.getCurrentInstance();
 		httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
         this.empleadoSelected = (DetEmpleadoDTO) httpServletRequest.getSession(true).getAttribute("empleado");
+        
+        solicitud = new DetSolicitudPrendaDTO();
 	}
 	
 	@PostConstruct
@@ -90,46 +92,19 @@ public class UniformesBean implements Serializable {
 	}
 	
 	public void preRegistro() {
-		solicitud = new DetSolicitudPrendaDTO();
-		
-		this.prendaSelected = uniformesDAO.buscarPorId(prendaSelected.getIdPrenda());
-		this.tallaSelected = tallaDAO.buscarPorId(tallaSelected.getIdTalla());
-		
-		solicitud.setPrenda(prendaSelected);
-		solicitud.setTalla(tallaSelected);
-		solicitud.setCantidad(cantidadSelected);
 		solicitud.setFechaCap(new Date());
-		solicitud.setAprobada((short)0);
 		solicitud.setIdEmpleadoSol(empleadoSelected.getIdEmpleado());
 		
-		if (lstSolicitudPrendas.isEmpty()) {
+		Optional<DetSolicitudPrendaDTO> elementoEncontrado = lstSolicitudPrendas.stream().filter(sol->sol.getPrenda().getIdPrenda() == solicitud.getPrenda().getIdPrenda()).findAny();
+		if (!elementoEncontrado.isPresent()) {
 			lstSolicitudPrendas.add(solicitud);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Uniforme Registrado"));
-	        PrimeFaces.current().ajax().update("form:messages", "form:dt-uniformes");
 		} else {
-			Stream<DetSolicitudPrendaDTO> streamDeLista = lstSolicitudPrendas.stream();
-		    try (Stream<DetSolicitudPrendaDTO> streamFiltrado = streamDeLista.filter(elemento -> elemento.getPrenda().getDescripcion().equals(prendaSelected.getDescripcion()))) {
-				Optional<DetSolicitudPrendaDTO> elementoEncontrado = streamFiltrado.findFirst();
-				DetSolicitudPrendaDTO resultado = elementoEncontrado.orElse(null);
-				// System.out.println(resultado.getPrenda().getDescripcion());
-				if (resultado == null){
-					lstSolicitudPrendas.add(solicitud);
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Uniforme Registrado"));
-			        PrimeFaces.current().ajax().update("form:messages", "form:dt-uniformes");
-				} else {
-					if (resultado.getPrenda().getDescripcion().isEmpty() || resultado.getPrenda().getDescripcion() == null || resultado.getPrenda().getDescripcion().equals("")) {
-						lstSolicitudPrendas.add(solicitud);
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Uniforme Registrado"));
-				        PrimeFaces.current().ajax().update("form:messages", "form:dt-uniformes");
-				    } 
-					else {
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Solicitud Registrada"));
-				        PrimeFaces.current().ajax().update("form:messages", "form:dt-uniformes");
-				    }
-				}
-			}
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning", "Ya ha agregado esa prenda a su solicitud."));
 		}
-
+		PrimeFaces.current().ajax().update("form:messages", "form:dt-uniformes", "form:uniformeDialog");
+		
+		solicitud = new DetSolicitudPrendaDTO();
 	}
 	
 	public void registro () throws IOException {
@@ -141,8 +116,8 @@ public class UniformesBean implements Serializable {
 				e.printStackTrace();
 			}
 		}
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning", "Ya ha agregado esa prenda a su solicitud."));
-		FacesContext.getCurrentInstance().getExternalContext().redirect("protected/registroAsistencia.xhtml");
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Solicitud Registrada"));
+		FacesContext.getCurrentInstance().getExternalContext().redirect("uniformes.xhtml");
 	}
 
 	public List<CatPrendaDTO> getLstPrendasActivas() {
@@ -235,6 +210,14 @@ public class UniformesBean implements Serializable {
 
 	public void setPrendasTallasCantidad(Hashtable<String, String> prendasTallasCantidad) {
 		this.prendasTallasCantidad = prendasTallasCantidad;
+	}
+
+	public DetSolicitudPrendaDTO getSolicitud() {
+		return solicitud;
+	}
+
+	public void setSolicitud(DetSolicitudPrendaDTO solicitud) {
+		this.solicitud = solicitud;
 	}
 
 	

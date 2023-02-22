@@ -92,29 +92,4 @@ public class CatTalla implements Serializable {
         this.detSolicitudPrendaList = detSolicitudPrendaList;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idTalla != null ? idTalla.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CatTalla)) {
-            return false;
-        }
-        CatTalla other = (CatTalla) object;
-        if ((this.idTalla == null && other.idTalla != null) || (this.idTalla != null && !this.idTalla.equals(other.idTalla))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "mx.com.ferbo.model.CatTalla[ idTalla=" + idTalla + " ]";
-    }
-    
 }

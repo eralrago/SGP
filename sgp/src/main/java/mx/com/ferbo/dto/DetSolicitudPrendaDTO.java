@@ -21,7 +21,8 @@ public class DetSolicitudPrendaDTO implements Serializable {
 	private CatTallaDTO talla;
 	
 	public DetSolicitudPrendaDTO() {
-		
+		talla = new CatTallaDTO();
+		prenda = new CatPrendaDTO();
 	}
 
 	public DetSolicitudPrendaDTO(Integer idSolicitud, CatPrendaDTO prenda, int cantidad, Short aprobada, Date fechaCap,

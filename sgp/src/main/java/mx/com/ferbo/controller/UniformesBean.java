@@ -1,5 +1,6 @@
 package mx.com.ferbo.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +27,7 @@ import mx.com.ferbo.dto.CatPrendaDTO;
 import mx.com.ferbo.dto.CatTallaDTO;
 import mx.com.ferbo.dto.DetEmpleadoDTO;
 import mx.com.ferbo.dto.DetSolicitudPrendaDTO;
+import mx.com.ferbo.util.SGPException;
 
 
 @Named(value = "uniformesBean")
@@ -121,13 +123,26 @@ public class UniformesBean implements Serializable {
 				        PrimeFaces.current().ajax().update("form:messages", "form:dt-uniformes");
 				    } 
 					else {
-				    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning", "Ya ha agregado esa prenda a su solicitud."));
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Solicitud Registrada"));
 				        PrimeFaces.current().ajax().update("form:messages", "form:dt-uniformes");
 				    }
 				}
 			}
 		}
 
+	}
+	
+	public void registro () throws IOException {
+		for (DetSolicitudPrendaDTO detSolicitudPrendaDTO : lstSolicitudPrendas) {
+			try {
+				detSolicitudPrendaDAO.guardar(detSolicitudPrendaDTO);
+			} catch (SGPException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning", "Ya ha agregado esa prenda a su solicitud."));
+		FacesContext.getCurrentInstance().getExternalContext().redirect("protected/registroAsistencia.xhtml");
 	}
 
 	public List<CatPrendaDTO> getLstPrendasActivas() {

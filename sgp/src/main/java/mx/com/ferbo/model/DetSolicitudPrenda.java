@@ -145,5 +145,13 @@ public class DetSolicitudPrenda implements Serializable {
     public void setIdEmpleadoSol(DetEmpleado idEmpleadoSol) {
         this.idEmpleadoSol = idEmpleadoSol;
     }
+
+	public CatTalla getIdTalla() {
+		return idTalla;
+	}
+
+	public void setIdTalla(CatTalla idTalla) {
+		this.idTalla = idTalla;
+	}
     
 }

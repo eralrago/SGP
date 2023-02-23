@@ -5,9 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -18,14 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.PrimeFaces;
 
-import mx.com.ferbo.dao.CatPrendaDAO;
-import mx.com.ferbo.dao.CatTallaDAO;
-import mx.com.ferbo.dao.DetSolicitudPrendaDAO;
+import mx.com.ferbo.dao.CatArticulosDAO;
+import mx.com.ferbo.dao.DetSolicitudArticulosDAO;
 import mx.com.ferbo.dao.EmpleadoDAO;
-import mx.com.ferbo.dto.CatPrendaDTO;
-import mx.com.ferbo.dto.CatTallaDTO;
+import mx.com.ferbo.dto.CatArticuloDTO;
 import mx.com.ferbo.dto.DetEmpleadoDTO;
-import mx.com.ferbo.dto.DetSolicitudPrendaDTO;
+import mx.com.ferbo.dto.DetSolicitudArticuloDTO;
 import mx.com.ferbo.util.SGPException;
 
 
@@ -37,83 +33,86 @@ public class ArticulosOficinaBean implements Serializable {
 	
 	private String numeroEmpl;
 
-	private List<CatPrendaDTO> lstPrendasActivas;
+	private List<CatArticuloDTO> lstArticulosActivas;
 	private List<Integer> lstCantidad;
-	private List<DetSolicitudPrendaDTO> lstSolicitudPrendas;
+	private List<DetSolicitudArticuloDTO> lstSolicitudArticulos;
 	
 	private DetEmpleadoDTO empleadoSelected;
-	private DetSolicitudPrendaDTO solicitud;
+	private DetSolicitudArticuloDTO solicitud;
 	
-	private CatPrendaDAO uniformesDAO;
+	private CatArticulosDAO articulosDAO;
 	private final EmpleadoDAO empleadoDAO;
-	private DetSolicitudPrendaDAO detSolicitudPrendaDAO;
+	private DetSolicitudArticulosDAO detSolicitudArticulosDAO;
 	
-	private CatPrendaDTO prendaSelected;
+	private CatArticuloDTO ArticuloSelected;
 	private Integer cantidadSelected;
 	
 	private FacesContext faceContext;
 	private HttpServletRequest httpServletRequest;
 	
 	public ArticulosOficinaBean() {
-		lstPrendasActivas = new ArrayList<>();
+		lstArticulosActivas = new ArrayList<>();
 		lstCantidad = new ArrayList<>(
 	            Arrays.asList(1, 2, 3));
 		
 		empleadoSelected = new DetEmpleadoDTO();
-		prendaSelected = new CatPrendaDTO();
+		ArticuloSelected = new CatArticuloDTO();
 		cantidadSelected = 0;
 		
-		uniformesDAO = new CatPrendaDAO();
+		articulosDAO = new CatArticulosDAO();
 		empleadoDAO = new EmpleadoDAO();
-		detSolicitudPrendaDAO = new DetSolicitudPrendaDAO();
+		detSolicitudArticulosDAO = new DetSolicitudArticulosDAO();
 
 		faceContext = FacesContext.getCurrentInstance();
 		httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
         this.empleadoSelected = (DetEmpleadoDTO) httpServletRequest.getSession(true).getAttribute("empleado");
         
-        solicitud = new DetSolicitudPrendaDTO();
+        solicitud = new DetSolicitudArticuloDTO();
 	}
 	
 	@PostConstruct
     public void init() {
-		lstSolicitudPrendas = new ArrayList<>();
-		lstPrendasActivas = uniformesDAO.buscarActivo();
+		lstSolicitudArticulos = new ArrayList<>();
+		lstArticulosActivas = articulosDAO.buscarActivo();
 	}
 	
 	public void preRegistro() {
 		solicitud.setFechaCap(new Date());
 		solicitud.setIdEmpleadoSol(empleadoSelected.getIdEmpleado());
 		
-		Optional<DetSolicitudPrendaDTO> elementoEncontrado = lstSolicitudPrendas.stream().filter(sol->sol.getPrenda().getIdPrenda() == solicitud.getPrenda().getIdPrenda()).findAny();
-		if (!elementoEncontrado.isPresent()) {
-			lstSolicitudPrendas.add(solicitud);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Uniforme Registrado"));
-		} else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning", "Ya ha agregado esa prenda a su solicitud."));
-		}
-		PrimeFaces.current().ajax().update("form:messages", "form:dt-uniformes", "form:uniformeDialog");
-		solicitud = new DetSolicitudPrendaDTO();
+//		Optional<DetSolicitudArticuloDTO> elementoEncontrado = lstSolicitudArticulos.stream().filter(sol->sol.getArticulo().getIdArticulo() == solicitud.getArticulo().getIdArticulo()).findAny();
+//		if (!elementoEncontrado.isPresent()) {
+//			lstSolicitudArticulos.add(solicitud);
+//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Uniforme Registrado"));
+//		} else {
+//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning", "Ya ha agregado esa Articulo a su solicitud."));
+//		}
+		lstSolicitudArticulos.add(solicitud);
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Articulo Registrado"));
+		PrimeFaces.current().ajax().update("form:messages", "form:dt-articuloOficinas", "form:articuloOficinaDialog");
+		solicitud = new DetSolicitudArticuloDTO();
 	}
 	
 	public void registro () throws IOException {
-		for (DetSolicitudPrendaDTO detSolicitudPrendaDTO : lstSolicitudPrendas) {
+		for (DetSolicitudArticuloDTO detSolicitudArticuloDTO : lstSolicitudArticulos) {
 			try {
-				detSolicitudPrendaDAO.guardar(detSolicitudPrendaDTO);
+				detSolicitudArticulosDAO.guardar(detSolicitudArticuloDTO);
 			} catch (SGPException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+		
+		FacesContext.getCurrentInstance().getExternalContext().redirect("articulosTrabajo.xhtml");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Solicitud Registrada"));
-		FacesContext.getCurrentInstance().getExternalContext().redirect("uniformes.xhtml");
 	}
 
-	public List<CatPrendaDTO> getLstPrendasActivas() {
-		return lstPrendasActivas;
+	public List<CatArticuloDTO> getLstArticulosActivas() {
+		return lstArticulosActivas;
 	}
 
-	public void setLstPrendasActivas(List<CatPrendaDTO> lstPrendasActivas) {
-		this.lstPrendasActivas = lstPrendasActivas;
+	public void setLstArticulosActivas(List<CatArticuloDTO> lstArticulosActivas) {
+		this.lstArticulosActivas = lstArticulosActivas;
 	}
 
 	public DetEmpleadoDTO getEmpleadoSelected() {
@@ -124,12 +123,12 @@ public class ArticulosOficinaBean implements Serializable {
 		this.empleadoSelected = empleadoSelected;
 	}
 
-	public CatPrendaDAO getUniformesDAO() {
-		return uniformesDAO;
+	public CatArticulosDAO getUniformesDAO() {
+		return articulosDAO;
 	}
 
-	public void setUniformesDAO(CatPrendaDAO uniformesDAO) {
-		this.uniformesDAO = uniformesDAO;
+	public void setUniformesDAO(CatArticulosDAO uniformesDAO) {
+		this.articulosDAO = uniformesDAO;
 	}
 
 	public EmpleadoDAO getEmpleadoDAO() {
@@ -144,12 +143,12 @@ public class ArticulosOficinaBean implements Serializable {
 		this.numeroEmpl = numeroEmpl;
 	}
 
-	public CatPrendaDTO getPrendaSelected() {
-		return prendaSelected;
+	public CatArticuloDTO getArticuloSelected() {
+		return ArticuloSelected;
 	}
 
-	public void setPrendaSelected(CatPrendaDTO prendaSelected) {
-		this.prendaSelected = prendaSelected;
+	public void setArticuloSelected(CatArticuloDTO ArticuloSelected) {
+		this.ArticuloSelected = ArticuloSelected;
 	}
 
 	public List<Integer> getLstCantidad() {
@@ -168,19 +167,19 @@ public class ArticulosOficinaBean implements Serializable {
 		this.cantidadSelected = cantidadSelected;
 	}
 
-	public List<DetSolicitudPrendaDTO> getLstSolicitudPrendas() {
-		return lstSolicitudPrendas;
+	public List<DetSolicitudArticuloDTO> getLstSolicitudArticulos() {
+		return lstSolicitudArticulos;
 	}
 
-	public void setLstSolicitudPrendas(List<DetSolicitudPrendaDTO> lstSolicitudPrendas) {
-		this.lstSolicitudPrendas = lstSolicitudPrendas;
+	public void setLstSolicitudArticulos(List<DetSolicitudArticuloDTO> lstSolicitudArticulos) {
+		this.lstSolicitudArticulos = lstSolicitudArticulos;
 	}
 
-	public DetSolicitudPrendaDTO getSolicitud() {
+	public DetSolicitudArticuloDTO getSolicitud() {
 		return solicitud;
 	}
 
-	public void setSolicitud(DetSolicitudPrendaDTO solicitud) {
+	public void setSolicitud(DetSolicitudArticuloDTO solicitud) {
 		this.solicitud = solicitud;
 	}
 	

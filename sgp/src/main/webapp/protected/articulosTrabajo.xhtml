@@ -1,0 +1,103 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">Artículos de Trabajo</ui:define>
+
+	<ui:define name="content">
+		<h:form id="form">
+			<div class="grid crud-demo">
+				<div class="col-12">
+					<div class="card">
+						<p:growl id="messages" showDetail="true" life="2500" />
+						<p:panelGrid columns="2"
+							columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid"
+							styleClass="ui-panelgrid-blank ui-fluid"
+							style="border:0px none; background-color:transparent;">
+							<p:row id="my-row-id-one" styleClass="my-heading-row">
+								<p:column styleClass="ui-grid-col-6">
+									<p:outputLabel
+										value="#{bienvenidaBean.empleadoSelected.nombre}"
+										style="font-size:16px" />
+								</p:column>
+								<p:column styleClass="ui-grid-col-6">
+									<p:outputLabel
+										value="#{bienvenidaBean.empleadoSelected.catPerfilDTO.descripcion}"
+										style="font-size:16px" />
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+						<p:toolbar styleClass="mb-4">
+							<p:toolbarGroup>
+								<p:commandButton icon="pi pi-plus" value="Agregar"
+									id="add-products-button"
+									oncomplete="PF('managearticuloOficinaDialog').show();" process="@this" />
+							</p:toolbarGroup>
+						</p:toolbar>
+
+						<p:dataTable id="dt-articuloOficinas" widgetVar="dtarticuloOficinas"
+							var="articuloOficina" value="#{articuloOficinasBean.lstSolicitudPrendas}"
+							reflow="true" styleClass="products-table"
+							rowKey="articuloOficina.idSolicitud">
+							<p:column headerText="Articulo"
+								sortBy="#{articuloOficina.getPrenda().idPrenda}" width="100px">
+								<h:outputText value="#{articuloOficina.getPrenda().descripcion}" />
+							</p:column>
+						</p:dataTable>
+
+						<div class="col-12">
+							<div class="card">
+								<p:commandButton value="Registrar Solicitud"
+									actionListener="#{articuloOficinasBean.registro}" />
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<p:dialog id="articuloOficinaDialog" header="articuloOficinas" showEffect="fade"
+				modal="true" widgetVar="managearticuloOficinaDialog" responsive="true">
+				<p:outputPanel id="manage-articuloOficina-content" class="ui-fluid">
+					<p:outputPanel>
+
+						<div class="field">
+							<p:outputLabel for="@next" value="Articulo" />
+							<p:selectOneMenu id="soPrenda"
+								value="#{articuloOficinasBean.solicitud.prenda}"
+								converter="entityConverter" autoWidth="false">
+								<f:selectItem itemLabel="--Seleccione--" />
+								<f:selectItems value="#{articuloOficinasBean.lstPrendasActivas}"
+									var="prenda" itemValue="#{prenda}"
+									itemLabel="#{prenda.descripcion}" />
+							</p:selectOneMenu>
+						</div>
+						<div class="field">
+							<p:outputLabel for="@next" value="Cantidad" />
+							<p:selectOneMenu id="soCantidad"
+								value="#{articuloOficinasBean.solicitud.cantidad}" autoWidth="false">
+								<f:selectItem itemLabel="--Seleccione--" />
+								<f:selectItems value="#{articuloOficinasBean.lstCantidad}"
+									var="cantidad" itemValue="#{cantidad}" itemLabel="#{cantidad}" />
+							</p:selectOneMenu>
+						</div>
+					</p:outputPanel>
+				</p:outputPanel>
+
+				<f:facet name="footer">
+					<p:commandButton value="Guardar" icon="pi pi-check"
+						actionListener="#{articuloOficinasBean.preRegistro}"
+						process="@this manage-articuloOficina-content"
+						onclick="PF('managearticuloOficinaDialog').hide()" />
+					<p:commandButton value="Cancelar" icon="pi pi-times"
+						onclick="PF('managearticuloOficinaDialog').hide()"
+						class="ui-button-secondary" />
+				</f:facet>
+			</p:dialog>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

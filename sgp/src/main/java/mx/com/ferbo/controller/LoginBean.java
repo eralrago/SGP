@@ -29,12 +29,15 @@ import mx.com.ferbo.util.SGPException;
 @SessionScoped
 public class LoginBean implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+	
 	Logger log = LogManager.getRootLogger();
 	private DetEmpleadoDTO empleadoSelected;
 	private DetEmpleadoDTO detEmpleadoDTO;
 	private DetRegistroDTO registroEmpleado;
 	private CatEstatusRegistroDTO catEstatusRegistro;
 	private String numEmpleado;
+        private String idEmpleado;
 	
 	private List<DetEmpleadoDTO> lstEmpleados;
 	
@@ -59,14 +62,6 @@ public class LoginBean implements Serializable {
 	@PostConstruct
     public void init() {
     	contador = 0;
-    	consultaEmpleados();
-    }
-	
-	/*
-     * Método para consultar a los empleados
-     */
-    private void consultaEmpleados() {
-        lstEmpleados = empleadoDAO.buscarActivo();
     }
 	
     /**
@@ -75,7 +70,7 @@ public class LoginBean implements Serializable {
      */
 	public void login() throws IOException {
 		FacesMessage message = null;
-		empleadoSelected = empleadoDAO.buscarPorNumEmpl(numEmpleado);
+		empleadoSelected = empleadoDAO.buscarPorNumEmpl(idEmpleado);
 		if (contador <= 3) {
 			if(empleadoSelected != null) {
 				registroEmpleado.setDetEmpleadoDTO(empleadoSelected);
@@ -111,7 +106,7 @@ public class LoginBean implements Serializable {
     	
     	try {
     		empleado = (DetEmpleadoDTO) session.getAttribute("usuario");
-    		log.info("El usuario intenta finalizar su sesión: " + empleado.getUsuario());
+    		// log.info("El usuario intenta finalizar su sesión: " + empleado.getUsuario());
     		session.setAttribute("usuario", null);
     		session.setAttribute("idCliente", null);
     		session.invalidate();
@@ -173,6 +168,14 @@ public class LoginBean implements Serializable {
 	public void setSession(HttpSession session) {
 		this.session = session;
 	}
+
+    public String getIdEmpleado() {
+        return idEmpleado;
+    }
+
+    public void setIdEmpleado(String idEmpleado) {
+        this.idEmpleado = idEmpleado;
+    }
 
 		
 }

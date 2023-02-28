@@ -103,7 +103,7 @@ public class SessionFilter implements Filter {
 		log.debug("Verificando existencia datos de inicio de sesion...");
 		usuario = (DetEmpleadoDTO) session.getAttribute("empleado");
 		
-		log.debug("Verificando existencia de usuario en sesion...");
+Rwe		log.debug("Verificando existencia de usuario en sesion...");
 		
 		if(usuario == null) {
 			

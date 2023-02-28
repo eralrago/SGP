@@ -32,13 +32,13 @@
 					<div class="field col-12 md:col-12">
 						<p:outputLabel for="keypad"
 							value="Ingrese su Número de Empleado: " />
-						<p:keyboard id="keypad" value="#{loginBean.numEmpleado}"
+                                                <p:keyboard id="keypad" value="#{loginBean.idEmpleado}"
 							layout="custom" layoutTemplate="123,456,789,space-0-space"
 							styleClass="ferbo-keyboard" class="ferbo-keyboard-class" showMode="both"/>
 
 					</div>
 					<div>
-						<p:commandButton actionListener="#{loginBean.login}" value="Entrar" update="growl"/>
+                                            <p:commandButton actionListener="#{loginBean.login()}" value="Entrar" update="growl" process="@this keypad"/>
 					</div>
 				</div>
 				<!-- 				<div> -->

@@ -65,20 +65,30 @@ public class AsistenciaBean implements Serializable {
     private void generaEventos(List<DetRegistroDTO> registros) {
 
         for (DetRegistroDTO registro : registros) {
-            DefaultScheduleEvent evento = DefaultScheduleEvent.builder()
-                    .title(sdf.format(registro.getFechaEntrada()) + (registro.getFechaSalida() != null
-                            ? " - " + sdf.format(registro.getFechaSalida())
-                            : "")
-                    )
+            
+            DefaultScheduleEvent eventoEntrada = DefaultScheduleEvent.builder()
+                    .title("Entrada " + sdf.format(registro.getFechaEntrada()))
                     .startDate(convertirDateToLocalDateTime(registro.getFechaEntrada()))
-                    .endDate(registro.getFechaSalida() != null
-                            ? convertirDateToLocalDateTime(registro.getFechaSalida())
-                            : convertirDateToLocalDateTime(registro.getFechaEntrada()))
-                    .description(registro.getFechaSalida() != null ? sdf.format(registro.getFechaSalida()) : null)
+                    .endDate(convertirDateToLocalDateTime(registro.getFechaEntrada()))
+                    .description(null)
                     .backgroundColor(findBgColor(registro.getCatEstatusRegistroDTO().getIdEstatus()))
                     .dynamicProperty("estatus", registro.getCatEstatusRegistroDTO().getDescripcion())
                     .build();
-            calendario.addEvent(evento);
+            
+            calendario.addEvent(eventoEntrada);
+            
+            if(registro.getFechaSalida() != null) {
+                DefaultScheduleEvent eventoSalida = DefaultScheduleEvent.builder()
+                        .title("Salida " + sdf.format(registro.getFechaSalida()))
+                        .startDate(convertirDateToLocalDateTime(registro.getFechaSalida()))
+                        .endDate(convertirDateToLocalDateTime(registro.getFechaSalida()))
+                        .description(sdf.format(registro.getFechaSalida()))
+                        .backgroundColor(findBgColor(registro.getCatEstatusRegistroDTO().getIdEstatus()))
+                        .dynamicProperty("estatus", registro.getCatEstatusRegistroDTO().getDescripcion())
+                        .build();
+
+                calendario.addEvent(eventoSalida);
+            }
         }
 
     }

@@ -544,3 +544,41 @@ ALTER TABLE sgp.det_solicitud_permiso ADD descripcion_rechazo varchar(150) NULL;
 ALTER TABLE sgp.det_incidencia ADD id_empleado_rev int unsigned NULL;
 
 ALTER TABLE sgp.det_incidencia ADD CONSTRAINT fk_incidencia_empleado_rev FOREIGN KEY (id_empleado_rev) REFERENCES sgp.det_empleado(id_empleado);
+
+--------------21-02-2023-------------------------
+CREATE TABLE `sgp`.`cat_razon_social` (
+  `id_razon_social` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `razon_socal` VARCHAR(45) NOT NULL,
+  `rfc` VARCHAR(45) NOT NULL,
+  `activo` TINYINT NOT NULL DEFAULT 1,
+  `fecha_creacion` DATETIME NOT NULL,
+  `fecha_mod` DATETIME NULL,
+  PRIMARY KEY (`id_razon_social`));
+
+INSERT INTO `sgp`.`cat_razon_social` (`razon_socal`, `rfc`, `fecha_creacion`) VALUES ('INDUSTRIA DE REFRIGERACION KELANGAN', 'XAXX010101000', '2023-02-21 06:30:00');
+
+ALTER TABLE `sgp`.`cat_planta` 
+ADD COLUMN `id_razon_social` INT UNSIGNED NULL AFTER `activo`,
+ADD INDEX `fk_planta_razon_idx` (`id_razon_social` ASC) VISIBLE;
+
+ALTER TABLE `sgp`.`cat_planta` 
+ADD CONSTRAINT `fk_planta_razon`
+  FOREIGN KEY (`id_razon_social`)
+  REFERENCES `sgp`.`cat_razon_social` (`id_razon_social`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+UPDATE `sgp`.`cat_planta` SET `id_razon_social` = '1';
+
+
+ALTER TABLE `sgp`.`cat_planta` 
+DROP FOREIGN KEY `fk_planta_razon`;
+ALTER TABLE `sgp`.`cat_planta` 
+CHANGE COLUMN `id_razon_social` `id_razon_social` INT UNSIGNED NOT NULL ;
+ALTER TABLE `sgp`.`cat_planta` 
+ADD CONSTRAINT `fk_planta_razon`
+  FOREIGN KEY (`id_razon_social`)
+  REFERENCES `sgp`.`cat_razon_social` (`id_razon_social`);
+
+--------------28-02-2023-------------------------
+ALTER TABLE sgp.det_empleado ADD fotografia LONGTEXT NULL;

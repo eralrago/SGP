@@ -184,7 +184,8 @@
                                                     <p:commandButton value="Biométrico" icon="pi pi-sync" iconPos="right" process="@this" immediate="true"/>
                                                 </div>
                                                 <div class="field col-6">
-                                                    <p:commandButton value="Fotografía" icon="pi pi-camera" iconPos="right" process="@this" immediate="true"/>
+                                                    <p:commandButton value="Fotografía" icon="pi pi-camera" iconPos="right" process="@this" immediate="true"
+                                                                     onclick="PF('dialogFotografia').show();"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -196,7 +197,25 @@
                             <f:facet name="footer">
                                 <p:commandButton value="Guardar" icon="pi pi-save" actionListener="#{registroEmpleadosBean.guardarEmpleado()}" update="formRegistroEmpleado:soUbica" 
                                                  process="panelDialogEmpleado @this" />
-                                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('dialogEmpleado').hide()" class="ui-button-secondary" />
+                                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('dialogEmpleado').hide()" class="ui-button-secondary" resetValues="true"/>
+                            </f:facet>
+                        </p:dialog> 
+
+                        <p:dialog header="Captura de fotografía" widgetVar="dialogFotografia" modal="true" draggable="false" cache="false" dynamic="true" closable="false">
+                            <p:outputPanel id="panelDialogFoto" class="ui-fluid">
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <p:photoCam id="foto" widgetVar="pc" listener="#{registroEmpleadosBean.oncapture}"/>
+                                    <p:outputPanel id="photo">
+                                        <img src="#{registroEmpleadosBean.empleadoSelected.fotografia}" />
+                                    </p:outputPanel>
+                                </h:panelGrid>
+                            </p:outputPanel>
+                            <f:facet name="footer">
+                                <p:commandButton  value="Capture" icon="pi pi-camera" onclick="PF('pc').capture()" process="@this" 
+                                                  update="formRegistroEmpleado:photo formRegistroEmpleado:btnAceptarFoto"/>
+                                <p:commandButton id="btnAceptarFoto" value="Aceptar" disabled="#{registroEmpleadosBean.empleadoSelected.fotografia eq null}" 
+                                                 oncomplete="PF('pc').detach();" class="ui-button-success" icon="pi pi-check" onclick="PF('dialogFotografia').hide()" process="@this"/>
+                                <p:commandButton value="Cancelar" icon="pi pi-times" actionListener="#{registroEmpleadosBean.empleadoSelected.setFotografia(null)}" onclick="PF('dialogFotografia').hide(); PF('pc').detach();" class="ui-button-secondary" />
                             </f:facet>
                         </p:dialog> 
 

@@ -15,8 +15,8 @@
  */
 package org.primefaces.omega.view;
 
-import org.primefaces.event.ScheduleEntryMoveEvent;
-import org.primefaces.event.ScheduleEntryResizeEvent;
+import org.primefaces.event.schedule.ScheduleEntryMoveEvent;
+import org.primefaces.event.schedule.ScheduleEntryMoveEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
@@ -195,8 +195,8 @@ public class CalendarDemoView implements Serializable {
 		addMessage(message);
 	}
 	
-	public void onEventResize(ScheduleEntryResizeEvent event) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event resized", "Start-Delta:" + event.getDeltaStartAsDuration() + ", End-Delta: " + event.getDeltaEndAsDuration());
+	public void onEventResize(ScheduleEntryMoveEvent event) {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event resized", "Start-Delta:" + event.getDeltaAsDuration() + ", End-Delta: " + event.getDeltaAsDuration());
 		
 		addMessage(message);
 	}

@@ -3,28 +3,57 @@
                 xmlns:p="http://primefaces.org/ui">
 
     <p:schedule value="#{asistenciaBean.calendario}" draggable="false" resizable="false" widgetVar="actividades" timeZone="Mexico/General" 
-                styleClass="ferbo-schedule">
+                styleClass="ferbo-schedule" >
         <p:ajax event="eventSelect" listener="#{asistenciaBean.eventoSeleccionado}" update="formActividades:tabView:pnlDetalleRegistro"
                 oncomplete="PF('eventDialog').show();"/>
     </p:schedule>
 
     <p:dialog widgetVar="eventDialog" header="Detalle del registro" showEffect="fade" width="350" responsive="true" modal="true">
-        <p:outputPanel id="pnlDetalleRegistro" styleClass="ui-fluid">
-            <div class="field">
-                <p:outputLabel for="hEntrada" value="Hora de entrada" />
-                <p:calendar id="hEntrada" value="#{asistenciaBean.evento.startDate}" pattern="hh:mm:ss a" disabled="true"
-                            timeZone="Mexico/General"/>
-            </div>
-            <div class="field">
-                <p:outputLabel for="hSalida" value="Hora de salida" />
-                <p:calendar id="hSalida" rendered="#{asistenciaBean.evento.description ne null}" value="#{asistenciaBean.evento.endDate}" 
-                            pattern="hh:mm:ss a" disabled="true" timeZone="Mexico/General"/>
-                <p:inputText id="registro" rendered="#{asistenciaBean.evento.description eq null}" value="Sin registro" disabled="true"/>
-            </div>
+        <p:outputPanel id="pnlDetalleRegistro" styleClass="ui-fluid p-0">
+            <p:panel id="pnlEntrada" rendered="#{asistenciaBean.evento.description eq null}" styleClass="ferbo-panel-no-border">
+                <div class="field">
+                    <p:outputLabel for="hEntrada" value="Hora de entrada" />
+                    <p:calendar id="hEntrada" value="#{asistenciaBean.evento.startDate}" pattern="hh:mm:ss a" disabled="true"
+                                timeZone="Mexico/General"/>
+                </div>
+            </p:panel>
+            <p:panel id="pnlSalida" rendered="#{asistenciaBean.evento.description ne null}" styleClass="ferbo-panel-no-border">
+                <div class="field">
+                    <p:outputLabel for="hSalida" value="Hora de salida" />
+                    <p:calendar id="hSalida" value="#{asistenciaBean.evento.endDate}" 
+                                pattern="hh:mm:ss a" disabled="true" timeZone="Mexico/General"/>
+                    <p:inputText id="registro" rendered="#{asistenciaBean.evento.description eq null}" value="Sin registro" disabled="true"/>
+                </div>
+            </p:panel>
             <div class="field">
                 <p:outputLabel for="estatus" value="Estatus" />
                 <p:inputText id="estatus" value="#{asistenciaBean.evento.dynamicProperties.get('estatus')}" disabled="true"/>
             </div>
         </p:outputPanel>
-    </p:dialog>           
+    </p:dialog>        
+    <style>
+        .ferbo-panel-no-border .ui-panel-content{
+            padding: 0 !important;
+            border: none !important;
+        }
+
+        .ferbo-schedule .fc-daygrid-day-frame {
+            max-height: 6rem;
+        }
+        .ferbo-evento{
+
+        }
+    </style>
+    <script  type="text/javascript">
+        window.onload = function () {
+            Array.from(document.getElementsByClassName('fc-event-title')).forEach(function (element) {
+                console.log(element);
+                if (element.getInnerHTML().at(0) === 'E') {
+                    element.setHTML('Entrada<br/>'.concat(element.getInnerHTML().replace('Entrada','')));
+                }else if((element.getInnerHTML().at(0) === 'S')){
+                    element.setHTML('Salida<br/>'.concat(element.getInnerHTML().replace('Salida','')));
+                }
+            });
+        };
+    </script>
 </ui:composition>

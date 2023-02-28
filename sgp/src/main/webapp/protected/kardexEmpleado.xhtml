@@ -3,6 +3,8 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
                 template="/WEB-INF/template.xhtml">
 
     <ui:define name="title">Kardex</ui:define>
@@ -19,14 +21,15 @@
         <h:form id="kardexEmpleado">
             <div class="grid">
                 <div class="col-12 card">
-                    <div class="p-2">
-                        <p:divider align="center">
-                            <p:commandLink>
-                                <p:graphicImage name="images/avatar/amyelsner.png" library="demo" width="100" style="vertical-align: middle" />
-                            </p:commandLink>
+                    <div class="pl-2 pr-2 pt-0 pb-0">
+                        <p:divider id="dvd" align="center" class="mb-0">
+                            <h:graphicImage id="imgEmpleado" value="#{kardexBean.empleadoSelected.fotografia}" 
+                                            width="100" style="vertical-align: middle;width: 8rem; height: 8rem; border-radius: 60px;"
+                                            pt:data-zoom-src="#{kardexBean.empleadoSelected.fotografia}"/>
+                            <pe:imageZoom for="imgEmpleado"/>
                         </p:divider>
                     </div>
-                    <div class="p-2">
+                    <div class="pl-2 pr-2 pt-0 pb-2">
                         <p:fieldset legend="Datos personales" toggleable="true" toggleSpeed="500">
                             <div class="ui-fluid formgrid grid">
                                 <div class="field col-12 md:col-4">

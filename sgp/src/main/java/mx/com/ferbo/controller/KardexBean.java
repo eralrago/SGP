@@ -3,7 +3,7 @@ package mx.com.ferbo.controller;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import mx.com.ferbo.dao.CatAreaDAO;
 import mx.com.ferbo.dao.CatEmpresaDAO;
@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
  * @author Gabo
  */
 @Named(value = "kardexBean")
-@SessionScoped
+@ViewScoped
 public class KardexBean implements Serializable {
 
     private DetEmpleadoDTO empleadoSelected;
@@ -53,7 +53,7 @@ public class KardexBean implements Serializable {
         catPuestoDAO = new CatPuestoDAO();
         catAreaDAO = new CatAreaDAO();
         empleadoDAO = new EmpleadoDAO();
-//        empleadoSelected = empleadoDAO.buscarPorId(1);
+        empleadoSelected = empleadoDAO.buscarPorId(1);
     }
 
     @PostConstruct

@@ -38,10 +38,12 @@ public class IncidenciaBean implements Serializable {
     private CatTipoSolicitudDAO catTipoSolicitudDAO;
     private List<Date> lstRangoRegistro;
     private List<Integer> invalidDays;
+    private Date minDate;
 
     public IncidenciaBean() {
         incidenciaDAO = new IncidenciaDAO();
         catTipoSolicitudDAO = new CatTipoSolicitudDAO();
+        minDate = new Date();
     }
 
     @PostConstruct
@@ -68,7 +70,6 @@ public class IncidenciaBean implements Serializable {
                 break;
             default:
                 System.out.println("ERROR: seleccione opción");
-                ;
         }
 
     }
@@ -144,4 +145,12 @@ public class IncidenciaBean implements Serializable {
         this.lstTipoSol = lstTipoSol;
     }
 
+    public Date getMinDate() {
+        return minDate;
+    }
+
+    public void setMinDate(Date minDate) {
+        this.minDate = minDate;
+    }
+    
 }

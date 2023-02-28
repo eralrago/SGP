@@ -29,6 +29,22 @@ public class DetSolicitudPermisoDTO implements Serializable {
     public DetSolicitudPermisoDTO(Integer idSolicitud) {
         this.idSolicitud = idSolicitud;
     }
+    
+    /*
+     * Constructor utilizado para NamedQuery
+     * DetSolicitudPermiso.findByIdEmp
+     */
+    public DetSolicitudPermisoDTO(Integer idSolicitud, Date fechaCap, Date fechaMod, Date fechaInicio, Date fechaFin, Short aprobada,
+                                  Integer idTipoSolicitud, String descripcionTipo) {
+        this.idSolicitud = idSolicitud;
+        this.fechaCap = fechaCap;
+        this.fechaMod = fechaMod;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.aprobada = aprobada;
+        this.catTipoSolicitud = new CatTipoSolicitudDTO(idTipoSolicitud, descripcionTipo);
+    }
+    
     public DetSolicitudPermisoDTO(Integer idSolicitud, Date fechaCap, Date fechaMod, Date fechaInicio, Date fechaFin, Short aprobada,
                                   Integer idTipoSolicitud, String descripcionTipo, Integer idEmpleado) {
         this.idSolicitud = idSolicitud;

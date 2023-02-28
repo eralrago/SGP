@@ -55,6 +55,18 @@ import javax.validation.constraints.Size;
                         + " LEFT JOIN e.idPlanta pl"
                         + " LEFT JOIN e.idPuesto pu"
                         + " WHERE e.idEmpleado = :idEmp"),
+    @NamedQuery(name = "DetEmpleado.findByNumEmpl", query = "SELECT NEW mx.com.ferbo.dto.DetEmpleadoDTO("
+    		+ " e.idEmpleado, e.numEmpleado, e.nombre, e.primerAp, e.segundoAp, e.fechaNacimiento,"
+    		+ " e.fechaRegistro, e.fechaModificacion, e.curp, e.rfc, e.correo, e.fechaIngreso, e.nss, e.activo, e.fotografia, a.idArea, a.descripcion,"
+    		+ " em.idEmpresa, em.descripcion, p.idPerfil, p.descripcion, pl.idPlanta, pl.descripcion, pu.idPuesto, pu.descripcion"
+    		+ ")"
+    		+ " FROM DetEmpleado e"
+    		+ " LEFT JOIN e.idArea a"
+    		+ " LEFT JOIN e.idEmpresa em"
+    		+ " LEFT JOIN e.idPerfil p"
+    		+ " LEFT JOIN e.idPlanta pl"
+    		+ " LEFT JOIN e.idPuesto pu"
+    		+ " WHERE e.activo = 1 AND e.numEmpleado = :numEmpl"),
     @NamedQuery(name = "DetEmpleado.getNumEmpleado", query = "SELECT COALESCE(MAX(e.idEmpleado),0) FROM DetEmpleado e")})
 public class DetEmpleado implements Serializable {
 

@@ -23,6 +23,7 @@
     <class>mx.com.ferbo.model.CatEstatusRegistro</class>
     <class>mx.com.ferbo.model.CatTipoIncidencia</class>
     <class>mx.com.ferbo.model.CatArea</class>
+    <class>mx.com.ferbo.model.CatTalla</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://127.0.0.1:3306/sgp?useSSL=false&amp;useTimezone=true&amp;serverTimezone=GMT-6&amp;allowPublicKeyRetrieval=true"/>

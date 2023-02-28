@@ -1,0 +1,66 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">Registro de Asistencia</ui:define>
+
+	<ui:define name="head">
+	</ui:define>
+
+	<ui:define name="content">
+		<div class="card">
+			<style>
+				body .ui-panelgrid .ui-panelgrid-cell {
+					background-color: transparent;
+				}
+				
+				.my-heading-row {
+					background-color: var(- -surface-c);
+					font-weight: bold;
+				}
+			</style>
+			<p:panelGrid columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6"
+				layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+				style="border:0px none; background-color:transparent;">
+				<p:row id="my-row-id-one" styleClass="my-heading-row">
+					<p:column styleClass="ui-grid-col-6">
+						<p:graphicImage name="images/avatar/amyelsner.png" library="demo" style="width:200px; height:200px"/>
+					</p:column>
+					<p:column styleClass="ui-grid-col-6">
+						<p:commandButton value="Registro correcto" styleClass="mt-3"/>
+					</p:column>
+				</p:row>
+				<p:row id="my-row-id-two" styleClass="my-heading-row">
+					<p:row id="my-row-id-two-0">
+						<p:outputLabel value="#{bienvenidaBean.empleadoSelected.nombre} #{bienvenidaBean.empleadoSelected.primerAp} #{bienvenidaBean.empleadoSelected.segundoAp}" style="font-size:24px"/>
+					</p:row>
+				</p:row>
+
+				<p:row id="my-row-id-three" styleClass="my-heading-row">
+					<p:row id="my-row-id-three-0">
+						<p:outputLabel value="#{bienvenidaBean.empleadoSelected.catPerfilDTO.descripcion}" style="font-size:24px"/>
+					</p:row>
+				</p:row>
+				
+				<p:row id="my-row-id-four" styleClass="my-heading-row">
+					<p:row id="my-row-id-four-0">
+						<p:outputLabel value="#{bienvenidaBean.empleadoSelected.fechaIngreso}" style="font-size:24px">
+						<f:convertDateTime pattern="yyyy-MM-dd HH:mm" type="both" locale="es_MX"/>
+					</p:outputLabel>
+					</p:row>
+				</p:row>
+			</p:panelGrid>
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-12"
+				layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+				style="border:0px none; background-color:transparent; text-align: center">
+				<p:row id="my-row-id-five" styleClass="my-heading-row">
+					<p:outputLabel value="#{bienvenidaBean.strCumpleanios}" style="font-size:36px"/>
+				</p:row>
+			</p:panelGrid>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

@@ -39,7 +39,7 @@
 
 						<p:dataTable id="dt-uniformes" widgetVar="dtUniformes"
 							var="uniforme" value="#{uniformesBean.lstSolicitudPrendas}"
-							reflow="true" styleClass="products-table" rowKey="uniforme.idSolicitud">>
+							reflow="true" styleClass="products-table" rowKey="uniforme.idSolicitud">
 							<p:column headerText="Prenda" sortBy="#{uniforme.getPrenda().idPrenda}" width="100px">
 								<h:outputText value="#{uniforme.getPrenda().descripcion}" />
 							</p:column>
@@ -50,6 +50,7 @@
 								<h:outputText value="#{uniforme.getTalla().descripcion}" />
 							</p:column>
 						</p:dataTable>
+
 
 						<div class="col-12">
 							<div class="card">
@@ -89,7 +90,7 @@
 				</div>
 			</div>
 
-			<p:dialog header="Uniformes" showEffect="fade" modal="true"
+			<p:dialog id="uniformeDialog" header="Uniformes" showEffect="fade" modal="true"
 				widgetVar="manageUniformeDialog" responsive="true">
 				<p:outputPanel id="manage-uniforme-content" class="ui-fluid">
 					<p:outputPanel>
@@ -97,18 +98,18 @@
 						<div class="field">
 							<p:outputLabel for="@next" value="Prenda" />
 							<p:selectOneMenu id="soPrenda"
-								value="#{uniformesBean.prendaSelected.idPrenda}"
+								value="#{uniformesBean.solicitud.prenda}"
 								converter="entityConverter" autoWidth="false">
 								<f:selectItem itemLabel="--Seleccione--" />
 								<f:selectItems value="#{uniformesBean.lstPrendasActivas}"
-									var="prenda" itemValue="#{prenda.idPrenda}"
+									var="prenda" itemValue="#{prenda}"
 									itemLabel="#{prenda.descripcion}" />
 							</p:selectOneMenu>
 						</div>
 						<div class="field">
 							<p:outputLabel for="@next" value="Cantidad" />
 							<p:selectOneMenu id="soCantidad"
-								value="#{uniformesBean.cantidadSelected}" autoWidth="false">
+								value="#{uniformesBean.solicitud.cantidad}" autoWidth="false">
 								<f:selectItem itemLabel="--Seleccione--" />
 								<f:selectItems value="#{uniformesBean.lstCantidad}"
 									var="cantidad" itemValue="#{cantidad}" itemLabel="#{cantidad}" />
@@ -117,11 +118,11 @@
 						<div class="field">
 							<p:outputLabel for="@next" value="Talla" />
 							<p:selectOneMenu id="soTalla"
-								value="#{uniformesBean.tallaSelected.idTalla}"
+								value="#{uniformesBean.solicitud.talla}"
 								converter="entityConverter" autoWidth="false">
 								<f:selectItem itemLabel="--Seleccione--" />
 								<f:selectItems value="#{uniformesBean.lstTallasActivas}"
-									var="talla" itemValue="#{talla.idTalla}"
+									var="talla" itemValue="#{talla}"
 									itemLabel="#{talla.descripcion}" />
 							</p:selectOneMenu>
 						</div>
@@ -131,6 +132,7 @@
 				<f:facet name="footer">
 					<p:commandButton value="Guardar" icon="pi pi-check"
 						actionListener="#{uniformesBean.preRegistro}"
+						process="@this manage-uniforme-content"
 						onclick="PF('manageUniformeDialog').hide()" />
 					<p:commandButton value="Cancelar" icon="pi pi-times"
 						onclick="PF('manageUniformeDialog').hide()"

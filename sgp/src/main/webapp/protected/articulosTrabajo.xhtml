@@ -69,13 +69,13 @@
 
 						<div class="field">
 							<p:outputLabel for="@next" value="Articulo" />
-							<p:selectOneMenu id="soPrenda"
-								value="#{articuloOficinasBean.solicitud.prenda}"
+							<p:selectOneMenu id="soArticulo"
+								value="#{articuloOficinasBean.solicitud.articulo}"
 								converter="entityConverter" autoWidth="false">
 								<f:selectItem itemLabel="--Seleccione--" />
-								<f:selectItems value="#{articuloOficinasBean.lstPrendasActivas}"
-									var="prenda" itemValue="#{prenda}"
-									itemLabel="#{prenda.descripcion}" />
+								<f:selectItems value="#{articuloOficinasBean.lstArticulosActivas}"
+									var="articulo" itemValue="#{articulo}"
+									itemLabel="#{articulo.descripcion}" />
 							</p:selectOneMenu>
 						</div>
 						<div class="field">

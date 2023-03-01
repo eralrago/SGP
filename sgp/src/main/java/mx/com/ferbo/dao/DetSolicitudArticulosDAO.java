@@ -58,9 +58,9 @@ public class DetSolicitudArticulosDAO extends IBaseDAO<DetSolicitudArticuloDTO, 
 		try {
 			emSGP.getTransaction().begin();
 			registro.setCantidad(e.getCantidad());
-			registro.setAprobada(e.getAprobada());
+			//registro.setAprobada(e.getAprobada());
 			registro.setFechaCap(e.getFechaCap());
-			registro.setFechaMod(e.getFechaMod());
+			//registro.setFechaMod(e.getFechaMod());
 			registro.setIdArticulo(emSGP.getReference(CatArticulo.class, e.getArticulo().getIdArticulo()));
 			registro.setIdEmpleadoRev(null);
 			registro.setIdEmpleadoSol(emSGP.getReference(DetEmpleado.class, e.getIdEmpleadoSol()));

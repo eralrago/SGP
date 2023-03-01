@@ -70,7 +70,7 @@ public class LoginBean implements Serializable {
      */
 	public void login() throws IOException {
 		FacesMessage message = null;
-		empleadoSelected = empleadoDAO.buscarPorNumEmpl(idEmpleado);
+		empleadoSelected = empleadoDAO.buscarPorNumEmpl(numEmpleado);
 		if (contador <= 3) {
 			if(empleadoSelected != null) {
 				registroEmpleado.setDetEmpleadoDTO(empleadoSelected);

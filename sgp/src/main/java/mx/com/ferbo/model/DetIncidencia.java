@@ -83,7 +83,8 @@ import javax.validation.constraints.NotNull;
             + " JOIN d.idEstatus ce"
             + " LEFT JOIN d.idSolPermiso sp"
             + " JOIN sp.idTipoSolicitud tp"
-            + " WHERE e.idEmpleado = :idEmpleado")
+            + " WHERE e.idEmpleado = :idEmpleado"
+            + " AND ce.idEstatus = 2")
 })
 public class DetIncidencia implements Serializable {
 

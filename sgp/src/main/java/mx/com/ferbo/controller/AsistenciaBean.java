@@ -103,8 +103,10 @@ public class AsistenciaBean implements Serializable {
                     .title(incidencia.getDetSolicitudPermisoDTO().getCatTipoSolicitud().getDescripcion())
                     .startDate(convertirDateToLocalDateTime(incidencia.getDetSolicitudPermisoDTO().getFechaInicio()))
                     .endDate(convertirDateToLocalDateTime(incidencia.getDetSolicitudPermisoDTO().getFechaFin()))
+                    .allDay(true)
                     .description(null)
-                    .build(); 
+                    .dynamicProperty("tipoSolicitud", incidencia.getDetSolicitudPermisoDTO().getCatTipoSolicitud().getDescripcion())
+                    .build();           
            calendario.addEvent(eventoEntrada);
         }
     }
@@ -192,10 +194,13 @@ public class AsistenciaBean implements Serializable {
     }
 
     public void actualizaCalendarioSeleccionado() {
-        if (solicitudSelected.getCatTipoSolicitud().getIdTipoSolicitud() == 1) {
-            fechaSeleccionada = solicitudSelected.getFechaInicio();
-        } else {
-            lstRangoRegistro = Arrays.asList(solicitudSelected.getFechaInicio(), solicitudSelected.getFechaFin());
+        switch (solicitudSelected.getCatTipoSolicitud().getIdTipoSolicitud()) {
+            case 1://PERMISO
+            case 3://INCAPACIDAD
+                fechaSeleccionada = solicitudSelected.getFechaInicio();
+                break;
+            default:
+                lstRangoRegistro = Arrays.asList(solicitudSelected.getFechaInicio(), solicitudSelected.getFechaFin());
         }
 
         PrimeFaces.current().executeScript("PF('dialogVacacionesView').show();");

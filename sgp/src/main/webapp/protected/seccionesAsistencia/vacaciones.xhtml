@@ -38,7 +38,8 @@
                 #{solicitud.aprobada eq null ? 'ENVIADA' : solicitud.aprobada eq  1 ? 'APROBADA' : 'RECHAZADA'}</span>
         </p:column>
         <p:column style="width: 4rem">
-            <p:commandButton class="ui-button-success rounded-button m-1" icon="pi pi-eye" process="@this" action="#{asistenciaBean.actualizaCalendarioSeleccionado()}" update="formActividades:tabView:pnlDetalleVacacionesView">
+            <p:commandButton class="ui-button-success rounded-button m-1" icon="pi pi-eye" process="@this" 
+                             action="#{asistenciaBean.actualizaCalendarioSeleccionado()}" update="formActividades:tabView:dialogVacacionesView">
                 <f:setPropertyActionListener value="#{solicitud}" target="#{asistenciaBean.solicitudSelected}" for="@previous"/>
             </p:commandButton>
         </p:column>
@@ -76,7 +77,8 @@
         </f:facet>
     </p:dialog>
 
-    <p:dialog widgetVar="dialogVacacionesView" header="Detalle solicitud" showEffect="fade" responsive="true" modal="true" styleClass="ferbo-dialog" dynamic="true" cache="false">
+    <p:dialog id="dialogVacacionesView" widgetVar="dialogVacacionesView" header="Detalle solicitud" showEffect="fade" responsive="true" 
+              modal="true" styleClass="ferbo-dialog" dynamic="true" cache="false">
         <p:outputPanel id="pnlDetalleVacacionesView" styleClass="ui-fluid">
 
             <div class="formgrid grid">
@@ -101,12 +103,12 @@
             <p:datePicker id="dpRangoView" rendered="#{asistenciaBean.solicitudSelected.catTipoSolicitud.idTipoSolicitud ne null 
                                                        and asistenciaBean.solicitudSelected.catTipoSolicitud.idTipoSolicitud eq 2}" 
                           styleClass="ferbo-datePicker" panelStyleClass="ferbo-datePicker-panel" disabled="true"
-                          showIcon="true" readonlyInput="true" timeZone="Mexico/General" value="#{asistenciaBean.lstRangoRegistro}"
+                          readonlyInput="true" timeZone="Mexico/General" value="#{asistenciaBean.lstRangoRegistro}"
                           inline="true" selectionMode="range" disabledDays="#{asistenciaBean.invalidDays}"/>
             <p:datePicker id="dpSimpleView" rendered="#{asistenciaBean.solicitudSelected.catTipoSolicitud.idTipoSolicitud ne null 
                                                         and asistenciaBean.solicitudSelected.catTipoSolicitud.idTipoSolicitud ne 2}" 
                           styleClass="ferbo-datePicker" panelStyleClass="ferbo-datePicker-panel" disabled="true"
-                          pattern="dd-MM-yyyy" showIcon="true" readonlyInput="true" timeZone="Mexico/General" value="#{asistenciaBean.fechaSeleccionada}"
+                          readonlyInput="true" timeZone="Mexico/General" value="#{asistenciaBean.fechaSeleccionada}"
                           inline="true" disabledDays="#{asistenciaBean.invalidDays}"/>
         </p:outputPanel>
     </p:dialog>

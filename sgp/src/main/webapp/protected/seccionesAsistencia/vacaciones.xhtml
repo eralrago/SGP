@@ -50,11 +50,12 @@
             <div class="formgrid grid">
                 <div class="field col">
                     <p:outputLabel for="soTipoPermiso" value="Tipo"/>
-                    <p:selectOneMenu id="soTipoPermiso" autoWidth="false" value="#{asistenciaBean.solicitudSelected.catTipoSolicitud.idTipoSolicitud}">
+                    <p:selectOneMenu id="soTipoPermiso" required="true" requiredMessage="Campo requerido" autoWidth="false" value="#{asistenciaBean.solicitudSelected.catTipoSolicitud.idTipoSolicitud}">
                         <f:selectItem itemLabel="--Seleccione--"/>
                         <f:selectItems value="#{asistenciaBean.lstTipoSol}" var="tipo" itemLabel="#{tipo.descripcion}" itemValue="#{tipo.idTipoSolicitud}"/>
                         <p:ajax update="formActividades:tabView:pnlDetalleVacaciones" process="@this"/>
                     </p:selectOneMenu>
+                    <p:message for="soTipoPermiso"/>
                 </div>
             </div>
             <p:datePicker id="dpRango" rendered="#{asistenciaBean.solicitudSelected.catTipoSolicitud.idTipoSolicitud ne null 
@@ -70,7 +71,7 @@
         </p:outputPanel>
         <f:facet name="footer">
             <p:commandButton value="Guardar" icon="pi pi-save" actionListener="#{asistenciaBean.guardaSolicitud()}" 
-                             process="pnlDetalleVacaciones @this" oncomplete="PF('dialogVacaciones').hide()"/>
+                             process="pnlDetalleVacaciones @this" update="pnlDetalleVacaciones"/>
             <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('dialogVacaciones').hide()" class="ui-button-secondary" />
         </f:facet>
     </p:dialog>

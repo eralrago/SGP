@@ -53,7 +53,38 @@ import javax.validation.constraints.NotNull;
             + " JOIN d.idEstatus ce"
             + " LEFT JOIN d.idSolPermiso sp"
             + " JOIN sp.idTipoSolicitud tp"
-            + " ORDER BY d.fechaCap")})
+            + " ORDER BY d.fechaCap"),
+    @NamedQuery(name = "DetIncidencia.findByIdEmpleado", query = "SELECT NEW mx.com.ferbo.dto.DetIncidenciaDTO("
+            + " d.idIncidencia,"
+            + " d.visible,"
+            + " d.fechaCap,"
+            + " d.fechaMod,"
+            + " e.idEmpleado,"
+            + " e.numEmpleado,"
+            + " e.nombre,"
+            + " e.primerAp,"
+            + " e.segundoAp,"
+            + " ct.idTipo,"
+            + " ct.descripcion,"
+            + " ce.idEstatus,"
+            + " ce.descripcion,"
+            + " sp.idSolicitud,"
+            + " sp.fechaCap,"
+            + " sp.fechaMod,"
+            + " sp.fechaInicio,"
+            + " sp.fechaFin,"
+            + " sp.aprobada,"
+            + " tp.idTipoSolicitud,"
+            + " tp.descripcion"
+            + ")"
+            + " FROM DetIncidencia d"
+            + " JOIN d.idEmpleado e"
+            + " JOIN d.idTipo ct"
+            + " JOIN d.idEstatus ce"
+            + " LEFT JOIN d.idSolPermiso sp"
+            + " JOIN sp.idTipoSolicitud tp"
+            + " WHERE e.idEmpleado = :idEmpleado")
+})
 public class DetIncidencia implements Serializable {
 
     private static final long serialVersionUID = 1L;

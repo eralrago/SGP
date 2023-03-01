@@ -104,4 +104,9 @@ public class IncidenciaDAO extends IBaseDAO<DetIncidenciaDTO, Integer> {
         }
     }
     
+    public List<DetIncidenciaDTO> consultaPorIdEmpleado(Integer idEmpleado){
+        return emSGP.createNamedQuery("DetIncidencia.findByIdEmpleado", DetIncidenciaDTO.class)
+                .setParameter("idEmpleado", idEmpleado).getResultList();
+    }
+    
 }

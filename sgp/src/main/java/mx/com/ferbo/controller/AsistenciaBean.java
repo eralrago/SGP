@@ -30,12 +30,14 @@ public class AsistenciaBean implements Serializable {
     private SolicitudPermisoDAO solicitudPermisoDAO;
     private CatTipoSolicitudDAO catTipoSolicitudDAO;
     private DetSolicitudPermisoDTO solicitudSelected;
+    private IncidenciaDAO incidenciaDAO;
     private final SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
     private final Date minDate = new Date();
 
     private List<DetRegistroDTO> lstRegistros;
     private List<DetSolicitudPermisoDTO> lstSolicitudes;
     private List<CatTipoSolicitudDTO> lstTipoSol;
+    private List<DetIncidenciaDTO> lstIncidencias;
     private List<Integer> invalidDays;
     private List<Date> lstRangoRegistro;
     private Date fechaSeleccionada;
@@ -45,6 +47,7 @@ public class AsistenciaBean implements Serializable {
         registroDAO = new RegistroDAO();
         solicitudPermisoDAO = new SolicitudPermisoDAO();
         catTipoSolicitudDAO = new CatTipoSolicitudDAO();
+        incidenciaDAO = new IncidenciaDAO();
         inicializaSolicitud();
         sdf.setTimeZone(TimeZone.getTimeZone(ZoneId.of("America/Mexico_City").normalized()));
         lstRangoRegistro = new ArrayList<>();
@@ -57,15 +60,16 @@ public class AsistenciaBean implements Serializable {
         evento = new DefaultScheduleEvent();
         lstTipoSol = catTipoSolicitudDAO.buscarActivo();
         lstRegistros = registroDAO.consultaRegistrosPorIdEmp(1);
-        generaEventos(lstRegistros);
-
+        lstIncidencias = incidenciaDAO.consultaPorIdEmpleado(1);
+        generaEventosRegistros(lstRegistros);
+        generaEventosIncidencias(lstIncidencias);
         lstSolicitudes = solicitudPermisoDAO.consultaPorIdEmpleado(1);
     }
 
-    private void generaEventos(List<DetRegistroDTO> registros) {
+    private void generaEventosRegistros(List<DetRegistroDTO> registros) {
 
         for (DetRegistroDTO registro : registros) {
-            
+
             DefaultScheduleEvent eventoEntrada = DefaultScheduleEvent.builder()
                     .title("Entrada " + sdf.format(registro.getFechaEntrada()))
                     .startDate(convertirDateToLocalDateTime(registro.getFechaEntrada()))
@@ -74,10 +78,10 @@ public class AsistenciaBean implements Serializable {
                     .backgroundColor(findBgColor(registro.getCatEstatusRegistroDTO().getIdEstatus()))
                     .dynamicProperty("estatus", registro.getCatEstatusRegistroDTO().getDescripcion())
                     .build();
-            
+
             calendario.addEvent(eventoEntrada);
-            
-            if(registro.getFechaSalida() != null) {
+
+            if (registro.getFechaSalida() != null) {
                 DefaultScheduleEvent eventoSalida = DefaultScheduleEvent.builder()
                         .title("Salida " + sdf.format(registro.getFechaSalida()))
                         .startDate(convertirDateToLocalDateTime(registro.getFechaSalida()))
@@ -91,6 +95,18 @@ public class AsistenciaBean implements Serializable {
             }
         }
 
+    }
+    
+    public void generaEventosIncidencias(List<DetIncidenciaDTO> incidencias){
+        for (DetIncidenciaDTO incidencia : incidencias) {
+           DefaultScheduleEvent eventoEntrada = DefaultScheduleEvent.builder()
+                    .title(incidencia.getDetSolicitudPermisoDTO().getCatTipoSolicitud().getDescripcion())
+                    .startDate(convertirDateToLocalDateTime(incidencia.getDetSolicitudPermisoDTO().getFechaInicio()))
+                    .endDate(convertirDateToLocalDateTime(incidencia.getDetSolicitudPermisoDTO().getFechaFin()))
+                    .description(null)
+                    .build(); 
+           calendario.addEvent(eventoEntrada);
+        }
     }
 
     public LocalDateTime convertirDateToLocalDateTime(Date fecha) {
@@ -138,15 +154,16 @@ public class AsistenciaBean implements Serializable {
     }
 
     public void guardaSolicitud() {
-        if (fechaSeleccionada != null) {
-            solicitudSelected.setFechaInicio(fechaSeleccionada);
-            solicitudSelected.setFechaFin(fechaSeleccionada);
 
-        } else {
-            solicitudSelected.setFechaInicio(lstRangoRegistro.get(0));
-            solicitudSelected.setFechaFin(lstRangoRegistro.size() > 1 ? lstRangoRegistro.get(1) : lstRangoRegistro.get(0));
-        }
         try {
+            if (fechaSeleccionada != null) {
+                solicitudSelected.setFechaInicio(fechaSeleccionada);
+                solicitudSelected.setFechaFin(fechaSeleccionada);
+
+            } else {
+                solicitudSelected.setFechaInicio(lstRangoRegistro.get(0));
+                solicitudSelected.setFechaFin(lstRangoRegistro.size() > 1 ? lstRangoRegistro.get(1) : lstRangoRegistro.get(0));
+            }
             solicitudSelected.setEmpleadoSol(new DetEmpleadoDTO(1));
             solicitudPermisoDAO.guardar(solicitudSelected);
 
@@ -178,7 +195,7 @@ public class AsistenciaBean implements Serializable {
         if (solicitudSelected.getCatTipoSolicitud().getIdTipoSolicitud() == 1) {
             fechaSeleccionada = solicitudSelected.getFechaInicio();
         } else {
-            lstRangoRegistro = Arrays.asList(solicitudSelected.getFechaInicio(),solicitudSelected.getFechaFin());
+            lstRangoRegistro = Arrays.asList(solicitudSelected.getFechaInicio(), solicitudSelected.getFechaFin());
         }
 
         PrimeFaces.current().executeScript("PF('dialogVacacionesView').show();");

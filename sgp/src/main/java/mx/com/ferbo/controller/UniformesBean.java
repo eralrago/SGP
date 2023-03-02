@@ -203,14 +203,6 @@ public class UniformesBean implements Serializable {
         this.lstSolicitudPrendas = lstSolicitudPrendas;
     }
 
-    public Hashtable<String, String> getPrendasTallasCantidad() {
-        return prendasTallasCantidad;
-    }
-
-    public void setPrendasTallasCantidad(Hashtable<String, String> prendasTallasCantidad) {
-        this.prendasTallasCantidad = prendasTallasCantidad;
-    }
-
     public DetSolicitudPrendaDTO getSolicitud() {
         return solicitud;
     }

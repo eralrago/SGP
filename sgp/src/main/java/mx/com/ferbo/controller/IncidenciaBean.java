@@ -12,7 +12,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import mx.com.ferbo.dao.CatTipoSolicitudDAO;
+import mx.com.ferbo.dao.EmpleadoDAO;
 import mx.com.ferbo.dao.IncidenciaDAO;
 import mx.com.ferbo.dto.CatTipoSolicitudDTO;
 import mx.com.ferbo.dto.DetEmpleadoDTO;
@@ -39,11 +41,23 @@ public class IncidenciaBean implements Serializable {
     private List<Date> lstRangoRegistro;
     private List<Integer> invalidDays;
     private Date minDate;
+    
+    private DetEmpleadoDTO empleadoSelected;
+    private FacesContext faceContext;
+    private HttpServletRequest httpServletRequest;
+    private final EmpleadoDAO empleadoDAO;
 
     public IncidenciaBean() {
         incidenciaDAO = new IncidenciaDAO();
         catTipoSolicitudDAO = new CatTipoSolicitudDAO();
         minDate = new Date();
+        
+        empleadoDAO = new EmpleadoDAO();
+        faceContext = FacesContext.getCurrentInstance();
+        httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
+        this.empleadoSelected = (DetEmpleadoDTO) httpServletRequest.getSession(true).getAttribute("empleado");
+        
+        empleadoSelected = empleadoDAO.buscarPorId(empleadoSelected.getIdEmpleado());
     }
 
     @PostConstruct
@@ -75,7 +89,8 @@ public class IncidenciaBean implements Serializable {
     }
 
     public void guardarEstatusIncidencia(boolean aprobada) {
-        incidenciaSelected.setDetEmpleadoRevDTO(new DetEmpleadoDTO(1));
+        
+        incidenciaSelected.setDetEmpleadoRevDTO(new DetEmpleadoDTO(empleadoSelected.getIdEmpleado()));
         try {
             incidenciaSelected.getCatEstatusIncidenciaDTO().setIdEstatus(aprobada ? 2 : 3);
             incidenciaDAO.actualizar(incidenciaSelected);

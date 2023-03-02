@@ -167,5 +167,13 @@ public class IncidenciaBean implements Serializable {
     public void setMinDate(Date minDate) {
         this.minDate = minDate;
     }
+
+    public DetEmpleadoDTO getEmpleadoSelected() {
+        return empleadoSelected;
+    }
+
+    public void setEmpleadoSelected(DetEmpleadoDTO empleadoSelected) {
+        this.empleadoSelected = empleadoSelected;
+    }
     
 }

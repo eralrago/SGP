@@ -106,13 +106,6 @@ public class DetEmpleadoDTO implements Serializable {
         this.segundoAp = segundoAp;
     }
 
-    /*
-     * Método que utiliza la query guardar Registro
-     */
-    public DetEmpleadoDTO(Integer idEmpleado) {
-        this.idEmpleado = idEmpleado;
-    }
-
     public Integer getIdEmpleado() {
         return idEmpleado;
     }

@@ -111,7 +111,7 @@ public class LoginBean implements Serializable {
     	
     	try {
     		empleado = (DetEmpleadoDTO) session.getAttribute("usuario");
-    		log.info("El usuario intenta finalizar su sesión: " + empleado.getUsuario());
+    		//log.info("El usuario intenta finalizar su sesión: " + empleado.getUsuario());
     		session.setAttribute("usuario", null);
     		session.setAttribute("idCliente", null);
     		session.invalidate();

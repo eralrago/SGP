@@ -71,7 +71,7 @@ public class AsistenciaBean implements Serializable {
         evento = new DefaultScheduleEvent();
         lstTipoSol = catTipoSolicitudDAO.buscarActivo();
         lstRegistros = registroDAO.consultaRegistrosPorIdEmp(empleadoSelected.getIdEmpleado());
-        lstIncidencias = incidenciaDAO.consultaPorIdEmpleado(1);
+        lstIncidencias = incidenciaDAO.consultaPorIdEmpleado(empleadoSelected.getIdEmpleado());
         generaEventosRegistros(lstRegistros);
         generaEventosIncidencias(lstIncidencias);
         lstSolicitudes = solicitudPermisoDAO.consultaPorIdEmpleado(empleadoSelected.getIdEmpleado());

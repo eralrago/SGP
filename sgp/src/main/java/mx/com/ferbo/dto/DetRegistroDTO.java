@@ -8,6 +8,7 @@ import java.util.Date;
  * @author Gabo
  */
 public class DetRegistroDTO implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     private Integer idRegistro;
@@ -19,13 +20,13 @@ public class DetRegistroDTO implements Serializable {
     public DetRegistroDTO() {
     }
 
-     public DetRegistroDTO(Integer idRegistro, Date fechaEntrada, Date fechaSalida, Integer idEstatus, String descripcionEstatus) {
+    public DetRegistroDTO(Integer idRegistro, Date fechaEntrada, Date fechaSalida, Integer idEstatus, String descripcionEstatus) {
         this.idRegistro = idRegistro;
         this.fechaEntrada = fechaEntrada;
         this.fechaSalida = fechaSalida;
         this.catEstatusRegistroDTO = new CatEstatusRegistroDTO(idEstatus, descripcionEstatus);
     }
-    
+
     public DetRegistroDTO(Integer idRegistro, Integer idEmpleado, Date fechaEntrada, Date fechaSalida, Integer idEstatus, String descripcionEstatus) {
         this.idRegistro = idRegistro;
         this.detEmpleadoDTO = new DetEmpleadoDTO(idEmpleado);
@@ -41,20 +42,16 @@ public class DetRegistroDTO implements Serializable {
     public void setIdRegistro(Integer idRegistro) {
         this.idRegistro = idRegistro;
     }
-    
+
     public DetEmpleadoDTO getDetEmpleadoDTO() {
-		return detEmpleadoDTO;
-	}
+        return detEmpleadoDTO;
+    }
 
-	public void setDetEmpleadoDTO(DetEmpleadoDTO detEmpleadoDTO) {
-		this.detEmpleadoDTO = detEmpleadoDTO;
-	}
+    public void setDetEmpleadoDTO(DetEmpleadoDTO detEmpleadoDTO) {
+        this.detEmpleadoDTO = detEmpleadoDTO;
+    }
 
-	public void setDetEmpleadoDTO(DetEmpleadoDTO detEmpleadoDTO) {
-		this.detEmpleadoDTO = detEmpleadoDTO;
-	}
-    
-	public Date getFechaEntrada() {
+    public Date getFechaEntrada() {
         return fechaEntrada;
     }
 

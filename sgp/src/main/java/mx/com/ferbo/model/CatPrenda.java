@@ -26,7 +26,9 @@ import javax.persistence.Table;
 @Table(name = "cat_prenda")
 @NamedQueries({
     @NamedQuery(name = "CatPrenda.findAll", query = "SELECT c FROM CatPrenda c"),
-    @NamedQuery(name = "CatPrenda.findAllActive", query = "SELECT NEW mx.com.ferbo.dto.CatPrendaDTO(c.idPrenda, c.descripcion, c.activo) FROM CatPrenda c WHERE c.activo = 1")})
+    @NamedQuery(name = "CatPrenda.findAllActive", query = "SELECT NEW mx.com.ferbo.dto.CatPrendaDTO(c.idPrenda, c.descripcion, c.activo) FROM CatPrenda c WHERE c.activo = 1"),
+    @NamedQuery(name = "CatPrenda.findById", query = "SELECT NEW mx.com.ferbo.dto.CatPrendaDTO(c.idPrenda, c.descripcion, c.activo) FROM CatPrenda c WHERE c.activo = 1 AND c.idPrenda = :idPrenda")
+})
 public class CatPrenda implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -95,31 +97,6 @@ public class CatPrenda implements Serializable {
 
     public void setDetSolicitudPrendaList(List<DetSolicitudPrenda> detSolicitudPrendaList) {
         this.detSolicitudPrendaList = detSolicitudPrendaList;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idPrenda != null ? idPrenda.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CatPrenda)) {
-            return false;
-        }
-        CatPrenda other = (CatPrenda) object;
-        if ((this.idPrenda == null && other.idPrenda != null) || (this.idPrenda != null && !this.idPrenda.equals(other.idPrenda))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "mx.com.ferbo.model.CatPrenda[ idPrenda=" + idPrenda + " ]";
     }
     
 }

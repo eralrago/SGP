@@ -31,37 +31,27 @@
 						</p:panelGrid>
 						<p:toolbar styleClass="mb-4">
 							<p:toolbarGroup>
-								<p:commandButton id="add-products-button"
-									value="#{uniformesBean.deleteButtonMessage}" icon="pi pi-plus"
-									styleClass="ui-button-success"
-									disabled="#{!uniformesBean.hasSelectedPrendas()}"
-									update="@this">
-									<p:confirm header="Confirmation"
-										message="Delete the selected products?"
-										icon="pi pi-exclamation-triangle" />
-								</p:commandButton>
+								<p:commandButton icon="pi pi-plus" value="Agregar"
+									id="add-products-button"
+									oncomplete="PF('manageUniformeDialog').show();" process="@this" />
 							</p:toolbarGroup>
 						</p:toolbar>
+
 						<p:dataTable id="dt-uniformes" widgetVar="dtUniformes"
-							var="uniforme" value="#{uniformesBean.lstPrendasActivas}"
-							reflow="true" styleClass="products-table"
-							selection="#{uniformesBean.selectedPrendas}"
-							rowKey="#{uniforme.idPrenda}" paginator="true" rows="10"
-							rowSelectMode="add" paginatorPosition="bottom">
-
-							<p:ajax event="rowSelect" update=":form:add-products-button" />
-							<p:ajax event="rowUnselect" update=":form:add-products-button" />
-							<p:ajax event="rowSelectCheckbox"
-								update=":form:add-products-button" />
-							<p:ajax event="rowUnselectCheckbox"
-								update=":form:add-products-button" />
-
-							<p:column selectionMode="multiple" exportable="false"></p:column>
-							<p:column headerText="Articulo Solicitado"
-								sortBy="#{uniforme.descripcion}">
-								<h:outputText value="#{uniforme.descripcion}" />
+							var="uniforme" value="#{uniformesBean.lstSolicitudPrendas}"
+							reflow="true" styleClass="products-table" rowKey="uniforme.idSolicitud">
+							<p:column headerText="Prenda" sortBy="#{uniforme.getPrenda().idPrenda}" width="100px">
+								<h:outputText value="#{uniforme.getPrenda().descripcion}" />
+							</p:column>
+							<p:column headerText="Cantidad" sortBy="#{uniforme.cantidad}" width="100px">
+								<h:outputText value="#{uniforme.cantidad}" />
+							</p:column>
+							<p:column headerText="Talla" sortBy="#{uniforme.getTalla().idTalla}" width="100px">
+								<h:outputText value="#{uniforme.getTalla().descripcion}" />
 							</p:column>
 						</p:dataTable>
+
+
 						<div class="col-12">
 							<div class="card">
 								<h5>DATOS PARA PAGO DEL UNIFORME</h5>
@@ -99,6 +89,56 @@
 					</div>
 				</div>
 			</div>
+
+			<p:dialog id="uniformeDialog" header="Uniformes" showEffect="fade" modal="true"
+				widgetVar="manageUniformeDialog" responsive="true">
+				<p:outputPanel id="manage-uniforme-content" class="ui-fluid">
+					<p:outputPanel>
+
+						<div class="field">
+							<p:outputLabel for="@next" value="Prenda" />
+							<p:selectOneMenu id="soPrenda"
+								value="#{uniformesBean.solicitud.prenda}"
+								converter="entityConverter" autoWidth="false">
+								<f:selectItem itemLabel="--Seleccione--" />
+								<f:selectItems value="#{uniformesBean.lstPrendasActivas}"
+									var="prenda" itemValue="#{prenda}"
+									itemLabel="#{prenda.descripcion}" />
+							</p:selectOneMenu>
+						</div>
+						<div class="field">
+							<p:outputLabel for="@next" value="Cantidad" />
+							<p:selectOneMenu id="soCantidad"
+								value="#{uniformesBean.solicitud.cantidad}" autoWidth="false">
+								<f:selectItem itemLabel="--Seleccione--" />
+								<f:selectItems value="#{uniformesBean.lstCantidad}"
+									var="cantidad" itemValue="#{cantidad}" itemLabel="#{cantidad}" />
+							</p:selectOneMenu>
+						</div>
+						<div class="field">
+							<p:outputLabel for="@next" value="Talla" />
+							<p:selectOneMenu id="soTalla"
+								value="#{uniformesBean.solicitud.talla}"
+								converter="entityConverter" autoWidth="false">
+								<f:selectItem itemLabel="--Seleccione--" />
+								<f:selectItems value="#{uniformesBean.lstTallasActivas}"
+									var="talla" itemValue="#{talla}"
+									itemLabel="#{talla.descripcion}" />
+							</p:selectOneMenu>
+						</div>
+					</p:outputPanel>
+				</p:outputPanel>
+
+				<f:facet name="footer">
+					<p:commandButton value="Guardar" icon="pi pi-check"
+						actionListener="#{uniformesBean.preRegistro}"
+						process="@this manage-uniforme-content"
+						onclick="PF('manageUniformeDialog').hide()" />
+					<p:commandButton value="Cancelar" icon="pi pi-times"
+						onclick="PF('manageUniformeDialog').hide()"
+						class="ui-button-secondary" />
+				</f:facet>
+			</p:dialog>
 		</h:form>
 
 	</ui:define>

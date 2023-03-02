@@ -10,6 +10,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import mx.com.ferbo.dao.*;
 import mx.com.ferbo.dto.*;
 import org.primefaces.PrimeFaces;
@@ -41,6 +42,11 @@ public class AsistenciaBean implements Serializable {
     private List<Integer> invalidDays;
     private List<Date> lstRangoRegistro;
     private Date fechaSeleccionada;
+    
+    // Obteniendo Empleado
+    private DetEmpleadoDTO empleadoSelected;
+    private FacesContext faceContext;
+    private HttpServletRequest httpServletRequest;
 
     public AsistenciaBean() {
         calendario = new DefaultScheduleModel();
@@ -53,17 +59,22 @@ public class AsistenciaBean implements Serializable {
         lstRangoRegistro = new ArrayList<>();
         invalidDays = new ArrayList<>();
         invalidDays.add(0);
+        
+        empleadoSelected = new DetEmpleadoDTO();
+        faceContext = FacesContext.getCurrentInstance();
+        httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
+        this.empleadoSelected = (DetEmpleadoDTO) httpServletRequest.getSession(true).getAttribute("empleado");
     }
 
     @PostConstruct
     public void init() {
         evento = new DefaultScheduleEvent();
         lstTipoSol = catTipoSolicitudDAO.buscarActivo();
-        lstRegistros = registroDAO.consultaRegistrosPorIdEmp(1);
+        lstRegistros = registroDAO.consultaRegistrosPorIdEmp(empleadoSelected.getIdEmpleado());
         lstIncidencias = incidenciaDAO.consultaPorIdEmpleado(1);
         generaEventosRegistros(lstRegistros);
         generaEventosIncidencias(lstIncidencias);
-        lstSolicitudes = solicitudPermisoDAO.consultaPorIdEmpleado(1);
+        lstSolicitudes = solicitudPermisoDAO.consultaPorIdEmpleado(empleadoSelected.getIdEmpleado());
     }
 
     private void generaEventosRegistros(List<DetRegistroDTO> registros) {
@@ -148,7 +159,7 @@ public class AsistenciaBean implements Serializable {
                 solicitudSelected.setFechaInicio(lstRangoRegistro.get(0));
                 solicitudSelected.setFechaFin(lstRangoRegistro.size() > 1 ? lstRangoRegistro.get(1) : lstRangoRegistro.get(0));
             }
-            solicitudSelected.setEmpleadoSol(new DetEmpleadoDTO(1));
+            solicitudSelected.setEmpleadoSol(new DetEmpleadoDTO(empleadoSelected.getIdEmpleado()));
             solicitudPermisoDAO.guardar(solicitudSelected);
 
             lstSolicitudes.add(solicitudSelected);
@@ -246,6 +257,14 @@ public class AsistenciaBean implements Serializable {
 
     public void setFechaSeleccionada(Date fechaSeleccionada) {
         this.fechaSeleccionada = fechaSeleccionada;
+    }
+
+    public DetEmpleadoDTO getEmpleadoSelected() {
+        return empleadoSelected;
+    }
+
+    public void setEmpleadoSelected(DetEmpleadoDTO empleadoSelected) {
+        this.empleadoSelected = empleadoSelected;
     }
 
 }

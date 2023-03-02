@@ -3,8 +3,10 @@ package mx.com.ferbo.controller;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import mx.com.ferbo.dao.CatAreaDAO;
 import mx.com.ferbo.dao.CatEmpresaDAO;
 import mx.com.ferbo.dao.CatPerfilDAO;
@@ -28,7 +30,7 @@ import org.apache.log4j.Logger;
 @ViewScoped
 public class KardexBean implements Serializable {
 
-    private DetEmpleadoDTO empleadoSelected;
+    //private DetEmpleadoDTO empleadoSelected;
 
     private List<CatEmpresaDTO> lstCatEmpresa;
     private List<CatPerfilDTO> lstCatPerfil;
@@ -42,6 +44,11 @@ public class KardexBean implements Serializable {
     private final CatPuestoDAO catPuestoDAO;
     private final CatAreaDAO catAreaDAO;
     private final EmpleadoDAO empleadoDAO;
+    
+    // Obteniendo Empleado
+    private DetEmpleadoDTO empleadoSelected;
+    private FacesContext faceContext;
+    private HttpServletRequest httpServletRequest;
 
     private Logger log = LogManager.getRootLogger();
 
@@ -53,7 +60,12 @@ public class KardexBean implements Serializable {
         catPuestoDAO = new CatPuestoDAO();
         catAreaDAO = new CatAreaDAO();
         empleadoDAO = new EmpleadoDAO();
-        empleadoSelected = empleadoDAO.buscarPorId(1);
+        
+        faceContext = FacesContext.getCurrentInstance();
+        httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
+        this.empleadoSelected = (DetEmpleadoDTO) httpServletRequest.getSession(true).getAttribute("empleado");
+        
+        empleadoSelected = empleadoDAO.buscarPorId(empleadoSelected.getIdEmpleado());
     }
 
     @PostConstruct

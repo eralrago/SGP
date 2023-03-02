@@ -35,7 +35,19 @@ import javax.persistence.TemporalType;
                                                   + " FROM DetRegistro d"
                                                   + " INNER JOIN d.idEmpleado e"
                                                   + " INNER JOIN d.idEstatus ce"
-                                                  + " WHERE e.idEmpleado = :idEmp")
+                                                  + " WHERE e.idEmpleado = :idEmp"),
+    @NamedQuery(name = "DetRegistro.findByIdEmpActivo", query = "SELECT NEW mx.com.ferbo.dto.DetRegistroDTO("
+                                                  + " d.idRegistro,"
+                                                  + " e.idEmpleado,"
+                                                  + " d.fechaEntrada,"
+                                                  + " d.fechaSalida,"
+                                                  + " ce.idEstatus,"
+                                                  + " ce.descripcion"
+                                                  + ")"
+                                                  + " FROM DetRegistro d"
+                                                  + " INNER JOIN d.idEmpleado e"
+                                                  + " INNER JOIN d.idEstatus ce"
+                                                  + " WHERE e.idEmpleado = :idEmp AND e.activo = 1 AND d.fechaEntrada LIKE :fechaEntrada")
 })
 public class DetRegistro implements Serializable {
 

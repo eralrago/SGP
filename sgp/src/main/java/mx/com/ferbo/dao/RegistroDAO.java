@@ -1,5 +1,6 @@
 package mx.com.ferbo.dao;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -40,7 +41,18 @@ public class RegistroDAO extends IBaseDAO<DetRegistroDTO, Integer> {
 
     @Override
     public void actualizar(DetRegistroDTO e) throws SGPException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        DetRegistro registro = new DetRegistro();
+        try {
+            emSGP.getTransaction().begin();
+            registro = emSGP.getReference(DetRegistro.class, e.getIdRegistro());
+            registro.setFechaSalida(e.getFechaSalida());
+            emSGP.merge(registro);
+            emSGP.getTransaction().commit();
+            emSGP.detach(registro);
+        } catch (Exception ex) {
+            emSGP.getTransaction().rollback();
+            throw new SGPException("Error al actualizar al fecha de salida del empleado");
+        }
     }
 
     @Override
@@ -71,5 +83,9 @@ public class RegistroDAO extends IBaseDAO<DetRegistroDTO, Integer> {
                 .getResultList();
         return registros;
     }
-
+    
+    public List<DetRegistroDTO> buscarPorIdFechaEntrada(Integer id, String fechaEntrada) {
+        List<DetRegistroDTO> registros = emSGP.createNamedQuery("DetRegistro.findByIdEmpActivo", DetRegistroDTO.class).setParameter("idEmp", id).setParameter("fechaEntrada", fechaEntrada).getResultList();
+        return registros;
+    }
 }

@@ -25,7 +25,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "cat_articulo")
 @NamedQueries({
-    @NamedQuery(name = "CatArticulo.findAll", query = "SELECT c FROM CatArticulo c")})
+    @NamedQuery(name = "CatArticulo.findAll", query = "SELECT c FROM CatArticulo c"),
+    @NamedQuery(name = "CatArticulo.findAllActive", query = "SELECT NEW mx.com.ferbo.dto.CatArticuloDTO(c.idArticulo, c.descripcion, c.activo) FROM CatArticulo c WHERE c.activo = 1")
+})
+
 public class CatArticulo implements Serializable {
 
     private static final long serialVersionUID = 1L;

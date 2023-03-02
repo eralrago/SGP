@@ -41,7 +41,7 @@ public class DetRegistroDTO implements Serializable {
     public void setIdRegistro(Integer idRegistro) {
         this.idRegistro = idRegistro;
     }
-
+    
     public DetEmpleadoDTO getDetEmpleadoDTO() {
 		return detEmpleadoDTO;
 	}
@@ -50,6 +50,10 @@ public class DetRegistroDTO implements Serializable {
 		this.detEmpleadoDTO = detEmpleadoDTO;
 	}
 
+	public void setDetEmpleadoDTO(DetEmpleadoDTO detEmpleadoDTO) {
+		this.detEmpleadoDTO = detEmpleadoDTO;
+	}
+    
 	public Date getFechaEntrada() {
         return fechaEntrada;
     }

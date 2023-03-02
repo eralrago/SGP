@@ -7,98 +7,108 @@ import mx.com.ferbo.model.CatPrenda;
 import mx.com.ferbo.model.DetEmpleado;
 
 public class DetSolicitudPrendaDTO implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
-	
-	private Integer idSolicitud;
-	private Integer idPrenda;
-	private int cantidad;
-	private Short aprobada;
-	private Date fechaCap;
-	private Date fechaMod;
-	private Integer idEmpleadoSol;
-	private Integer idEmpleadoRev;
-	
-	public DetSolicitudPrendaDTO() {
-		
-	}
 
-	public DetSolicitudPrendaDTO(Integer idSolicitud, Integer idPrenda, int cantidad, Short aprobada, Date fechaCap,
-			Date fechaMod, Integer idEmpleadoSol, Integer idEmpleadoRev) {
-		super();
-		this.idSolicitud = idSolicitud;
-		this.idPrenda = idPrenda;
-		this.cantidad = cantidad;
-		this.aprobada = aprobada;
-		this.fechaCap = fechaCap;
-		this.fechaMod = fechaMod;
-		this.idEmpleadoSol = idEmpleadoSol;
-		this.idEmpleadoRev = idEmpleadoRev;
-	}
+    private static final long serialVersionUID = 1L;
 
-	public Integer getIdSolicitud() {
-		return idSolicitud;
-	}
+    private Integer idSolicitud;
+    private CatPrendaDTO prenda;
+    private int cantidad;
+    private Short aprobada;
+    private Date fechaCap;
+    private Date fechaMod;
+    private Integer idEmpleadoSol;
+    private Integer idEmpleadoRev;
+    private CatTallaDTO talla;
 
-	public void setIdSolicitud(Integer idSolicitud) {
-		this.idSolicitud = idSolicitud;
-	}
+    public DetSolicitudPrendaDTO() {
+        talla = new CatTallaDTO();
+        prenda = new CatPrendaDTO();
+    }
 
-	public Integer getIdPrenda() {
-		return idPrenda;
-	}
+    public DetSolicitudPrendaDTO(Integer idSolicitud, CatPrendaDTO prenda, int cantidad, Short aprobada, Date fechaCap,
+            Date fechaMod, Integer idEmpleadoSol, Integer idEmpleadoRev, CatTallaDTO talla) {
+        super();
+        this.idSolicitud = idSolicitud;
+        this.prenda = prenda;
+        this.cantidad = cantidad;
+        this.aprobada = aprobada;
+        this.fechaCap = fechaCap;
+        this.fechaMod = fechaMod;
+        this.idEmpleadoSol = idEmpleadoSol;
+        this.idEmpleadoRev = idEmpleadoRev;
+        this.talla = talla;
+    }
 
-	public void setIdPrenda(Integer idPrenda) {
-		this.idPrenda = idPrenda;
-	}
+    public Integer getIdSolicitud() {
+        return idSolicitud;
+    }
 
-	public int getCantidad() {
-		return cantidad;
-	}
+    public void setIdSolicitud(Integer idSolicitud) {
+        this.idSolicitud = idSolicitud;
+    }
 
-	public void setCantidad(int cantidad) {
-		this.cantidad = cantidad;
-	}
+    public CatPrendaDTO getPrenda() {
+        return prenda;
+    }
 
-	public Short getAprobada() {
-		return aprobada;
-	}
+    public void setPrenda(CatPrendaDTO prenda) {
+        this.prenda = prenda;
+    }
 
-	public void setAprobada(Short aprobada) {
-		this.aprobada = aprobada;
-	}
+    public int getCantidad() {
+        return cantidad;
+    }
 
-	public Date getFechaCap() {
-		return fechaCap;
-	}
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
 
-	public void setFechaCap(Date fechaCap) {
-		this.fechaCap = fechaCap;
-	}
+    public Short getAprobada() {
+        return aprobada;
+    }
 
-	public Date getFechaMod() {
-		return fechaMod;
-	}
+    public void setAprobada(Short aprobada) {
+        this.aprobada = aprobada;
+    }
 
-	public void setFechaMod(Date fechaMod) {
-		this.fechaMod = fechaMod;
-	}
+    public Date getFechaCap() {
+        return fechaCap;
+    }
 
-	public Integer getIdEmpleadoSol() {
-		return idEmpleadoSol;
-	}
+    public void setFechaCap(Date fechaCap) {
+        this.fechaCap = fechaCap;
+    }
 
-	public void setIdEmpleadoSol(Integer idEmpleadoSol) {
-		this.idEmpleadoSol = idEmpleadoSol;
-	}
+    public Date getFechaMod() {
+        return fechaMod;
+    }
 
-	public Integer getIdEmpleadoRev() {
-		return idEmpleadoRev;
-	}
+    public void setFechaMod(Date fechaMod) {
+        this.fechaMod = fechaMod;
+    }
 
-	public void setIdEmpleadoRev(Integer idEmpleadoRev) {
-		this.idEmpleadoRev = idEmpleadoRev;
-	}
-	
-	
+    public Integer getIdEmpleadoSol() {
+        return idEmpleadoSol;
+    }
+
+    public void setIdEmpleadoSol(Integer idEmpleadoSol) {
+        this.idEmpleadoSol = idEmpleadoSol;
+    }
+
+    public Integer getIdEmpleadoRev() {
+        return idEmpleadoRev;
+    }
+
+    public void setIdEmpleadoRev(Integer idEmpleadoRev) {
+        this.idEmpleadoRev = idEmpleadoRev;
+    }
+
+    public CatTallaDTO getTalla() {
+        return talla;
+    }
+
+    public void setTalla(CatTallaDTO talla) {
+        this.talla = talla;
+    }
+
 }

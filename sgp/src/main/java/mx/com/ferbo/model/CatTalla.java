@@ -24,6 +24,8 @@ import javax.validation.constraints.Size;
 @Table(name = "cat_talla")
 @NamedQueries({
     @NamedQuery(name = "CatTalla.findAll", query = "SELECT c FROM CatTalla c"),
+    @NamedQuery(name = "CatTalla.findAllActive", query = "SELECT NEW mx.com.ferbo.dto.CatTallaDTO(c.idTalla, c.descripcion, c.activo) FROM CatTalla c WHERE c.activo = 1"),
+    @NamedQuery(name = "CatTalla.findForId", query = "SELECT NEW mx.com.ferbo.dto.CatTallaDTO(c.idTalla, c.descripcion, c.activo) FROM CatTalla c WHERE c.activo = 1 AND c.idTalla = :idTalla")
 })
 public class CatTalla implements Serializable {
 
@@ -88,31 +90,6 @@ public class CatTalla implements Serializable {
 
     public void setDetSolicitudPrendaList(List<DetSolicitudPrenda> detSolicitudPrendaList) {
         this.detSolicitudPrendaList = detSolicitudPrendaList;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idTalla != null ? idTalla.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CatTalla)) {
-            return false;
-        }
-        CatTalla other = (CatTalla) object;
-        if ((this.idTalla == null && other.idTalla != null) || (this.idTalla != null && !this.idTalla.equals(other.idTalla))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "mx.com.ferbo.model.CatTalla[ idTalla=" + idTalla + " ]";
     }
     
 }

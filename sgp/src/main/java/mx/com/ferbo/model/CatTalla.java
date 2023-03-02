@@ -3,6 +3,7 @@ package mx.com.ferbo.model;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,51 +13,57 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
- * @author Gabo
+ * @author Gabriel
  */
 @Entity
-@Table(name = "cat_estatus_incidencia")
+@Table(name = "cat_talla")
 @NamedQueries({
-    @NamedQuery(name = "CatEstatusIncidencia.findAll", query = "SELECT c FROM CatEstatusIncidencia c")})
-public class CatEstatusIncidencia implements Serializable {
+    @NamedQuery(name = "CatTalla.findAll", query = "SELECT c FROM CatTalla c"),
+})
+public class CatTalla implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_estatus")
-    private Integer idEstatus;
+    @Column(name = "id_talla")
+    private Integer idTalla;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "descripcion")
     private String descripcion;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "activo")
     private short activo;
-    @OneToMany(mappedBy = "idEstatus")
-    private List<DetIncidencia> detIncidenciaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTalla")
+    private List<DetSolicitudPrenda> detSolicitudPrendaList;
 
-    public CatEstatusIncidencia() {
+    public CatTalla() {
     }
 
-    public CatEstatusIncidencia(Integer idEstatus) {
-        this.idEstatus = idEstatus;
+    public CatTalla(Integer idTalla) {
+        this.idTalla = idTalla;
     }
 
-    public CatEstatusIncidencia(Integer idEstatus, String descripcion, short activo) {
-        this.idEstatus = idEstatus;
+    public CatTalla(Integer idTalla, String descripcion, short activo) {
+        this.idTalla = idTalla;
         this.descripcion = descripcion;
         this.activo = activo;
     }
 
-    public Integer getIdEstatus() {
-        return idEstatus;
+    public Integer getIdTalla() {
+        return idTalla;
     }
 
-    public void setIdEstatus(Integer idEstatus) {
-        this.idEstatus = idEstatus;
+    public void setIdTalla(Integer idTalla) {
+        this.idTalla = idTalla;
     }
 
     public String getDescripcion() {
@@ -75,29 +82,29 @@ public class CatEstatusIncidencia implements Serializable {
         this.activo = activo;
     }
 
-    public List<DetIncidencia> getDetIncidenciaList() {
-        return detIncidenciaList;
+    public List<DetSolicitudPrenda> getDetSolicitudPrendaList() {
+        return detSolicitudPrendaList;
     }
 
-    public void setDetIncidenciaList(List<DetIncidencia> detIncidenciaList) {
-        this.detIncidenciaList = detIncidenciaList;
+    public void setDetSolicitudPrendaList(List<DetSolicitudPrenda> detSolicitudPrendaList) {
+        this.detSolicitudPrendaList = detSolicitudPrendaList;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idEstatus != null ? idEstatus.hashCode() : 0);
+        hash += (idTalla != null ? idTalla.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CatEstatusIncidencia)) {
+        if (!(object instanceof CatTalla)) {
             return false;
         }
-        CatEstatusIncidencia other = (CatEstatusIncidencia) object;
-        if ((this.idEstatus == null && other.idEstatus != null) || (this.idEstatus != null && !this.idEstatus.equals(other.idEstatus))) {
+        CatTalla other = (CatTalla) object;
+        if ((this.idTalla == null && other.idTalla != null) || (this.idTalla != null && !this.idTalla.equals(other.idTalla))) {
             return false;
         }
         return true;
@@ -105,7 +112,7 @@ public class CatEstatusIncidencia implements Serializable {
 
     @Override
     public String toString() {
-        return "mx.com.ferbo.model.CatEstatusIncidencia[ idEstatus=" + idEstatus + " ]";
+        return "mx.com.ferbo.model.CatTalla[ idTalla=" + idTalla + " ]";
     }
     
 }

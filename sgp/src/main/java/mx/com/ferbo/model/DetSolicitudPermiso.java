@@ -28,19 +28,20 @@ import javax.validation.constraints.NotNull;
 @NamedQueries({
     @NamedQuery(name = "DetSolicitudPermiso.findAll", query = "SELECT d FROM DetSolicitudPermiso d"),
     @NamedQuery(name = "DetSolicitudPermiso.findByIdEmp", query = "SELECT NEW mx.com.ferbo.dto.DetSolicitudPermisoDTO("
-                                                          + " d.idSolicitud,"
-                                                          + " d.fechaCap,"
-                                                          + " d.fechaMod,"
-                                                          + " d.fechaInicio,"
-                                                          + " d.fechaFin,"
-                                                          + " d.aprobada,"
-                                                          + " ts.idTipoSolicitud,"
-                                                          + " ts.descripcion"
-                                                          + ")"
-                                                          + " FROM DetSolicitudPermiso d"
-                                                          + " INNER JOIN d.idEmpleadoSol es"
-                                                          + " INNER JOIN d.idTipoSolicitud ts"
-                                                          + " WHERE es.idEmpleado = :idEmp"),
+            + " d.idSolicitud,"
+            + " d.fechaCap,"
+            + " d.fechaMod,"
+            + " d.fechaInicio,"
+            + " d.fechaFin,"
+            + " d.aprobada,"
+            + " ts.idTipoSolicitud,"
+            + " ts.descripcion"
+            + ")"
+            + " FROM DetSolicitudPermiso d"
+            + " INNER JOIN d.idEmpleadoSol es"
+            + " INNER JOIN d.idTipoSolicitud ts"
+            + " WHERE es.idEmpleado = :idEmp"
+            + " ORDER BY d.fechaCap"),
 })
 public class DetSolicitudPermiso implements Serializable {
 
@@ -70,6 +71,8 @@ public class DetSolicitudPermiso implements Serializable {
     private Date fechaFin;
     @Column(name = "aprobada")
     private Short aprobada;
+    @Column(name = "descripcion_rechazo")
+    private String descripcionRechazo;
     @OneToMany(mappedBy = "idSolPermiso")
     private List<DetIncidencia> detIncidenciaList;
     @JoinColumn(name = "id_tipo_solicitud", referencedColumnName = "id_tipo_solicitud")
@@ -175,4 +178,13 @@ public class DetSolicitudPermiso implements Serializable {
     public void setIdEmpleadoRev(DetEmpleado idEmpleadoRev) {
         this.idEmpleadoRev = idEmpleadoRev;
     }
+
+    public String getDescripcionRechazo() {
+        return descripcionRechazo;
+    }
+
+    public void setDescripcionRechazo(String descripcionRechazo) {
+        this.descripcionRechazo = descripcionRechazo;
+    }
+    
 }

@@ -6,7 +6,7 @@ import java.io.Serializable;
  *
  * @author Gabo
  */
-class CatTipoSolicitudDTO implements Serializable {
+public class CatTipoSolicitudDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

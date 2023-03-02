@@ -24,6 +24,7 @@ public class DetEmpleadoDTO implements Serializable {
     private Date fechaIngreso;
     private String nss;
     private short activo;
+    private String fotografia;
     private CatAreaDTO catAreaDTO;
     private CatEmpresaDTO catEmpresaDTO;
     private CatPerfilDTO catPerfilDTO;
@@ -37,10 +38,16 @@ public class DetEmpleadoDTO implements Serializable {
         catPlantaDTO = new CatPlantaDTO();
         catPuestoDTO = new CatPuestoDTO();
     }
+    public DetEmpleadoDTO(Integer idEmpleado){
+        this.idEmpleado = idEmpleado;
+    }
 
+    /*
+     * Método que utiliza la query findByID
+     */
     public DetEmpleadoDTO(Integer idEmpleado, String numEmpleado, String nombre, String primerAp, String segundoAp,
                           Date fechaNacimiento, Date fechaRegistro, Date fechaModificacion, String curp, String rfc, String correo,
-                          Date fechaIngreso, String nss, short activo) {
+                          Date fechaIngreso, String nss, short activo, String fotografia) {
         this.idEmpleado = idEmpleado;
         this.numEmpleado = numEmpleado;
         this.nombre = nombre;
@@ -55,6 +62,7 @@ public class DetEmpleadoDTO implements Serializable {
         this.fechaIngreso = fechaIngreso;
         this.nss = nss;
         this.activo = activo;
+        this.fotografia = fotografia;
     }
 
     /*
@@ -62,7 +70,7 @@ public class DetEmpleadoDTO implements Serializable {
      */
     public DetEmpleadoDTO(Integer idEmpleado, String numEmpleado, String nombre, String primerAp, String segundoAp,
                           Date fechaNacimiento, Date fechaRegistro, Date fechaModificacion, String curp, String rfc, String correo,
-                          Date fechaIngreso, String nss, short activo, Integer idArea, String descripcionArea, Integer idEmpresa,
+                          Date fechaIngreso, String nss, short activo, String fotografia, Integer idArea, String descripcionArea, Integer idEmpresa,
                           String descripcionEmpresa, Integer idPerfil, String descripcionPerfil, Integer idPlanta,
                           String descripcionPlanta, Integer idPuesto, String descripcionPuesto) {
         this.idEmpleado = idEmpleado;
@@ -79,11 +87,23 @@ public class DetEmpleadoDTO implements Serializable {
         this.fechaIngreso = fechaIngreso;
         this.nss = nss;
         this.activo = activo;
+        this.fotografia = fotografia;
         this.catAreaDTO = new CatAreaDTO(idArea, descripcionArea, (short) 1);
         this.catEmpresaDTO = new CatEmpresaDTO(idEmpresa, descripcionEmpresa, (short) 1);
         this.catPerfilDTO = new CatPerfilDTO(idPerfil, descripcionPerfil, (short) 1);
         this.catPlantaDTO = new CatPlantaDTO(idPlanta, descripcionPlanta, (short) 1);
         this.catPuestoDTO = new CatPuestoDTO(idPuesto, descripcionPuesto, (short) 1);
+    }
+    
+    /*
+     * Método que utiliza la query findAll
+     */
+    public DetEmpleadoDTO(Integer idEmpleado, String numEmpleado, String nombre, String primerAp, String segundoAp){
+        this.idEmpleado = idEmpleado;
+        this.numEmpleado = numEmpleado;
+        this.nombre = nombre;
+        this.primerAp = primerAp;
+        this.segundoAp = segundoAp;
     }
 
     /*
@@ -245,4 +265,11 @@ public class DetEmpleadoDTO implements Serializable {
         this.catPuestoDTO = catPuestoDTO;
     }
 
+    public String getFotografia() {
+        return fotografia;
+    }
+
+    public void setFotografia(String fotografia) {
+        this.fotografia = fotografia;
+    }
 }

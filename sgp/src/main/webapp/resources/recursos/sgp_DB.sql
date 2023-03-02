@@ -490,3 +490,95 @@ ADD CONSTRAINT `fk_sol_tipo_sol`
   REFERENCES `sgp`.`cat_tipo_solicitud` (`id_tipo_solicitud`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
+
+--------------16-02-2023-------------------------
+CREATE TABLE `sgp`.`cat_talla` (
+  `id_talla` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `descripcion` VARCHAR(45) NOT NULL,
+  `activo` TINYINT NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id_talla`));
+
+
+ALTER TABLE `sgp`.`det_solicitud_prenda` 
+ADD COLUMN `id_talla` INT UNSIGNED NULL AFTER `id_empleado_rev`,
+ADD INDEX `fk_sol_talla_idx` (`id_talla` ASC) VISIBLE;
+
+ALTER TABLE `sgp`.`det_solicitud_prenda` 
+ADD CONSTRAINT `fk_sol_talla`
+  FOREIGN KEY (`id_talla`)
+  REFERENCES `sgp`.`cat_talla` (`id_talla`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+
+INSERT INTO `sgp`.`cat_talla` (`descripcion`) VALUES ('CH');
+INSERT INTO `sgp`.`cat_talla` (`descripcion`) VALUES ('MD');
+INSERT INTO `sgp`.`cat_talla` (`descripcion`) VALUES ('G/L');
+INSERT INTO `sgp`.`cat_talla` (`descripcion`) VALUES ('XG');
+
+update det_solicitud_prenda set id_talla = 1;
+
+ALTER TABLE `sgp`.`det_solicitud_prenda` 
+DROP FOREIGN KEY `fk_sol_talla`;
+ALTER TABLE `sgp`.`det_solicitud_prenda` 
+CHANGE COLUMN `id_talla` `id_talla` INT UNSIGNED NOT NULL ;
+ALTER TABLE `sgp`.`det_solicitud_prenda` 
+ADD CONSTRAINT `fk_sol_talla`
+  FOREIGN KEY (`id_talla`)
+  REFERENCES `sgp`.`cat_talla` (`id_talla`);
+
+--------------17-02-2023-------------------------
+
+ALTER TABLE sgp.det_incidencia ADD fecha_cap datetime NULL;
+ALTER TABLE sgp.det_incidencia ADD fecha_mod datetime NULL;
+
+UPDATE det_incidencia SET fecha_cap = now()
+WHERE fecha_cap IS NULL;
+
+ALTER TABLE sgp.det_incidencia MODIFY COLUMN fecha_cap datetime NOT NULL;
+
+ALTER TABLE sgp.det_incidencia ADD CONSTRAINT fk_incidencia_empleado FOREIGN KEY (id_empleado) REFERENCES sgp.det_empleado(id_empleado);
+
+--------------20-02-2023-------------------------
+ALTER TABLE sgp.det_solicitud_permiso ADD descripcion_rechazo varchar(150) NULL;
+ALTER TABLE sgp.det_incidencia ADD id_empleado_rev int unsigned NULL;
+
+ALTER TABLE sgp.det_incidencia ADD CONSTRAINT fk_incidencia_empleado_rev FOREIGN KEY (id_empleado_rev) REFERENCES sgp.det_empleado(id_empleado);
+
+--------------21-02-2023-------------------------
+CREATE TABLE `sgp`.`cat_razon_social` (
+  `id_razon_social` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `razon_socal` VARCHAR(45) NOT NULL,
+  `rfc` VARCHAR(45) NOT NULL,
+  `activo` TINYINT NOT NULL DEFAULT 1,
+  `fecha_creacion` DATETIME NOT NULL,
+  `fecha_mod` DATETIME NULL,
+  PRIMARY KEY (`id_razon_social`));
+
+INSERT INTO `sgp`.`cat_razon_social` (`razon_socal`, `rfc`, `fecha_creacion`) VALUES ('INDUSTRIA DE REFRIGERACION KELANGAN', 'XAXX010101000', '2023-02-21 06:30:00');
+
+ALTER TABLE `sgp`.`cat_planta` 
+ADD COLUMN `id_razon_social` INT UNSIGNED NULL AFTER `activo`,
+ADD INDEX `fk_planta_razon_idx` (`id_razon_social` ASC) VISIBLE;
+
+ALTER TABLE `sgp`.`cat_planta` 
+ADD CONSTRAINT `fk_planta_razon`
+  FOREIGN KEY (`id_razon_social`)
+  REFERENCES `sgp`.`cat_razon_social` (`id_razon_social`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+UPDATE `sgp`.`cat_planta` SET `id_razon_social` = '1';
+
+
+ALTER TABLE `sgp`.`cat_planta` 
+DROP FOREIGN KEY `fk_planta_razon`;
+ALTER TABLE `sgp`.`cat_planta` 
+CHANGE COLUMN `id_razon_social` `id_razon_social` INT UNSIGNED NOT NULL ;
+ALTER TABLE `sgp`.`cat_planta` 
+ADD CONSTRAINT `fk_planta_razon`
+  FOREIGN KEY (`id_razon_social`)
+  REFERENCES `sgp`.`cat_razon_social` (`id_razon_social`);
+
+--------------28-02-2023-------------------------
+ALTER TABLE sgp.det_empleado ADD fotografia LONGTEXT NULL;

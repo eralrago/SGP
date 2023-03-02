@@ -2,9 +2,9 @@ package mx.com.ferbo.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -24,6 +24,7 @@ import mx.com.ferbo.dto.DetEmpleadoDTO;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.primefaces.PrimeFaces;
+import org.primefaces.event.CaptureEvent;
 
 /**
  *
@@ -50,8 +51,7 @@ public class RegistroEmpleadosBean implements Serializable {
     private final CatPuestoDAO catPuestoDAO;
     private final CatAreaDAO catAreaDAO;
     private final EmpleadoDAO empleadoDAO;
-
-    private KardexBean kardexBean;
+    
 
     public RegistroEmpleadosBean() {
         log.info("--Iniciando desde el constructor--");
@@ -64,7 +64,6 @@ public class RegistroEmpleadosBean implements Serializable {
         empleadoSelected = new DetEmpleadoDTO();
         lstEmpleados = new ArrayList<>();
         lstEmpleadosSelected = new ArrayList<>();
-        kardexBean = new KardexBean();
     }
 
     @PostConstruct
@@ -191,6 +190,10 @@ public class RegistroEmpleadosBean implements Serializable {
         }
 
     }
+    
+    public void oncapture(CaptureEvent captureEvent) {
+        empleadoSelected.setFotografia("data:image/jpeg;base64," + Base64.getEncoder().encodeToString(captureEvent.getData()));
+    }    
 
 //<editor-fold defaultstate="collapsed" desc="Getters&Setters">
     public List<CatEmpresaDTO> getLstCatEmpresa() {

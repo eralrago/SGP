@@ -380,7 +380,6 @@ public class ChartDemoView implements Serializable {
         CartesianLinearAxes linearAxes = new CartesianLinearAxes();
         linearAxes.setOffset(true);
         CartesianLinearTicks ticks = new CartesianLinearTicks();
-        ticks.setBeginAtZero(true);
         linearAxes.setTicks(ticks);
         cScales.addYAxesData(linearAxes);
         options.setScales(cScales);
@@ -462,7 +461,6 @@ public class ChartDemoView implements Serializable {
         CartesianLinearAxes linearAxes = new CartesianLinearAxes();
         linearAxes.setOffset(true);
         CartesianLinearTicks ticks = new CartesianLinearTicks();
-        ticks.setBeginAtZero(true);
         linearAxes.setTicks(ticks);
         cScales.addYAxesData(linearAxes);
         options.setScales(cScales);
@@ -532,7 +530,6 @@ public class ChartDemoView implements Serializable {
         CartesianLinearAxes linearAxes = new CartesianLinearAxes();
         linearAxes.setOffset(true);
         CartesianLinearTicks ticks = new CartesianLinearTicks();
-        ticks.setBeginAtZero(true);
         linearAxes.setTicks(ticks);
         cScales.addXAxesData(linearAxes);
         options.setScales(cScales);
@@ -918,7 +915,6 @@ public class ChartDemoView implements Serializable {
         CartesianLinearAxes linearAxes = new CartesianLinearAxes();
         linearAxes.setOffset(true);
         CartesianLinearTicks ticks = new CartesianLinearTicks();
-        ticks.setBeginAtZero(true);
         linearAxes.setTicks(ticks);
 
         cScales.addYAxesData(linearAxes);

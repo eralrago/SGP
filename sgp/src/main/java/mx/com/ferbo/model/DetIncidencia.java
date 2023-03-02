@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package mx.com.ferbo.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -24,7 +24,68 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "det_incidencia")
 @NamedQueries({
-    @NamedQuery(name = "DetIncidencia.findAll", query = "SELECT d FROM DetIncidencia d")})
+    @NamedQuery(name = "DetIncidencia.findAll", query = "SELECT NEW mx.com.ferbo.dto.DetIncidenciaDTO("
+            + " d.idIncidencia,"
+            + " d.visible,"
+            + " d.fechaCap,"
+            + " d.fechaMod,"
+            + " e.idEmpleado,"
+            + " e.numEmpleado,"
+            + " e.nombre,"
+            + " e.primerAp,"
+            + " e.segundoAp,"
+            + " ct.idTipo,"
+            + " ct.descripcion,"
+            + " ce.idEstatus,"
+            + " ce.descripcion,"
+            + " sp.idSolicitud,"
+            + " sp.fechaCap,"
+            + " sp.fechaMod,"
+            + " sp.fechaInicio,"
+            + " sp.fechaFin,"
+            + " sp.aprobada,"
+            + " tp.idTipoSolicitud,"
+            + " tp.descripcion"
+            + ")"
+            + " FROM DetIncidencia d"
+            + " JOIN d.idEmpleado e"
+            + " JOIN d.idTipo ct"
+            + " JOIN d.idEstatus ce"
+            + " LEFT JOIN d.idSolPermiso sp"
+            + " JOIN sp.idTipoSolicitud tp"
+            + " ORDER BY d.fechaCap"),
+    @NamedQuery(name = "DetIncidencia.findByIdEmpleado", query = "SELECT NEW mx.com.ferbo.dto.DetIncidenciaDTO("
+            + " d.idIncidencia,"
+            + " d.visible,"
+            + " d.fechaCap,"
+            + " d.fechaMod,"
+            + " e.idEmpleado,"
+            + " e.numEmpleado,"
+            + " e.nombre,"
+            + " e.primerAp,"
+            + " e.segundoAp,"
+            + " ct.idTipo,"
+            + " ct.descripcion,"
+            + " ce.idEstatus,"
+            + " ce.descripcion,"
+            + " sp.idSolicitud,"
+            + " sp.fechaCap,"
+            + " sp.fechaMod,"
+            + " sp.fechaInicio,"
+            + " sp.fechaFin,"
+            + " sp.aprobada,"
+            + " tp.idTipoSolicitud,"
+            + " tp.descripcion"
+            + ")"
+            + " FROM DetIncidencia d"
+            + " JOIN d.idEmpleado e"
+            + " JOIN d.idTipo ct"
+            + " JOIN d.idEstatus ce"
+            + " LEFT JOIN d.idSolPermiso sp"
+            + " JOIN sp.idTipoSolicitud tp"
+            + " WHERE e.idEmpleado = :idEmpleado"
+            + " AND ce.idEstatus = 2")
+})
 public class DetIncidencia implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -33,8 +94,12 @@ public class DetIncidencia implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_incidencia")
     private Integer idIncidencia;
-    @Column(name = "id_empleado")
-    private Integer idEmpleado;
+    @JoinColumn(name = "id_empleado", referencedColumnName = "id_empleado")
+    @ManyToOne
+    private DetEmpleado idEmpleado;
+    @JoinColumn(name = "id_empleado_rev", referencedColumnName = "id_empleado")
+    @ManyToOne
+    private DetEmpleado idEmpleadoRev;
     @Column(name = "visible")
     private Short visible;
     @JoinColumn(name = "id_estatus", referencedColumnName = "id_estatus")
@@ -52,6 +117,14 @@ public class DetIncidencia implements Serializable {
     @JoinColumn(name = "id_sol_prenda", referencedColumnName = "id_solicitud")
     @ManyToOne
     private DetSolicitudPrenda idSolPrenda;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "fecha_cap")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaCap;
+    @Column(name = "fecha_mod")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaMod;
 
     public DetIncidencia() {
     }
@@ -68,12 +141,19 @@ public class DetIncidencia implements Serializable {
         this.idIncidencia = idIncidencia;
     }
 
-    public Integer getIdEmpleado() {
+    public DetEmpleado getIdEmpleado() {
         return idEmpleado;
     }
 
-    public void setIdEmpleado(Integer idEmpleado) {
+    public void setIdEmpleado(DetEmpleado idEmpleado) {
         this.idEmpleado = idEmpleado;
+    }
+    public DetEmpleado getIdEmpleadoRev() {
+        return idEmpleadoRev;
+    }
+
+    public void setIdEmpleadoRev(DetEmpleado idEmpleadoRev) {
+        this.idEmpleadoRev = idEmpleadoRev;
     }
 
     public Short getVisible() {
@@ -124,29 +204,20 @@ public class DetIncidencia implements Serializable {
         this.idSolPrenda = idSolPrenda;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idIncidencia != null ? idIncidencia.hashCode() : 0);
-        return hash;
+    public Date getFechaCap() {
+        return fechaCap;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof DetIncidencia)) {
-            return false;
-        }
-        DetIncidencia other = (DetIncidencia) object;
-        if ((this.idIncidencia == null && other.idIncidencia != null) || (this.idIncidencia != null && !this.idIncidencia.equals(other.idIncidencia))) {
-            return false;
-        }
-        return true;
+    public void setFechaCap(Date fechaCap) {
+        this.fechaCap = fechaCap;
     }
 
-    @Override
-    public String toString() {
-        return "mx.com.ferbo.model.DetIncidencia[ idIncidencia=" + idIncidencia + " ]";
+    public Date getFechaMod() {
+        return fechaMod;
+    }
+
+    public void setFechaMod(Date fechaMod) {
+        this.fechaMod = fechaMod;
     }
     
 }

@@ -69,6 +69,7 @@ public class EmpleadoDAO extends IBaseDAO<DetEmpleadoDTO, Integer> {
             empleado.setFechaModificacion(new Date());
             empleado.setActivo(e.getActivo());
             empleado.setNumEmpleado(e.getNumEmpleado());
+            empleado.setFotografia(e.getFotografia());
             emSGP.merge(empleado);
             emSGP.getTransaction().commit();
             emSGP.detach(empleado);
@@ -116,6 +117,7 @@ public class EmpleadoDAO extends IBaseDAO<DetEmpleadoDTO, Integer> {
             empleado.setIdPlanta(e.getCatPlantaDTO() != null ? emSGP.getReference(CatPlanta.class, e.getCatPlantaDTO().getIdPlanta()) : null);
             empleado.setFechaRegistro(new Date());
             empleado.setActivo((short) 1);
+            empleado.setFotografia(e.getFotografia());
             empleado.setNumEmpleado(String.format("%0" + 4 + "d", (Long) emSGP.createNamedQuery("DetEmpleado.getNumEmpleado").getSingleResult() + 1));
             emSGP.persist(empleado);
             emSGP.getTransaction().commit();

@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -31,7 +32,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "DetEmpleado.findByActive",
                 query = "SELECT NEW mx.com.ferbo.dto.DetEmpleadoDTO("
                         + " e.idEmpleado, e.numEmpleado, e.nombre, e.primerAp, e.segundoAp, e.fechaNacimiento,"
-                        + " e.fechaRegistro, e.fechaModificacion, e.curp, e.rfc, e.correo, e.fechaIngreso, e.nss, e.activo, a.idArea, a.descripcion,"
+                        + " e.fechaRegistro, e.fechaModificacion, e.curp, e.rfc, e.correo, e.fechaIngreso, e.nss, e.activo, e.fotografia, a.idArea, a.descripcion,"
                         + " em.idEmpresa, em.descripcion, p.idPerfil, p.descripcion, pl.idPlanta, pl.descripcion, pu.idPuesto, pu.descripcion"
                         + ")"
                         + " FROM DetEmpleado e"
@@ -44,7 +45,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "DetEmpleado.findByID",
                 query = "SELECT NEW mx.com.ferbo.dto.DetEmpleadoDTO("
                         + " e.idEmpleado, e.numEmpleado, e.nombre, e.primerAp, e.segundoAp, e.fechaNacimiento,"
-                        + " e.fechaRegistro, e.fechaModificacion, e.curp, e.rfc, e.correo, e.fechaIngreso, e.nss, e.activo, a.idArea, a.descripcion,"
+                        + " e.fechaRegistro, e.fechaModificacion, e.curp, e.rfc, e.correo, e.fechaIngreso, e.nss, e.activo, e.fotografia, a.idArea, a.descripcion,"
                         + " em.idEmpresa, em.descripcion, p.idPerfil, p.descripcion, pl.idPlanta, pl.descripcion, pu.idPuesto, pu.descripcion"
                         + ")"
                         + " FROM DetEmpleado e"
@@ -129,6 +130,10 @@ public class DetEmpleado implements Serializable {
     @NotNull
     @Column(name = "activo")
     private short activo;
+    @Lob
+    @Size(max = 2147483647)
+    @Column(name = "fotografia")
+    private String fotografia;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmpleado")
     private List<BitacoraInventario> bitacoraInventarioList;
     @OneToMany(mappedBy = "idEmpleado")
@@ -385,6 +390,14 @@ public class DetEmpleado implements Serializable {
 
     public void setIdPuesto(CatPuesto idPuesto) {
         this.idPuesto = idPuesto;
+    }
+    
+    public String getFotografia() {
+        return fotografia;
+    }
+
+    public void setFotografia(String fotografia) {
+        this.fotografia = fotografia;
     }
 
 }

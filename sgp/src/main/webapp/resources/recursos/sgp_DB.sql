@@ -582,3 +582,22 @@ ADD CONSTRAINT `fk_planta_razon`
 
 --------------28-02-2023-------------------------
 ALTER TABLE sgp.det_empleado ADD fotografia LONGTEXT NULL;
+
+INSERT INTO sgp.cat_perfil
+(id_perfil, descripcion, activo)
+VALUES(1, 'Administrador', 1);
+INSERT INTO sgp.cat_perfil
+(id_perfil, descripcion, activo)
+VALUES(2, 'Administrador de usuarios', 1);
+INSERT INTO sgp.cat_perfil
+(id_perfil, descripcion, activo)
+VALUES(3, 'Administrador de planta', 1);
+INSERT INTO sgp.cat_perfil
+(id_perfil, descripcion, activo)
+VALUES(4, 'Gerente de planta', 1);
+INSERT INTO sgp.cat_perfil
+(id_perfil, descripcion, activo)
+VALUES(5, 'Auxiliar general', 1);
+INSERT INTO sgp.cat_perfil
+(id_perfil, descripcion, activo)
+VALUES(6, 'Montacarguista', 1);

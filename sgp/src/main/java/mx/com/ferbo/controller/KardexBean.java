@@ -47,7 +47,6 @@ public class KardexBean implements Serializable {
     
     // Obteniendo Empleado
     private DetEmpleadoDTO empleadoSelected;
-    private FacesContext faceContext;
     private HttpServletRequest httpServletRequest;
 
     private Logger log = LogManager.getRootLogger();
@@ -61,8 +60,7 @@ public class KardexBean implements Serializable {
         catAreaDAO = new CatAreaDAO();
         empleadoDAO = new EmpleadoDAO();
         
-        faceContext = FacesContext.getCurrentInstance();
-        httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
+        httpServletRequest = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         this.empleadoSelected = (DetEmpleadoDTO) httpServletRequest.getSession(true).getAttribute("empleado");
         
         empleadoSelected = empleadoDAO.buscarPorId(empleadoSelected.getIdEmpleado());

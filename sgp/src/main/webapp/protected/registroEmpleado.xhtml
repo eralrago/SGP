@@ -3,7 +3,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/template.xhtml">
+                template="/WEB-INF/plantillas/template.xhtml">
 
     <ui:define name="title">Registro de empleados</ui:define>
 
@@ -107,7 +107,7 @@
                                         <div class="formgrid grid">
                                             <div class="field col">
                                                 <p:outputLabel for="@next" value="CURP"/>
-                                                <p:inputText id="curp" value="#{registroEmpleadosBean.empleadoSelected.curp}"/>  
+                                                <p:inputText id="curp" value="#{registroEmpleadosBean.empleadoSelected.curp}" maxlength="18" class="uppercase" onblur="value.toUpperCase()"/>  
                                             </div>
                                             <div class="field col">
                                                 <p:outputLabel for="@next" value="Fecha de nacimiento" />
@@ -145,7 +145,7 @@
                                                 <p:outputLabel for="@next" value="Perfil" />
                                                 <p:selectOneMenu id="soPerfil" value="#{registroEmpleadosBean.empleadoSelected.catPerfilDTO.idPerfil}" autoWidth="false">
                                                     <f:selectItem itemLabel="--Seleccione--"/>
-                                                    <f:selectItems value="#{registroEmpleadosBean.lstCatPerfil}" var="perfil" itemValue="#{perfil.idPerfil}" itemLabel="#{perfil.descripcion}"/>
+                                                    <f:selectItems value="#{registroEmpleadosBean.lstCatPerfil}" var="perfil" itemValue="#{perfil.idPerfil}" itemLabel="#{perfil.descripcion}" itemDisabled="#{perfil.idPerfil eq 1}"/>
                                                 </p:selectOneMenu>
                                             </div>
                                             <div class="field col">

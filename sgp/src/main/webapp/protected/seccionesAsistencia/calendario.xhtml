@@ -25,26 +25,31 @@
                     <p:inputText id="registro" rendered="#{asistenciaBean.evento.description eq null}" value="Sin registro" disabled="true"/>
                 </div>
             </p:panel>
-            <div class="field">
-                <p:outputLabel for="estatus" value="Estatus" />
-                <p:inputText id="estatus" value="#{asistenciaBean.evento.dynamicProperties.get('estatus')}" disabled="true"/>
-            </div>
+            <p:panel id="pnlEstatus" rendered="#{asistenciaBean.evento.description eq null}" styleClass="ferbo-panel-no-border">
+                <div class="field">
+                    <p:outputLabel for="estatus" value="Estatus" />
+                    <p:inputText id="estatus" value="#{asistenciaBean.evento.dynamicProperties.get('estatus')}" disabled="true"/>
+                </div>
+            </p:panel>
         </p:outputPanel>
         <p:outputPanel id="pnlDetallePermiso" styleClass="ui-fluid p-0" rendered="#{asistenciaBean.evento.dynamicProperties.get('estatus') eq null}">
             <div class="field">
                 <p:outputLabel for="tipoSol" value="Tipo" />
                 <p:inputText id="tipoSol" value="#{asistenciaBean.evento.dynamicProperties.get('tipoSolicitud')}" disabled="true"/>
             </div>
-            <div class="field">
-                <p:outputLabel for="fDesde" value="Desde" />
-                <p:calendar id="fDesde" value="#{asistenciaBean.evento.startDate}" pattern="dd/MM/yyyy" disabled="true"
-                            timeZone="Mexico/General"/>
-            </div>
-            <div class="field">
-                <p:outputLabel for="fHasta" value="Hasta" />
-                <p:calendar id="fHasta" value="#{asistenciaBean.evento.endDate}" pattern="dd/MM/yyyy" disabled="true"
-                            timeZone="Mexico/General"/>
-            </div>
+            <p:panel id="pnlFechas" styleClass="ferbo-panel-no-border">
+                <div class="field">
+                    <p:outputLabel for="fDesde" value="Desde" rendered="#{asistenciaBean.evento.dynamicProperties.get('idTipoSolicitud') eq 2}"/>
+                    <p:outputLabel for="fDesde" value="Fecha" rendered="#{asistenciaBean.evento.dynamicProperties.get('idTipoSolicitud') ne 2}"/>
+                    <p:calendar id="fDesde" value="#{asistenciaBean.evento.startDate}" pattern="dd/MM/yyyy" disabled="true"
+                                timeZone="Mexico/General"/>
+                </div>
+                <div class="field">
+                    <p:outputLabel for="fHasta" value="Hasta" rendered="#{asistenciaBean.evento.dynamicProperties.get('idTipoSolicitud') eq 2}"/>
+                    <p:calendar id="fHasta" value="#{asistenciaBean.evento.endDate}" pattern="dd/MM/yyyy" disabled="true"
+                                timeZone="Mexico/General" rendered="#{asistenciaBean.evento.dynamicProperties.get('idTipoSolicitud') eq 2}"/>
+                </div>
+            </p:panel>
         </p:outputPanel>
     </p:dialog>        
     <style>
@@ -66,9 +71,9 @@
             Array.from(document.getElementsByClassName('fc-event-title')).forEach(function (element) {
                 console.log(element);
                 if (element.getInnerHTML().at(0) === 'E') {
-                    element.setHTML('Entrada<br/>'.concat(element.getInnerHTML().replace('Entrada','')));
-                }else if((element.getInnerHTML().at(0) === 'S')){
-                    element.setHTML('Salida<br/>'.concat(element.getInnerHTML().replace('Salida','')));
+                    element.setHTML('Entrada<br/>'.concat(element.getInnerHTML().replace('Entrada', '')));
+                } else if ((element.getInnerHTML().at(0) === 'S')) {
+                    element.setHTML('Salida<br/>'.concat(element.getInnerHTML().replace('Salida', '')));
                 }
             });
         };

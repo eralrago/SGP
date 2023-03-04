@@ -43,7 +43,6 @@ public class IncidenciaBean implements Serializable {
     private Date minDate;
     
     private DetEmpleadoDTO empleadoSelected;
-    private FacesContext faceContext;
     private HttpServletRequest httpServletRequest;
     private final EmpleadoDAO empleadoDAO;
 
@@ -53,8 +52,7 @@ public class IncidenciaBean implements Serializable {
         minDate = new Date();
         
         empleadoDAO = new EmpleadoDAO();
-        faceContext = FacesContext.getCurrentInstance();
-        httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
+        httpServletRequest = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         this.empleadoSelected = (DetEmpleadoDTO) httpServletRequest.getSession(true).getAttribute("empleado");
         
         empleadoSelected = empleadoDAO.buscarPorId(empleadoSelected.getIdEmpleado());

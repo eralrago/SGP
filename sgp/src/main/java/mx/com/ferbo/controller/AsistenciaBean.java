@@ -45,7 +45,6 @@ public class AsistenciaBean implements Serializable {
     
     // Obteniendo Empleado
     private DetEmpleadoDTO empleadoSelected;
-    private FacesContext faceContext;
     private HttpServletRequest httpServletRequest;
 
     public AsistenciaBean() {
@@ -61,8 +60,7 @@ public class AsistenciaBean implements Serializable {
         invalidDays.add(0);
         
         empleadoSelected = new DetEmpleadoDTO();
-        faceContext = FacesContext.getCurrentInstance();
-        httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
+        httpServletRequest = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         this.empleadoSelected = (DetEmpleadoDTO) httpServletRequest.getSession(true).getAttribute("empleado");
     }
 
@@ -98,7 +96,7 @@ public class AsistenciaBean implements Serializable {
                         .startDate(convertirDateToLocalDateTime(registro.getFechaSalida()))
                         .endDate(convertirDateToLocalDateTime(registro.getFechaSalida()))
                         .description(sdf.format(registro.getFechaSalida()))
-                        .backgroundColor(findBgColor(registro.getCatEstatusRegistroDTO().getIdEstatus()))
+                        .backgroundColor(findBgColor(0))
                         .dynamicProperty("estatus", registro.getCatEstatusRegistroDTO().getDescripcion())
                         .build();
 
@@ -117,6 +115,7 @@ public class AsistenciaBean implements Serializable {
                     .allDay(true)
                     .description(null)
                     .dynamicProperty("tipoSolicitud", incidencia.getDetSolicitudPermisoDTO().getCatTipoSolicitud().getDescripcion())
+                    .dynamicProperty("idTipoSolicitud", incidencia.getDetSolicitudPermisoDTO().getCatTipoSolicitud().getIdTipoSolicitud())
                     .build();           
            calendario.addEvent(eventoEntrada);
         }
@@ -139,11 +138,15 @@ public class AsistenciaBean implements Serializable {
     private String findBgColor(Integer idEstatus) {
         String color = null;
         switch (idEstatus) {
+            case 1:
+                color = "#689F38";
+                break;
             case 2:
                 color = "#ef6262";
                 break;
             default:
-                color = "#689F38";
+                color = "#00000000";
+                break;
         }
         return color;
     }

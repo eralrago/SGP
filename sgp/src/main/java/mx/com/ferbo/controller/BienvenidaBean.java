@@ -8,8 +8,8 @@ import java.time.LocalDate;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,7 +17,7 @@ import mx.com.ferbo.dao.EmpleadoDAO;
 import mx.com.ferbo.dto.DetEmpleadoDTO;
 
 @Named(value = "bienvenidaBean")
-@SessionScoped
+@ViewScoped
 public class BienvenidaBean implements Serializable {
 	
 	private DetEmpleadoDTO empleadoSelected;

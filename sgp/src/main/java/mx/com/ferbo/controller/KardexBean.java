@@ -1,7 +1,9 @@
 package mx.com.ferbo.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -59,11 +61,14 @@ public class KardexBean implements Serializable {
         catPuestoDAO = new CatPuestoDAO();
         catAreaDAO = new CatAreaDAO();
         empleadoDAO = new EmpleadoDAO();
-        
-        httpServletRequest = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        this.empleadoSelected = (DetEmpleadoDTO) httpServletRequest.getSession(true).getAttribute("empleado");
-        
-        empleadoSelected = empleadoDAO.buscarPorId(empleadoSelected.getIdEmpleado());
+        Integer idEmpleado = searchIdEmpleado();
+        if(idEmpleado == null) {
+            httpServletRequest = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            empleadoSelected = (DetEmpleadoDTO) httpServletRequest.getSession(true).getAttribute("empleado");
+            empleadoSelected = empleadoDAO.buscarPorId(empleadoSelected.getIdEmpleado());
+        } else {
+            empleadoSelected = empleadoDAO.buscarPorId(idEmpleado);
+        }
     }
 
     @PostConstruct
@@ -79,6 +84,28 @@ public class KardexBean implements Serializable {
             log.info(ex);
         }
     }
+    
+    private Integer searchIdEmpleado(){
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String id = params.get("idEmpleado");
+        if (isNumeric(id)) {
+            return Integer.valueOf(id);
+        } else {
+            return null;
+        }
+    }
+    
+    private static boolean isNumeric(final String strNum) {
+	    if (strNum == null) {
+	        return false;
+	    }
+	    try {
+	        Integer.valueOf(strNum);
+	    } catch (NumberFormatException nfe) {
+	        return false;
+	    }
+	    return true;
+	}
 
 //<editor-fold defaultstate="collapsed" desc="Getters&Setters">
     public DetEmpleadoDTO getEmpleadoSelected() {

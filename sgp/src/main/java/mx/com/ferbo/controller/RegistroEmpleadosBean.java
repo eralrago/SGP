@@ -180,15 +180,9 @@ public class RegistroEmpleadosBean implements Serializable {
     /*
      * Método para redirigir al kárdex
      */
-    public void redirectKardex() {
-        try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("kardexEmpleado.xhtml");
-        } catch (Exception e) {
-            FacesContext.getCurrentInstance()
-                    .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No es posible acceder al recurso"));
-            PrimeFaces.current().ajax().update("formRegistroEmpleado:messages");
-        }
-
+    public String redirectKardex() {
+        String redirect = "/protected/kardexEmpleado.xhtml?faces-redirect=true&idEmpleado=" + empleadoSelected.getIdEmpleado();
+            return redirect;
     }
     
     public void oncapture(CaptureEvent captureEvent) {

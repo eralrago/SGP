@@ -80,8 +80,8 @@
                                 <p:commandButton class="ui-button-danger rounded-button m-1" icon="pi pi-trash" process="@this" oncomplete="PF('dialogEliminarEmpleado').show()" >
                                     <f:setPropertyActionListener value="#{empleado}" target="#{registroEmpleadosBean.empleadoSelected}" />
                                 </p:commandButton>
-                                <p:commandButton class="ui-button-success rounded-button m-1" icon="pi pi-search" process="@this" actionListener="#{registroEmpleadosBean.redirectKardex()}">
-                                    <f:setPropertyActionListener value="#{empleado}" target="#{kardexBean.empleadoSelected}" />
+                                <p:commandButton class="ui-button-success rounded-button m-1" icon="pi pi-search" process="@this" action="#{registroEmpleadosBean.redirectKardex()}">
+                                    <f:setPropertyActionListener value="#{empleado}" target="#{registroEmpleadosBean.empleadoSelected}" />
                                 </p:commandButton>
                             </p:column>
                         </p:dataTable>

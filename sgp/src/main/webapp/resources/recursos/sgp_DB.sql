@@ -601,3 +601,10 @@ VALUES(5, 'Auxiliar general', 1);
 INSERT INTO sgp.cat_perfil
 (id_perfil, descripcion, activo)
 VALUES(6, 'Montacarguista', 1);
+
+
+UPDATE cat_tipo_solicitud SET descripcion = 'Incapacidad corta'
+WHERE id_tipo_solicitud =3;
+
+INSERT INTO cat_tipo_solicitud(descripcion)
+values('incapacidad larga');

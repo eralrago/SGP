@@ -1,10 +1,10 @@
 package mx.com.ferbo.dao;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
 import mx.com.ferbo.commons.dao.IBaseDAO;
 import mx.com.ferbo.dto.DetEmpleadoDTO;
 import mx.com.ferbo.model.CatArea;
@@ -21,7 +21,7 @@ import mx.com.ferbo.util.SGPException;
  */
 @Stateless
 @LocalBean
-public class EmpleadoDAO extends IBaseDAO<DetEmpleadoDTO, Integer> {
+public class EmpleadoDAO extends IBaseDAO<DetEmpleadoDTO, Integer> implements Serializable{
     
     @Override
     public DetEmpleadoDTO buscarPorId(Integer id) {

@@ -1,6 +1,6 @@
 package mx.com.ferbo.dao;
 
-import java.util.Date;
+import java.io.Serializable;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -17,7 +17,7 @@ import mx.com.ferbo.util.SGPException;
  */
 @LocalBean
 @Stateless
-public class RegistroDAO extends IBaseDAO<DetRegistroDTO, Integer> {
+public class RegistroDAO extends IBaseDAO<DetRegistroDTO, Integer>  implements Serializable{
 
     @Override
     public DetRegistroDTO buscarPorId(Integer id) {

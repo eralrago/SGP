@@ -30,8 +30,9 @@
 }
 
 .ferbo-schedule .fc-daygrid-event {
-    font-size: 1.5em;
+    font-size: 1.2em;
     white-space: normal;
+    margin-top: 4px !important;
 }
 .ferbo-schedule .fc-daygrid-event-dot {
     margin: 6px 6px;

@@ -1,5 +1,6 @@
 package mx.com.ferbo.dao;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.LocalBean;
@@ -19,7 +20,7 @@ import mx.com.ferbo.util.SGPException;
  */
 @LocalBean
 @Stateless
-public class SolicitudPermisoDAO extends IBaseDAO<DetSolicitudPermisoDTO, Integer> {
+public class SolicitudPermisoDAO extends IBaseDAO<DetSolicitudPermisoDTO, Integer> implements Serializable {
     
     @Override
     public DetSolicitudPermisoDTO buscarPorId(Integer id) {

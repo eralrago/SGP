@@ -1,5 +1,6 @@
 package mx.com.ferbo.dao;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.LocalBean;
@@ -20,7 +21,7 @@ import mx.com.ferbo.util.SGPException;
  */
 @Stateless
 @LocalBean
-public class IncidenciaDAO extends IBaseDAO<DetIncidenciaDTO, Integer> {
+public class IncidenciaDAO extends IBaseDAO<DetIncidenciaDTO, Integer>  implements Serializable{
     
     @Override
     public DetIncidenciaDTO buscarPorId(Integer id) {

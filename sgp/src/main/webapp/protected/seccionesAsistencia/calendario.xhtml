@@ -40,14 +40,22 @@
             <p:panel id="pnlFechas" styleClass="ferbo-panel-no-border">
                 <div class="field">
                     <p:outputLabel for="fDesde" value="Desde" rendered="#{asistenciaBean.evento.dynamicProperties.get('idTipoSolicitud') eq 2}"/>
-                    <p:outputLabel for="fDesde" value="Fecha" rendered="#{asistenciaBean.evento.dynamicProperties.get('idTipoSolicitud') ne 2}"/>
+                    <p:outputLabel for="fDesde" value="Fecha" rendered="#{asistenciaBean.evento.dynamicProperties.get('idTipoSolicitud') ne 2 
+                                                                          and asistenciaBean.evento.dynamicProperties.get('idTipoSolicitud') ne 3}"/>
                     <p:calendar id="fDesde" value="#{asistenciaBean.evento.startDate}" pattern="dd/MM/yyyy" disabled="true"
-                                timeZone="Mexico/General"/>
+                                timeZone="Mexico/General" rendered="#{asistenciaBean.evento.dynamicProperties.get('idTipoSolicitud') ne 3}"/>
+                    
+                    <p:outputLabel for="fDesdeHr" value="Hora inicial" rendered="#{asistenciaBean.evento.dynamicProperties.get('idTipoSolicitud') eq 3}"/>
+                    <p:calendar id="fDesdeHr" value="#{asistenciaBean.evento.startDate}" pattern="hh:mm:ss a" disabled="true"
+                                timeZone="Mexico/General" rendered="#{asistenciaBean.evento.dynamicProperties.get('idTipoSolicitud') eq 3}"/>
                 </div>
                 <div class="field">
                     <p:outputLabel for="fHasta" value="Hasta" rendered="#{asistenciaBean.evento.dynamicProperties.get('idTipoSolicitud') eq 2}"/>
                     <p:calendar id="fHasta" value="#{asistenciaBean.evento.endDate}" pattern="dd/MM/yyyy" disabled="true"
                                 timeZone="Mexico/General" rendered="#{asistenciaBean.evento.dynamicProperties.get('idTipoSolicitud') eq 2}"/>
+                    <p:outputLabel for="fHastaHr" value="Hora final" rendered="#{asistenciaBean.evento.dynamicProperties.get('idTipoSolicitud') eq 3}"/>
+                    <p:calendar id="fHastaHr" value="#{asistenciaBean.evento.endDate}" pattern="hh:mm:ss a" disabled="true"
+                                timeZone="Mexico/General" rendered="#{asistenciaBean.evento.dynamicProperties.get('idTipoSolicitud') eq 3}"/>
                 </div>
             </p:panel>
         </p:outputPanel>
@@ -65,16 +73,51 @@
             display: flex;
             text-align: center;
         }
+        .ferbo-schedule .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
+            /*text-align: center;*/
+        }
+        
+        .ferbo-schedule .fc-event .fc-event-main{
+            background: none !important;
+        }
+        
+        .ferbo-evento-comida{
+            background-color: #f39c12 !important;
+        }
+        .ferbo-evento-permiso{
+            background-color: #425691 !important;
+        }
+        .ferbo-evento-vacaciones{
+            background-color: #6cccdc !important;
+        }
+        .ferbo-evento-incapacidad-c{
+            background-color: #ae1c89 !important;
+        }
+        .ferbo-evento-incapacidad-l{
+            background-color: #6e1271 !important;
+        }
     </style>
     <script  type="text/javascript">
         window.onload = function () {
-            Array.from(document.getElementsByClassName('fc-event-title')).forEach(function (element) {
-                console.log(element);
-                if (element.getInnerHTML().at(0) === 'E') {
-                    element.setHTML('Entrada<br/>'.concat(element.getInnerHTML().replace('Entrada', '')));
-                } else if ((element.getInnerHTML().at(0) === 'S')) {
-                    element.setHTML('Salida<br/>'.concat(element.getInnerHTML().replace('Salida', '')));
-                }
+            Array.from(document.getElementsByClassName('fc-daygrid-event-harness')).forEach(function (dia) {
+                Array.from(dia.getElementsByClassName('fc-daygrid-event')).forEach(function (evento) {
+                    tipo = evento.querySelector('.fc-event-title');
+                    switch (tipo.getInnerHTML().at(0)) {
+                        case 'E':
+                            tipo.setHTML('Entrada<br/>'.concat(tipo.getInnerHTML().replace('Entrada', '')));
+                            break;
+                        case 'S':
+                            tipo.setHTML('Salida<br/>'.concat(tipo.getInnerHTML().replace('Salida', '')));
+                            tipo.setAttribute('style', 'padding: 0 8px;');
+                            evento.querySelector('.fc-daygrid-event-dot').setAttribute('style', 'display:none!important');
+                            break;
+                        case 'C':
+                            tipo.setHTML('Comida<br/>'.concat(tipo.getInnerHTML().replace('Comida', '')));
+                            tipo.setAttribute('style', 'padding: 0 8px;');
+                            evento.querySelector('.fc-daygrid-event-dot').setAttribute('style', 'display:none!important');
+                            break;
+                    }
+                });
             });
         };
     </script>

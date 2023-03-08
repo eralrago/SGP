@@ -1,5 +1,6 @@
 package mx.com.ferbo.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -7,12 +8,11 @@ import javax.ejb.Stateless;
 
 import mx.com.ferbo.commons.dao.IBaseDAO;
 import mx.com.ferbo.dto.CatPrendaDTO;
-import mx.com.ferbo.model.CatPrenda;
 import mx.com.ferbo.util.SGPException;
 
 @Stateless
 @LocalBean
-public class CatPrendaDAO extends IBaseDAO<CatPrendaDTO, Integer>{
+public class CatPrendaDAO extends IBaseDAO<CatPrendaDTO, Integer> implements Serializable{
 
 	@Override
 	public CatPrendaDTO buscarPorId(Integer id) {

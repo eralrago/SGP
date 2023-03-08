@@ -1,5 +1,6 @@
 package mx.com.ferbo.dao;
 
+import java.io.Serializable;
 import java.util.List;
 import mx.com.ferbo.commons.dao.IBaseDAO;
 import mx.com.ferbo.dto.CatTipoSolicitudDTO;
@@ -9,7 +10,7 @@ import mx.com.ferbo.util.SGPException;
  *
  * @author Gabriel
  */
-public class CatTipoSolicitudDAO extends IBaseDAO<CatTipoSolicitudDTO, Integer>{
+public class CatTipoSolicitudDAO extends IBaseDAO<CatTipoSolicitudDTO, Integer> implements Serializable{
 
     @Override
     public CatTipoSolicitudDTO buscarPorId(Integer id) {

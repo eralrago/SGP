@@ -3,9 +3,6 @@ package mx.com.ferbo.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-import mx.com.ferbo.model.CatPrenda;
-import mx.com.ferbo.model.DetEmpleado;
-
 public class DetSolicitudPrendaDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;

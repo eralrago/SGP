@@ -34,6 +34,7 @@ import javax.validation.constraints.NotNull;
             + " d.fechaInicio,"
             + " d.fechaFin,"
             + " d.aprobada,"
+            + " d.descripcionRechazo,"
             + " ts.idTipoSolicitud,"
             + " ts.descripcion"
             + ")"

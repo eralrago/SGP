@@ -1,12 +1,13 @@
 package mx.com.ferbo.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import mx.com.ferbo.commons.dao.IBaseDAO;
 import mx.com.ferbo.dto.CatTallaDTO;
 import mx.com.ferbo.util.SGPException;
 
-public class CatTallaDAO extends IBaseDAO<CatTallaDTO, Integer>{
+public class CatTallaDAO extends IBaseDAO<CatTallaDTO, Integer> implements Serializable{
 
 	@Override
 	public CatTallaDTO buscarPorId(Integer id) {

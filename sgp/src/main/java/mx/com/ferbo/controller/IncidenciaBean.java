@@ -72,10 +72,14 @@ public class IncidenciaBean implements Serializable {
     public void visualizaDialog() {
         switch (incidenciaSelected.getCatTipoIncidenciaDTO().getIdTipo()) {
             case 1:
-                if (incidenciaSelected.getDetSolicitudPermisoDTO().getCatTipoSolicitud().getIdTipoSolicitud() == 1) {
-                    fechaSeleccionada = incidenciaSelected.getDetSolicitudPermisoDTO().getFechaInicio();
-                } else {
-                    lstRangoRegistro = Arrays.asList(incidenciaSelected.getDetSolicitudPermisoDTO().getFechaInicio(), incidenciaSelected.getDetSolicitudPermisoDTO().getFechaFin());
+                switch (incidenciaSelected.getDetSolicitudPermisoDTO().getCatTipoSolicitud().getIdTipoSolicitud()) {
+                    case 1://PERMISO
+                    case 3://INCAPACDAD CORTA
+                        fechaSeleccionada = incidenciaSelected.getDetSolicitudPermisoDTO().getFechaInicio();
+                        break;
+                    default:
+                        lstRangoRegistro = Arrays.asList(incidenciaSelected.getDetSolicitudPermisoDTO().getFechaInicio(), incidenciaSelected.getDetSolicitudPermisoDTO().getFechaFin());
+                        break;
                 }
 
                 PrimeFaces.current().executeScript("PF('dialogPersmisos').show();");

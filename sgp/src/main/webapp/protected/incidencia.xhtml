@@ -102,12 +102,14 @@
                         </div>
                     </div>
                     <p:datePicker id="dpRangoView" rendered="#{incidenciaBean.incidenciaSelected.detSolicitudPermisoDTO.catTipoSolicitud.idTipoSolicitud ne null 
-                                                               and incidenciaBean.incidenciaSelected.detSolicitudPermisoDTO.catTipoSolicitud.idTipoSolicitud eq 2}" 
+                                                               and (incidenciaBean.incidenciaSelected.detSolicitudPermisoDTO.catTipoSolicitud.idTipoSolicitud eq 2 
+                                                               or incidenciaBean.incidenciaSelected.detSolicitudPermisoDTO.catTipoSolicitud.idTipoSolicitud eq 4)}" 
                                   styleClass="ferbo-datePicker" panelStyleClass="ferbo-datePicker-panel" disabled="true"
                                   showIcon="true" readonlyInput="true" timeZone="Mexico/General" value="#{incidenciaBean.lstRangoRegistro}"
                                   inline="true" selectionMode="range" disabledDays="#{incidenciaBean.invalidDays}"/>
                     <p:datePicker id="dpSimpleView" rendered="#{incidenciaBean.incidenciaSelected.detSolicitudPermisoDTO.catTipoSolicitud.idTipoSolicitud ne null 
-                                                                and incidenciaBean.incidenciaSelected.detSolicitudPermisoDTO.catTipoSolicitud.idTipoSolicitud ne 2}" 
+                                                                and (incidenciaBean.incidenciaSelected.detSolicitudPermisoDTO.catTipoSolicitud.idTipoSolicitud eq 1 
+                                                                or incidenciaBean.incidenciaSelected.detSolicitudPermisoDTO.catTipoSolicitud.idTipoSolicitud eq 3)}" 
                                   styleClass="ferbo-datePicker" panelStyleClass="ferbo-datePicker-panel" disabled="true"
                                   pattern="dd-MM-yyyy" showIcon="true" readonlyInput="true" timeZone="Mexico/General" value="#{incidenciaBean.fechaSeleccionada}"
                                   inline="true" disabledDays="#{incidenciaBean.invalidDays}"/>

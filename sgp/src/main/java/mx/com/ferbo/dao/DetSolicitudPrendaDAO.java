@@ -1,5 +1,6 @@
 package mx.com.ferbo.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -15,7 +16,7 @@ import mx.com.ferbo.util.SGPException;
 
 @Stateless
 @LocalBean
-public class DetSolicitudPrendaDAO extends IBaseDAO<DetSolicitudPrendaDTO, Integer>{
+public class DetSolicitudPrendaDAO extends IBaseDAO<DetSolicitudPrendaDTO, Integer> implements Serializable{
 
 	@Override
 	public DetSolicitudPrendaDTO buscarPorId(Integer id) {

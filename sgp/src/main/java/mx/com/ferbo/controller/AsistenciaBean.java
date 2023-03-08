@@ -3,11 +3,13 @@ package mx.com.ferbo.controller;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.ZoneId;
 import java.util.*;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
@@ -41,8 +43,9 @@ public class AsistenciaBean implements Serializable {
     private List<DetIncidenciaDTO> lstIncidencias;
     private List<Integer> invalidDays;
     private List<Date> lstRangoRegistro;
+    private List<SelectItem> lstTipoSolSelect;
     private Date fechaSeleccionada;
-    
+
     // Obteniendo Empleado
     private DetEmpleadoDTO empleadoSelected;
     private HttpServletRequest httpServletRequest;
@@ -57,8 +60,9 @@ public class AsistenciaBean implements Serializable {
         sdf.setTimeZone(TimeZone.getTimeZone(ZoneId.of("America/Mexico_City").normalized()));
         lstRangoRegistro = new ArrayList<>();
         invalidDays = new ArrayList<>();
+        lstTipoSolSelect = new ArrayList<>();
         invalidDays.add(0);
-        
+
         empleadoSelected = new DetEmpleadoDTO();
         httpServletRequest = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         this.empleadoSelected = (DetEmpleadoDTO) httpServletRequest.getSession(true).getAttribute("empleado");
@@ -68,6 +72,12 @@ public class AsistenciaBean implements Serializable {
     public void init() {
         evento = new DefaultScheduleEvent();
         lstTipoSol = catTipoSolicitudDAO.buscarActivo();
+        lstTipoSol.forEach((CatTipoSolicitudDTO tipo) -> {
+            lstTipoSolSelect.add(new SelectItem(tipo.getIdTipoSolicitud(),
+                    tipo.getDescripcion(),
+                    tipo.getIdTipoSolicitud() == 3 ? "Solo 1 día" : tipo.getIdTipoSolicitud() == 4 ? "Más de 1 día" : null));
+        });
+
         lstRegistros = registroDAO.consultaRegistrosPorIdEmp(empleadoSelected.getIdEmpleado());
         lstIncidencias = incidenciaDAO.consultaPorIdEmpleado(empleadoSelected.getIdEmpleado());
         generaEventosRegistros(lstRegistros);
@@ -79,6 +89,7 @@ public class AsistenciaBean implements Serializable {
 
         for (DetRegistroDTO registro : registros) {
 
+            //Evento de entrada
             DefaultScheduleEvent eventoEntrada = DefaultScheduleEvent.builder()
                     .title("Entrada " + sdf.format(registro.getFechaEntrada()))
                     .startDate(convertirDateToLocalDateTime(registro.getFechaEntrada()))
@@ -90,13 +101,25 @@ public class AsistenciaBean implements Serializable {
 
             calendario.addEvent(eventoEntrada);
 
+            //Genera horario de comida
+            DefaultScheduleEvent eventoComida = DefaultScheduleEvent.builder()
+                    .title("Comida\n 2:00 PM - 03:00 PM")
+                    .startDate(convertirDateToLocalDateTime(generaHorarioComida(true, registro.getFechaEntrada())))
+                    .endDate(convertirDateToLocalDateTime(generaHorarioComida(false, registro.getFechaEntrada())))
+                    .description(null)
+                    .styleClass(estiloByTipo(0))
+                    .dynamicProperty("tipoSolicitud", "Horario de comida")
+                    .dynamicProperty("idTipoSolicitud", 3)
+                    .build();
+            calendario.addEvent(eventoComida);
+
+            //Evento de salida
             if (registro.getFechaSalida() != null) {
                 DefaultScheduleEvent eventoSalida = DefaultScheduleEvent.builder()
                         .title("Salida " + sdf.format(registro.getFechaSalida()))
                         .startDate(convertirDateToLocalDateTime(registro.getFechaSalida()))
                         .endDate(convertirDateToLocalDateTime(registro.getFechaSalida()))
                         .description(sdf.format(registro.getFechaSalida()))
-                        .backgroundColor(findBgColor(0))
                         .dynamicProperty("estatus", registro.getCatEstatusRegistroDTO().getDescripcion())
                         .build();
 
@@ -105,19 +128,20 @@ public class AsistenciaBean implements Serializable {
         }
 
     }
-    
-    public void generaEventosIncidencias(List<DetIncidenciaDTO> incidencias){
+
+    private void generaEventosIncidencias(List<DetIncidenciaDTO> incidencias) {
         for (DetIncidenciaDTO incidencia : incidencias) {
-           DefaultScheduleEvent eventoEntrada = DefaultScheduleEvent.builder()
+            DefaultScheduleEvent eventoEntrada = DefaultScheduleEvent.builder()
                     .title(incidencia.getDetSolicitudPermisoDTO().getCatTipoSolicitud().getDescripcion())
                     .startDate(convertirDateToLocalDateTime(incidencia.getDetSolicitudPermisoDTO().getFechaInicio()))
                     .endDate(convertirDateToLocalDateTime(incidencia.getDetSolicitudPermisoDTO().getFechaFin()))
                     .allDay(true)
                     .description(null)
+                    .styleClass(estiloByTipo(incidencia.getDetSolicitudPermisoDTO().getCatTipoSolicitud().getIdTipoSolicitud()))
                     .dynamicProperty("tipoSolicitud", incidencia.getDetSolicitudPermisoDTO().getCatTipoSolicitud().getDescripcion())
                     .dynamicProperty("idTipoSolicitud", incidencia.getDetSolicitudPermisoDTO().getCatTipoSolicitud().getIdTipoSolicitud())
-                    .build();           
-           calendario.addEvent(eventoEntrada);
+                    .build();
+            calendario.addEvent(eventoEntrada);
         }
     }
 
@@ -151,6 +175,28 @@ public class AsistenciaBean implements Serializable {
         return color;
     }
 
+    private String estiloByTipo(int idTipoEvento) {
+        String estilo;
+        switch (idTipoEvento) {
+            case 1:
+                estilo = "ferbo-evento-permiso";
+                break;
+            case 2:
+                estilo = "ferbo-evento-vacaciones";
+                break;
+            case 3:
+                estilo = "ferbo-evento-incapacidad-c";
+                break;
+            case 4:
+                estilo = "ferbo-evento-incapacidad-l";
+                break;
+            default:
+                estilo = "ferbo-evento-comida";
+                break;
+        }
+        return estilo;
+    }
+
     public void guardaSolicitud() {
 
         try {
@@ -180,11 +226,6 @@ public class AsistenciaBean implements Serializable {
         PrimeFaces.current().ajax().update("formActividades:messages", "formActividades:tabView:dtSolicitudes");
     }
 
-    public void cancelaSolicitud() {
-        System.out.println("Cancelar");
-
-    }
-
     public void inicializaSolicitud() {
         solicitudSelected = new DetSolicitudPermisoDTO();
     }
@@ -192,7 +233,7 @@ public class AsistenciaBean implements Serializable {
     public void actualizaCalendarioSeleccionado() {
         switch (solicitudSelected.getCatTipoSolicitud().getIdTipoSolicitud()) {
             case 1://PERMISO
-            case 3://INCAPACIDAD
+            case 3://INCAPACIDAD CORTA
                 fechaSeleccionada = solicitudSelected.getFechaInicio();
                 break;
             default:
@@ -200,6 +241,22 @@ public class AsistenciaBean implements Serializable {
         }
 
         PrimeFaces.current().executeScript("PF('dialogVacacionesView').show();");
+    }
+
+    private Date generaHorarioComida(boolean inicio, Date fecha) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fecha);
+
+        if (inicio) {
+            calendar.set(Calendar.HOUR_OF_DAY, 14);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+        } else {
+            calendar.set(Calendar.HOUR_OF_DAY, 15);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+        }
+        return calendar.getTime();
     }
 
     public ScheduleModel getCalendario() {
@@ -268,6 +325,14 @@ public class AsistenciaBean implements Serializable {
 
     public void setEmpleadoSelected(DetEmpleadoDTO empleadoSelected) {
         this.empleadoSelected = empleadoSelected;
+    }
+
+    public List<SelectItem> getLstTipoSolSelect() {
+        return lstTipoSolSelect;
+    }
+
+    public void setLstTipoSolSelect(List<SelectItem> lstTipoSolSelect) {
+        this.lstTipoSolSelect = lstTipoSolSelect;
     }
 
 }

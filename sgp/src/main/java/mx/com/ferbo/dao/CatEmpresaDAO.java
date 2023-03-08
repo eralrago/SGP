@@ -1,5 +1,6 @@
 package mx.com.ferbo.dao;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -12,7 +13,7 @@ import mx.com.ferbo.dto.CatEmpresaDTO;
  */
 @Stateless
 @LocalBean
-public class CatEmpresaDAO extends IBaseDAO<CatEmpresaDTO, Integer> {
+public class CatEmpresaDAO extends IBaseDAO<CatEmpresaDTO, Integer> implements Serializable {
 
     @Override
     public CatEmpresaDTO buscarPorId(Integer id) {

@@ -1,5 +1,6 @@
 package mx.com.ferbo.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -11,7 +12,7 @@ import mx.com.ferbo.util.SGPException;
 
 @Stateless
 @LocalBean
-public class CatArticulosDAO extends IBaseDAO<CatArticuloDTO, Integer>{
+public class CatArticulosDAO extends IBaseDAO<CatArticuloDTO, Integer> implements Serializable{
 
 	@Override
 	public CatArticuloDTO buscarPorId(Integer id) {

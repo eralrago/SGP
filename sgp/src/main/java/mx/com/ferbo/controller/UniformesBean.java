@@ -85,14 +85,16 @@ public class UniformesBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        lstSolicitudPrendas = new ArrayList<>();
+        solicitud.setEmpleadoSol(empleadoSelected);
+        lstSolicitudPrendas = detSolicitudPrendaDAO.buscarPorCriterios(solicitud);
         lstPrendasActivas = uniformesDAO.buscarActivo();
         lstTallasActivas = tallaDAO.buscarActivo();
     }
 
     public void preRegistro() {
         solicitud.setFechaCap(new Date());
-        solicitud.setIdEmpleadoSol(empleadoSelected.getIdEmpleado());
+        // solicitud.setIdEmpleadoSol(empleadoSelected.getIdEmpleado());
+        solicitud.setEmpleadoSol(empleadoSelected);
 
         Optional<DetSolicitudPrendaDTO> elementoEncontrado = lstSolicitudPrendas.stream().filter(sol -> sol.getPrenda().getIdPrenda() == solicitud.getPrenda().getIdPrenda()).findAny();
         if (!elementoEncontrado.isPresent()) {
@@ -117,6 +119,10 @@ public class UniformesBean implements Serializable {
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Solicitud Registrada"));
         FacesContext.getCurrentInstance().getExternalContext().redirect("uniformes.xhtml");
+    }
+    
+    public void lstSolicitudUniformes() {
+        lstSolicitudPrendas = detSolicitudPrendaDAO.buscarPorCriterios(solicitud);
     }
 
     public List<CatPrendaDTO> getLstPrendasActivas() {

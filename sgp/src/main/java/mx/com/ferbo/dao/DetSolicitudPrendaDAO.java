@@ -16,65 +16,65 @@ import mx.com.ferbo.util.SGPException;
 
 @Stateless
 @LocalBean
-public class DetSolicitudPrendaDAO extends IBaseDAO<DetSolicitudPrendaDTO, Integer> implements Serializable{
+public class DetSolicitudPrendaDAO extends IBaseDAO<DetSolicitudPrendaDTO, Integer> implements Serializable {
 
-	@Override
-	public DetSolicitudPrendaDTO buscarPorId(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public DetSolicitudPrendaDTO buscarPorId(Integer id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public List<DetSolicitudPrendaDTO> buscarTodos() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<DetSolicitudPrendaDTO> buscarTodos() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public List<DetSolicitudPrendaDTO> buscarActivo() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<DetSolicitudPrendaDTO> buscarActivo() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public List<DetSolicitudPrendaDTO> buscarPorCriterios(DetSolicitudPrendaDTO e) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<DetSolicitudPrendaDTO> buscarPorCriterios(DetSolicitudPrendaDTO e) {
+        List<DetSolicitudPrendaDTO> solicitud = emSGP.createNamedQuery("DetSolicitudPrenda.findPrendasIdEmpleado", DetSolicitudPrendaDTO.class).setParameter("idEmp", e.getEmpleadoSol().getIdEmpleado()).getResultList();
+        return solicitud;
+    }
 
-	@Override
-	public void actualizar(DetSolicitudPrendaDTO e) throws SGPException {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void actualizar(DetSolicitudPrendaDTO e) throws SGPException {
+        // TODO Auto-generated method stub
 
-	@Override
-	public void eliminar(DetSolicitudPrendaDTO e) throws SGPException {
-		// TODO Auto-generated method stub
-		
-	}
+    }
 
-	@Override
-	public void guardar(DetSolicitudPrendaDTO e) throws SGPException {
-		DetSolicitudPrenda registro = new DetSolicitudPrenda();
-		try {
-			emSGP.getTransaction().begin();
-			registro.setCantidad(e.getCantidad());
-			// registro.setAprobada(e.getAprobada());
-			registro.setFechaCap(e.getFechaCap());
-			// registro.setFechaMod(e.getFechaMod());
-			registro.setIdPrenda(emSGP.getReference(CatPrenda.class, e.getPrenda().getIdPrenda()));
-			registro.setIdEmpleadoRev(null);
-			registro.setIdEmpleadoSol(emSGP.getReference(DetEmpleado.class, e.getIdEmpleadoSol()));
-			registro.setIdTalla(emSGP.getReference(CatTalla.class, e.getTalla().getIdTalla()));
-			emSGP.persist(registro);
+    @Override
+    public void eliminar(DetSolicitudPrendaDTO e) throws SGPException {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void guardar(DetSolicitudPrendaDTO e) throws SGPException {
+        DetSolicitudPrenda registro = new DetSolicitudPrenda();
+        try {
+            emSGP.getTransaction().begin();
+            registro.setCantidad(e.getCantidad());
+            // registro.setAprobada(e.getAprobada());
+            registro.setFechaCap(e.getFechaCap());
+            // registro.setFechaMod(e.getFechaMod());
+            registro.setIdPrenda(emSGP.getReference(CatPrenda.class, e.getPrenda().getIdPrenda()));
+            registro.setIdEmpleadoRev(null);
+            registro.setIdEmpleadoSol(emSGP.getReference(DetEmpleado.class, e.getEmpleadoSol()));
+            registro.setIdTalla(emSGP.getReference(CatTalla.class, e.getTalla().getIdTalla()));
+            emSGP.persist(registro);
             emSGP.getTransaction().commit();
             e.setIdSolicitud(registro.getIdSolicitud());
-		} catch (Exception ex) {
-    		emSGP.getTransaction().rollback();
+        } catch (Exception ex) {
+            emSGP.getTransaction().rollback();
             throw new SGPException("Error al guardar la solicitud de prenda");
-    	}
-		
-	}
+        }
+
+    }
 
 }

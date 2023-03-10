@@ -13,17 +13,20 @@ public class DetSolicitudPrendaDTO implements Serializable {
     private Short aprobada;
     private Date fechaCap;
     private Date fechaMod;
-    private Integer idEmpleadoSol;
-    private Integer idEmpleadoRev;
+    private DetEmpleadoDTO empleadoSol;
+    private DetEmpleadoDTO empleadoRev;
     private CatTallaDTO talla;
+    
 
     public DetSolicitudPrendaDTO() {
         talla = new CatTallaDTO();
         prenda = new CatPrendaDTO();
+        empleadoSol = new DetEmpleadoDTO();
+        empleadoRev = new DetEmpleadoDTO();
     }
 
     public DetSolicitudPrendaDTO(Integer idSolicitud, CatPrendaDTO prenda, int cantidad, Short aprobada, Date fechaCap,
-            Date fechaMod, Integer idEmpleadoSol, Integer idEmpleadoRev, CatTallaDTO talla) {
+            Date fechaMod, DetEmpleadoDTO empleadoSol, DetEmpleadoDTO empleadoRev, CatTallaDTO talla) {
         super();
         this.idSolicitud = idSolicitud;
         this.prenda = prenda;
@@ -31,8 +34,8 @@ public class DetSolicitudPrendaDTO implements Serializable {
         this.aprobada = aprobada;
         this.fechaCap = fechaCap;
         this.fechaMod = fechaMod;
-        this.idEmpleadoSol = idEmpleadoSol;
-        this.idEmpleadoRev = idEmpleadoRev;
+        this.empleadoSol = empleadoSol;
+        this.empleadoRev = empleadoRev;
         this.talla = talla;
     }
 
@@ -84,20 +87,20 @@ public class DetSolicitudPrendaDTO implements Serializable {
         this.fechaMod = fechaMod;
     }
 
-    public Integer getIdEmpleadoSol() {
-        return idEmpleadoSol;
+    public DetEmpleadoDTO getEmpleadoSol() {
+        return empleadoSol;
     }
 
-    public void setIdEmpleadoSol(Integer idEmpleadoSol) {
-        this.idEmpleadoSol = idEmpleadoSol;
+    public void setEmpleadoSol(DetEmpleadoDTO empleadoSol) {
+        this.empleadoSol = empleadoSol;
     }
 
-    public Integer getIdEmpleadoRev() {
-        return idEmpleadoRev;
+    public DetEmpleadoDTO getEmpleadoRev() {
+        return empleadoRev;
     }
 
-    public void setIdEmpleadoRev(Integer idEmpleadoRev) {
-        this.idEmpleadoRev = idEmpleadoRev;
+    public void setEmpleadoRev(DetEmpleadoDTO empleadoRev) {
+        this.empleadoRev = empleadoRev;
     }
 
     public CatTallaDTO getTalla() {

@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <p:dataTable id="dt-uniformes-sol" widgetVar="dtUniformes"
+                 var="uniforme" value="#{uniformesBean.lstSolicitudPrendas}"
+                 reflow="true" styleClass="products-table" rowKey="uniforme.idSolicitud">
+        <p:column headerText="Prenda" sortBy="#{uniforme.getPrenda().idPrenda}" width="100px">
+            <h:outputText value="#{uniforme.getPrenda().descripcion}" />
+        </p:column>
+        <p:column headerText="Cantidad" sortBy="#{uniforme.cantidad}" width="100px">
+            <h:outputText value="#{uniforme.cantidad}" />
+        </p:column>
+        <p:column headerText="Talla" sortBy="#{uniforme.getTalla().idTalla}" width="100px">
+            <h:outputText value="#{uniforme.getTalla().descripcion}" />
+        </p:column>
+    </p:dataTable>
+
+
+</ui:composition>

@@ -3,9 +3,10 @@
                 xmlns:p="http://primefaces.org/ui">
 
     <p:schedule value="#{asistenciaBean.calendario}" draggable="false" resizable="false" widgetVar="actividades" timeZone="Mexico/General" 
-                styleClass="ferbo-schedule" >
+                styleClass="ferbo-schedule">
         <p:ajax event="eventSelect" listener="#{asistenciaBean.eventoSeleccionado}" update="eventDialog"
                 oncomplete="PF('eventDialog').show();"/>
+        <p:ajax event="viewChange" oncomplete="actualizaCampos();"/>
     </p:schedule>
 
     <p:dialog id="eventDialog" widgetVar="eventDialog" header="Detalle del registro" showEffect="fade" width="350" responsive="true" modal="true">
@@ -98,7 +99,7 @@
         }
     </style>
     <script  type="text/javascript">
-        window.onload = function () {
+        function actualizaCampos() {
             Array.from(document.getElementsByClassName('fc-daygrid-event-harness')).forEach(function (dia) {
                 Array.from(dia.getElementsByClassName('fc-daygrid-event')).forEach(function (evento) {
                     tipo = evento.querySelector('.fc-event-title');

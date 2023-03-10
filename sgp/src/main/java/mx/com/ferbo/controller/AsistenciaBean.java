@@ -3,7 +3,6 @@ package mx.com.ferbo.controller;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.time.ZoneId;
 import java.util.*;
 import javax.annotation.PostConstruct;
@@ -15,6 +14,7 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import mx.com.ferbo.dao.*;
 import mx.com.ferbo.dto.*;
+import mx.com.ferbo.util.SGPException;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.*;
@@ -85,9 +85,57 @@ public class AsistenciaBean implements Serializable {
         lstSolicitudes = solicitudPermisoDAO.consultaPorIdEmpleado(empleadoSelected.getIdEmpleado());
     }
 
+    private String diaInicialRegistro(int dia) {
+        String diaSt;
+        switch (dia) {
+            case 1:
+                diaSt = "Domingo";
+                break;
+            case 2:
+                diaSt = "Lunes";
+                break;
+            case 3:
+                diaSt = "Martes";
+                break;
+            case 4:
+                diaSt = "Miercoles";
+                break;
+            case 5:
+                diaSt = "Jueves";
+                break;
+            case 6:
+                diaSt = "Viernes";
+                break;
+            default:
+                diaSt = "Sabado";
+                break;
+        }
+        return diaSt;
+    }
+
     private void generaEventosRegistros(List<DetRegistroDTO> registros) {
 
+        int retardosSemana = 0;
+        int diaInicioSemana = 5; //JUEVES
+        int diaInicioRegistros;
         for (DetRegistroDTO registro : registros) {
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(registro.getFechaEntrada());
+
+            System.out.println(diaInicialRegistro(cal.get(Calendar.DAY_OF_WEEK)));
+            if (cal.get(Calendar.DAY_OF_WEEK) == diaInicioSemana) {
+                retardosSemana = 0;
+                diaInicioRegistros = diaInicioSemana;
+            } else {
+                diaInicioRegistros = cal.get(Calendar.DAY_OF_WEEK);
+            }
+
+            if (registro.getCatEstatusRegistroDTO().getIdEstatus() == 2) {
+                retardosSemana += 1;
+            }
+
+            System.out.println(retardosSemana);
 
             //Evento de entrada
             DefaultScheduleEvent eventoEntrada = DefaultScheduleEvent.builder()
@@ -160,7 +208,7 @@ public class AsistenciaBean implements Serializable {
     }
 
     private String findBgColor(Integer idEstatus) {
-        String color = null;
+        String color;
         switch (idEstatus) {
             case 1:
                 color = "#689F38";
@@ -214,7 +262,7 @@ public class AsistenciaBean implements Serializable {
             lstSolicitudes.add(solicitudSelected);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Solicitud registrada"));
 
-        } catch (Exception ex) {
+        } catch (SGPException ex) {
             System.out.println("Error " + ex);
             FacesContext.getCurrentInstance()
                     .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al registrar la solicitud"));

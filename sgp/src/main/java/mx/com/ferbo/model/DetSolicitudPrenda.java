@@ -25,7 +25,15 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "det_solicitud_prenda")
 @NamedQueries({
-    @NamedQuery(name = "DetSolicitudPrenda.findAll", query = "SELECT d FROM DetSolicitudPrenda d")})
+    @NamedQuery(name = "DetSolicitudPrenda.findAll", query = "SELECT d FROM DetSolicitudPrenda d"),
+    @NamedQuery(name = "DetSolicitudPrenda.findPrendasIdEmpleado", query = "SELECT NEW mx.com.ferbo.dto.DetSolicitudPrendaDTO("
+                                                                    + "d.idSolicitud, p.idPrenda, p.descripcion, d.cantidad, d.aprobada, d.fechaCap, d.fechaMod, e.idEmpleado, t.idTalla, t.descripcion) "
+                                                                    + "FROM DetSolicitudPrenda d "
+                                                                    + "INNER JOIN d.idEmpleadoSol e "
+                                                                    + "INNER JOIN d.idPrenda p "
+                                                                    + "INNER JOIN d.idTalla t "
+                                                                    + "WHERE e.idEmpleado = :numEmpl")
+})
 public class DetSolicitudPrenda implements Serializable {
 
     private static final long serialVersionUID = 1L;

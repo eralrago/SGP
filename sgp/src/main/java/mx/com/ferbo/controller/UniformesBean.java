@@ -41,6 +41,7 @@ public class UniformesBean implements Serializable {
     private List<CatTallaDTO> lstTallasActivas;
     private List<Integer> lstCantidad;
     private List<DetSolicitudPrendaDTO> lstSolicitudPrendas;
+    private List<DetSolicitudPrendaDTO> lstSolicitudPrendasRealizadas;
 
     private Hashtable<String, String> prendasTallasCantidad;
 
@@ -86,13 +87,15 @@ public class UniformesBean implements Serializable {
     @PostConstruct
     public void init() {
         lstSolicitudPrendas = new ArrayList<>();
+        solicitud.setEmpleadoSol(empleadoSelected);
+        lstSolicitudPrendasRealizadas = detSolicitudPrendaDAO.buscarPorCriterios(solicitud);
         lstPrendasActivas = uniformesDAO.buscarActivo();
         lstTallasActivas = tallaDAO.buscarActivo();
     }
 
     public void preRegistro() {
         solicitud.setFechaCap(new Date());
-        solicitud.setIdEmpleadoSol(empleadoSelected.getIdEmpleado());
+        solicitud.setEmpleadoSol(empleadoSelected);
 
         Optional<DetSolicitudPrendaDTO> elementoEncontrado = lstSolicitudPrendas.stream().filter(sol -> sol.getPrenda().getIdPrenda() == solicitud.getPrenda().getIdPrenda()).findAny();
         if (!elementoEncontrado.isPresent()) {
@@ -101,7 +104,7 @@ public class UniformesBean implements Serializable {
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning", "Ya ha agregado esa prenda a su solicitud."));
         }
-        PrimeFaces.current().ajax().update("form:messages", "form:dt-uniformes", "form:uniformeDialog");
+        PrimeFaces.current().ajax().update("formActividadesUniformes:messages", "formActividadesUniformes:tabView:dt-uniformes", "formActividadesUniformes:tabView:uniformeDialog");
 
         solicitud = new DetSolicitudPrendaDTO();
     }
@@ -115,6 +118,7 @@ public class UniformesBean implements Serializable {
                 e.printStackTrace();
             }
         }
+        lstSolicitudPrendasRealizadas = detSolicitudPrendaDAO.buscarPorCriterios(solicitud);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Solicitud Registrada"));
         FacesContext.getCurrentInstance().getExternalContext().redirect("uniformes.xhtml");
     }
@@ -209,6 +213,14 @@ public class UniformesBean implements Serializable {
 
     public void setSolicitud(DetSolicitudPrendaDTO solicitud) {
         this.solicitud = solicitud;
+    }
+
+    public List<DetSolicitudPrendaDTO> getLstSolicitudPrendasRealizadas() {
+        return lstSolicitudPrendasRealizadas;
+    }
+
+    public void setLstSolicitudPrendasRealizadas(List<DetSolicitudPrendaDTO> lstSolicitudPrendasRealizadas) {
+        this.lstSolicitudPrendasRealizadas = lstSolicitudPrendasRealizadas;
     }
 
 }

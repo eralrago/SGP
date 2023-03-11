@@ -2,6 +2,7 @@ package mx.com.ferbo.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import mx.com.ferbo.dto.DetEmpleadoDTO;
 
 public class DetSolicitudPrendaDTO implements Serializable {
 
@@ -16,24 +17,26 @@ public class DetSolicitudPrendaDTO implements Serializable {
     private Integer idEmpleadoSol;
     private Integer idEmpleadoRev;
     private CatTallaDTO talla;
+    private DetEmpleadoDTO empleadoSol;
+    private DetEmpleadoDTO empleadoRev;
+    
 
     public DetSolicitudPrendaDTO() {
         talla = new CatTallaDTO();
         prenda = new CatPrendaDTO();
     }
 
-    public DetSolicitudPrendaDTO(Integer idSolicitud, CatPrendaDTO prenda, int cantidad, Short aprobada, Date fechaCap,
-            Date fechaMod, Integer idEmpleadoSol, Integer idEmpleadoRev, CatTallaDTO talla) {
+    public DetSolicitudPrendaDTO(Integer idSolicitud, Integer prenda, String descripcionP, int cantidad, Short aprobada, Date fechaCap,
+            Date fechaMod, Integer idEmpleadoSol, Integer talla, String descripcionT) {
         super();
         this.idSolicitud = idSolicitud;
-        this.prenda = prenda;
+        this.prenda = new CatPrendaDTO(prenda, descripcionP, (short)1);
         this.cantidad = cantidad;
         this.aprobada = aprobada;
         this.fechaCap = fechaCap;
         this.fechaMod = fechaMod;
-        this.idEmpleadoSol = idEmpleadoSol;
-        this.idEmpleadoRev = idEmpleadoRev;
-        this.talla = talla;
+        this.empleadoSol = new DetEmpleadoDTO(idEmpleadoSol);
+        this.talla = new CatTallaDTO(talla, descripcionT, (short)1);
     }
 
     public Integer getIdSolicitud() {
@@ -106,6 +109,22 @@ public class DetSolicitudPrendaDTO implements Serializable {
 
     public void setTalla(CatTallaDTO talla) {
         this.talla = talla;
+    }
+
+    public DetEmpleadoDTO getEmpleadoSol() {
+        return empleadoSol;
+    }
+
+    public void setEmpleadoSol(DetEmpleadoDTO empleadoSol) {
+        this.empleadoSol = empleadoSol;
+    }
+
+    public DetEmpleadoDTO getEmpleadoRev() {
+        return empleadoRev;
+    }
+
+    public void setEmpleadoRev(DetEmpleadoDTO empleadoRev) {
+        this.empleadoRev = empleadoRev;
     }
 
 }

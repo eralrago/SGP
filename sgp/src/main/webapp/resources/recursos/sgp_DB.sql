@@ -608,3 +608,43 @@ WHERE id_tipo_solicitud =3;
 
 INSERT INTO cat_tipo_solicitud(descripcion)
 values('incapacidad larga');
+
+-- -------------- 11-03-2023 --------------------
+
+ALTER TABLE `sgp`.`cat_prenda` 
+ADD COLUMN `precio` DECIMAL(5,2) NULL AFTER `imagen`;
+
+UPDATE `sgp`.`cat_prenda` SET `descripcion` = 'Botas' WHERE (`id_prenda` = '1');
+UPDATE `sgp`.`cat_prenda` SET `descripcion` = 'Pantalón' WHERE (`id_prenda` = '2');
+UPDATE `sgp`.`cat_prenda` SET `descripcion` = 'Polo' WHERE (`id_prenda` = '3');
+UPDATE `sgp`.`cat_prenda` SET `descripcion` = 'Camisa' WHERE (`id_prenda` = '4');
+INSERT INTO `sgp`.`cat_prenda` (`descripcion`, `activo`) VALUES ('Chaleco', '1');
+INSERT INTO `sgp`.`cat_prenda` (`descripcion`, `activo`) VALUES ('Sudadera', '1');
+INSERT INTO `sgp`.`cat_prenda` (`descripcion`, `activo`) VALUES ('Escafandra', '1');
+INSERT INTO `sgp`.`cat_prenda` (`descripcion`, `activo`) VALUES ('Chaleco Térmico', '1');
+INSERT INTO `sgp`.`cat_prenda` (`descripcion`, `activo`) VALUES ('Chamarra de Seguridad', '1');
+INSERT INTO `sgp`.`cat_prenda` (`descripcion`, `activo`) VALUES ('Lámpara de Cabeza', '1');
+INSERT INTO `sgp`.`cat_prenda` (`descripcion`, `activo`) VALUES ('Guante Blanco', '1');
+INSERT INTO `sgp`.`cat_prenda` (`descripcion`, `activo`) VALUES ('Guante Negro', '1');
+
+UPDATE `sgp`.`cat_prenda` SET `precio` = '600.00' WHERE (`id_prenda` = '1');
+UPDATE `sgp`.`cat_prenda` SET `precio` = '200.00' WHERE (`id_prenda` = '2');
+UPDATE `sgp`.`cat_prenda` SET `precio` = '70.00' WHERE (`id_prenda` = '3');
+UPDATE `sgp`.`cat_prenda` SET `precio` = '145.00' WHERE (`id_prenda` = '4');
+UPDATE `sgp`.`cat_prenda` SET `precio` = '390.00' WHERE (`id_prenda` = '5');
+UPDATE `sgp`.`cat_prenda` SET `precio` = '155.00' WHERE (`id_prenda` = '6');
+UPDATE `sgp`.`cat_prenda` SET `precio` = '56.00' WHERE (`id_prenda` = '7');
+UPDATE `sgp`.`cat_prenda` SET `precio` = '250.00' WHERE (`id_prenda` = '8');
+UPDATE `sgp`.`cat_prenda` SET `precio` = '280.00' WHERE (`id_prenda` = '9');
+UPDATE `sgp`.`cat_prenda` SET `precio` = '130.00' WHERE (`id_prenda` = '10');
+UPDATE `sgp`.`cat_prenda` SET `precio` = '0.00' WHERE (`id_prenda` = '11');
+UPDATE `sgp`.`cat_prenda` SET `precio` = '0.00' WHERE (`id_prenda` = '12');
+
+UPDATE `sgp`.`cat_puesto` SET `descripcion` = 'Gerente de Almacen' WHERE (`id_puesto` = '1');
+INSERT INTO `sgp`.`cat_puesto` (`descripcion`, `activo`) VALUES ('Subgerente de Almacen', '1');
+INSERT INTO `sgp`.`cat_puesto` (`descripcion`, `activo`) VALUES ('Montacarguista', '1');
+INSERT INTO `sgp`.`cat_puesto` (`descripcion`, `activo`) VALUES ('Auxiliar General', '1');
+INSERT INTO `sgp`.`cat_puesto` (`descripcion`, `activo`) VALUES ('Aprendiz de Auxiliar General', '1');
+INSERT INTO `sgp`.`cat_puesto` (`descripcion`, `activo`) VALUES ('Vigilante', '1');
+INSERT INTO `sgp`.`cat_puesto` (`descripcion`, `activo`) VALUES ('Administrador General', '1');
+INSERT INTO `sgp`.`cat_puesto` (`descripcion`, `activo`) VALUES ('Supervisor', '1');

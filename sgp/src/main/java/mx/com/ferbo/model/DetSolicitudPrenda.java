@@ -27,7 +27,7 @@ import javax.persistence.TemporalType;
 @NamedQueries({
     @NamedQuery(name = "DetSolicitudPrenda.findAll", query = "SELECT d FROM DetSolicitudPrenda d"),
     @NamedQuery(name = "DetSolicitudPrenda.findPrendasIdEmpleado", query = "SELECT NEW mx.com.ferbo.dto.DetSolicitudPrendaDTO("
-                                                                    + "d.idSolicitud, p.idPrenda, p.descripcion, d.cantidad, d.aprobada, d.fechaCap, d.fechaMod, e.idEmpleado, t.idTalla, t.descripcion) "
+                                                                    + "d.idSolicitud, p.idPrenda, p.descripcion, p.precio, d.cantidad, d.aprobada, d.fechaCap, d.fechaMod, e.idEmpleado, t.idTalla, t.descripcion) "
                                                                     + "FROM DetSolicitudPrenda d "
                                                                     + "INNER JOIN d.idEmpleadoSol e "
                                                                     + "INNER JOIN d.idPrenda p "

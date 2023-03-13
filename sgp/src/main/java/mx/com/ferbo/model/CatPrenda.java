@@ -5,6 +5,7 @@
 package mx.com.ferbo.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -26,8 +27,8 @@ import javax.persistence.Table;
 @Table(name = "cat_prenda")
 @NamedQueries({
     @NamedQuery(name = "CatPrenda.findAll", query = "SELECT c FROM CatPrenda c"),
-    @NamedQuery(name = "CatPrenda.findAllActive", query = "SELECT NEW mx.com.ferbo.dto.CatPrendaDTO(c.idPrenda, c.descripcion, c.activo) FROM CatPrenda c WHERE c.activo = 1"),
-    @NamedQuery(name = "CatPrenda.findById", query = "SELECT NEW mx.com.ferbo.dto.CatPrendaDTO(c.idPrenda, c.descripcion, c.activo) FROM CatPrenda c WHERE c.activo = 1 AND c.idPrenda = :idPrenda")
+    @NamedQuery(name = "CatPrenda.findAllActive", query = "SELECT NEW mx.com.ferbo.dto.CatPrendaDTO(c.idPrenda, c.descripcion, c.precio, c.activo) FROM CatPrenda c WHERE c.activo = 1"),
+    @NamedQuery(name = "CatPrenda.findById", query = "SELECT NEW mx.com.ferbo.dto.CatPrendaDTO(c.idPrenda, c.descripcion, c.precio, c.activo) FROM CatPrenda c WHERE c.activo = 1 AND c.idPrenda = :idPrenda")
 })
 public class CatPrenda implements Serializable {
 
@@ -39,6 +40,8 @@ public class CatPrenda implements Serializable {
     private Integer idPrenda;
     @Column(name = "descripcion")
     private String descripcion;
+    @Column(name = "precio", precision = 5, scale = 2)
+    private BigDecimal precio;
     @Basic(optional = false)
     @Column(name = "activo")
     private short activo;
@@ -73,6 +76,14 @@ public class CatPrenda implements Serializable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public BigDecimal getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(BigDecimal precio) {
+        this.precio = precio;
     }
 
     public short getActivo() {

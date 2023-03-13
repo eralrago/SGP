@@ -35,6 +35,12 @@
         <p:column headerText="Prenda" sortBy="#{uniforme.getPrenda().idPrenda}" width="100px">
             <h:outputText value="#{uniforme.getPrenda().descripcion}" />
         </p:column>
+        <p:column headerText="Imagen" width="100px">
+            <p:graphicImage name="images/#{uniforme.getPrenda().descripcion}.jpg" library="recursos" width="57" />
+        </p:column>
+        <p:column headerText="Precio" sortBy="#{uniforme.cantidad}" width="100px">
+            <h:outputText value="$#{uniforme.getPrenda().precio * uniforme.cantidad}" />
+        </p:column>
         <p:column headerText="Cantidad" sortBy="#{uniforme.cantidad}" width="100px">
             <h:outputText value="#{uniforme.cantidad}" />
         </p:column>
@@ -90,7 +96,17 @@
                         <f:selectItems value="#{uniformesBean.lstPrendasActivas}"
                                        var="prenda" itemValue="#{prenda}"
                                        itemLabel="#{prenda.descripcion}" />
+                          <f:ajax render="precioPrenda precioPrenda2"/>
                     </p:selectOneMenu>
+                </div>
+                <div class="field">
+                    <div>
+                        <p:outputLabel for="@next" value="Precio: " />
+                    </div>
+                    <h:outputText id="precioPrenda" value="$#{uniformesBean.solicitud.prenda.precio}" />
+                </div>
+                <div class="field">
+                    <h:graphicImage id="precioPrenda2" name="images/#{uniformesBean.solicitud.prenda.descripcion}.jpg" library="recursos" width="113" />
                 </div>
                 <div class="field">
                     <p:outputLabel for="@next" value="Cantidad" />

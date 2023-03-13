@@ -1,6 +1,7 @@
 package mx.com.ferbo.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import mx.com.ferbo.dto.DetEmpleadoDTO;
 
@@ -26,11 +27,11 @@ public class DetSolicitudPrendaDTO implements Serializable {
         prenda = new CatPrendaDTO();
     }
 
-    public DetSolicitudPrendaDTO(Integer idSolicitud, Integer prenda, String descripcionP, int cantidad, Short aprobada, Date fechaCap,
+    public DetSolicitudPrendaDTO(Integer idSolicitud, Integer prenda, String descripcionP, BigDecimal precio, int cantidad, Short aprobada, Date fechaCap,
             Date fechaMod, Integer idEmpleadoSol, Integer talla, String descripcionT) {
         super();
         this.idSolicitud = idSolicitud;
-        this.prenda = new CatPrendaDTO(prenda, descripcionP, (short)1);
+        this.prenda = new CatPrendaDTO(prenda, descripcionP, precio,(short)1);
         this.cantidad = cantidad;
         this.aprobada = aprobada;
         this.fechaCap = fechaCap;

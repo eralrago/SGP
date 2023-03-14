@@ -612,7 +612,8 @@ values('incapacidad larga');
 -- -------------- 11-03-2023 --------------------
 
 ALTER TABLE `sgp`.`cat_prenda` 
-ADD COLUMN `precio` DECIMAL(5,2) NULL AFTER `imagen`;
+ADD COLUMN `precio` DECIMAL(5,2) NULL AFTER `descripcion`,
+ADD COLUMN `cantidadMax` INT NULL AFTER `precio`;
 
 UPDATE `sgp`.`cat_prenda` SET `descripcion` = 'Botas' WHERE (`id_prenda` = '1');
 UPDATE `sgp`.`cat_prenda` SET `descripcion` = 'Pantalón' WHERE (`id_prenda` = '2');
@@ -640,6 +641,19 @@ UPDATE `sgp`.`cat_prenda` SET `precio` = '130.00' WHERE (`id_prenda` = '10');
 UPDATE `sgp`.`cat_prenda` SET `precio` = '0.00' WHERE (`id_prenda` = '11');
 UPDATE `sgp`.`cat_prenda` SET `precio` = '0.00' WHERE (`id_prenda` = '12');
 
+UPDATE `sgp`.`cat_prenda` SET `cantidad` = '1' WHERE (`id_prenda` = '1');
+UPDATE `sgp`.`cat_prenda` SET `cantidad` = '2' WHERE (`id_prenda` = '2');
+UPDATE `sgp`.`cat_prenda` SET `cantidad` = '3' WHERE (`id_prenda` = '3');
+UPDATE `sgp`.`cat_prenda` SET `cantidad` = '3' WHERE (`id_prenda` = '4');
+UPDATE `sgp`.`cat_prenda` SET `cantidad` = '2' WHERE (`id_prenda` = '5');
+UPDATE `sgp`.`cat_prenda` SET `cantidad` = '2' WHERE (`id_prenda` = '6');
+UPDATE `sgp`.`cat_prenda` SET `cantidad` = '2' WHERE (`id_prenda` = '7');
+UPDATE `sgp`.`cat_prenda` SET `cantidad` = '1' WHERE (`id_prenda` = '8');
+UPDATE `sgp`.`cat_prenda` SET `cantidad` = '1' WHERE (`id_prenda` = '9');
+UPDATE `sgp`.`cat_prenda` SET `cantidad` = '1' WHERE (`id_prenda` = '10');
+UPDATE `sgp`.`cat_prenda` SET `cantidad` = '4' WHERE (`id_prenda` = '11');
+UPDATE `sgp`.`cat_prenda` SET `cantidad` = '2' WHERE (`id_prenda` = '12');
+
 UPDATE `sgp`.`cat_puesto` SET `descripcion` = 'Gerente de Almacen' WHERE (`id_puesto` = '1');
 INSERT INTO `sgp`.`cat_puesto` (`descripcion`, `activo`) VALUES ('Subgerente de Almacen', '1');
 INSERT INTO `sgp`.`cat_puesto` (`descripcion`, `activo`) VALUES ('Montacarguista', '1');
@@ -648,3 +662,32 @@ INSERT INTO `sgp`.`cat_puesto` (`descripcion`, `activo`) VALUES ('Aprendiz de Au
 INSERT INTO `sgp`.`cat_puesto` (`descripcion`, `activo`) VALUES ('Vigilante', '1');
 INSERT INTO `sgp`.`cat_puesto` (`descripcion`, `activo`) VALUES ('Administrador General', '1');
 INSERT INTO `sgp`.`cat_puesto` (`descripcion`, `activo`) VALUES ('Supervisor', '1');
+
+UPDATE `sgp`.`cat_articulo` SET descripcion = 'Carpeta Lefort' WHERE id_articulo =1;
+UPDATE `sgp`.`cat_articulo` SET descripcion = 'Cinta Canela' WHERE id_articulo =2;
+UPDATE `sgp`.`cat_articulo` SET descripcion = 'Clips' WHERE id_articulo =3;
+UPDATE `sgp`.`cat_articulo` SET descripcion = 'Cloro' WHERE id_articulo =4;
+UPDATE `sgp`.`cat_articulo` SET descripcion = 'Cojin para Entintar Sumadora' WHERE id_articulo =5;
+UPDATE `sgp`.`cat_articulo` SET descripcion = 'Cubeta' WHERE id_articulo =6;
+UPDATE `sgp`.`cat_articulo` SET descripcion = 'Cutter' WHERE id_articulo =7;
+UPDATE `sgp`.`cat_articulo` SET descripcion = 'Engrapadora' WHERE id_articulo =8;
+UPDATE `sgp`.`cat_articulo` SET descripcion = 'Escobas' WHERE id_articulo =9;
+UPDATE `sgp`.`cat_articulo` SET descripcion = 'Grapas' WHERE id_articulo =10;
+INSERT INTO `sgp`.`cat_articulo` (descripcion, activo) VALUES ('Hojas o Navajas Para Cutter', 1);
+INSERT INTO `sgp`.`cat_articulo` (descripcion, activo) VALUES ('Jabon para Manos', 1);
+INSERT INTO `sgp`.`cat_articulo` (descripcion, activo) VALUES ('Jabon Roma', 1);
+INSERT INTO `sgp`.`cat_articulo` (descripcion, activo) VALUES ('Jalador', 1);
+INSERT INTO `sgp`.`cat_articulo` (descripcion, activo) VALUES ('Lapiz', 1);
+INSERT INTO `sgp`.`cat_articulo` (descripcion, activo) VALUES ('Marcador Permanente', 1);
+INSERT INTO `sgp`.`cat_articulo` (descripcion, activo) VALUES ('Marcatextos', 1);
+INSERT INTO `sgp`.`cat_articulo` (descripcion, activo) VALUES ('Papel Bond', 1);
+INSERT INTO `sgp`.`cat_articulo` (descripcion, activo) VALUES ('Papel de Baño', 1);
+INSERT INTO `sgp`.`cat_articulo` (descripcion, activo) VALUES ('Perforadora de Hojas', 1);
+INSERT INTO `sgp`.`cat_articulo` (descripcion, activo) VALUES ('Playo', 1);
+INSERT INTO `sgp`.`cat_articulo` (descripcion, activo) VALUES ('Pluma', 1);
+INSERT INTO `sgp`.`cat_articulo` (descripcion, activo) VALUES ('Recogedor', 1);
+INSERT INTO `sgp`.`cat_articulo` (descripcion, activo) VALUES ('Rollo Termico de 8 Cm', 1);
+INSERT INTO `sgp`.`cat_articulo` (descripcion, activo) VALUES ('Rollos para Sumadora', 1);
+INSERT INTO `sgp`.`cat_articulo` (descripcion, activo) VALUES ('Tabla Pisa Papel', 1);
+INSERT INTO `sgp`.`cat_articulo` (descripcion, activo) VALUES ('Toallas Interbobladas', 1);
+INSERT INTO `sgp`.`cat_articulo` (descripcion, activo) VALUES ('Trapo', 1);

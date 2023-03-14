@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
@@ -63,8 +65,8 @@ public class UniformesBean implements Serializable {
     public UniformesBean() {
         lstPrendasActivas = new ArrayList<>();
         lstTallasActivas = new ArrayList<>();
-        lstCantidad = new ArrayList<>(
-                Arrays.asList(1, 2, 3));
+        /*lstCantidad = new ArrayList<>(
+                Arrays.asList(1, 2, 3));*/
 
         empleadoSelected = new DetEmpleadoDTO();
         prendaSelected = new CatPrendaDTO();
@@ -108,19 +110,27 @@ public class UniformesBean implements Serializable {
 
         solicitud = new DetSolicitudPrendaDTO();
     }
+    
+    public void hola(){
+        System.out.println("Hola");
+    }
 
-    public void registro() throws IOException {
+    public void registro() {
         for (DetSolicitudPrendaDTO detSolicitudPrendaDTO : lstSolicitudPrendas) {
             try {
                 detSolicitudPrendaDAO.guardar(detSolicitudPrendaDTO);
+                // lstSolicitudPrendasRealizadas = detSolicitudPrendaDAO.buscarPorCriterios(solicitud);
+                lstSolicitudPrendasRealizadas = detSolicitudPrendaDAO.buscarPorCriterios(detSolicitudPrendaDTO);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Solicitud Registrada"));
+                FacesContext.getCurrentInstance().getExternalContext().redirect("uniformes.xhtml");
             } catch (SGPException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                Logger.getLogger(UniformesBean.class.getName()).log(Level.SEVERE, null, e);
+            } catch (IOException ex) {
+                Logger.getLogger(UniformesBean.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        lstSolicitudPrendasRealizadas = detSolicitudPrendaDAO.buscarPorCriterios(solicitud);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Solicitud Registrada"));
-        FacesContext.getCurrentInstance().getExternalContext().redirect("uniformes.xhtml");
+
     }
 
     public List<CatPrendaDTO> getLstPrendasActivas() {
@@ -183,13 +193,13 @@ public class UniformesBean implements Serializable {
         this.tallaSelected = tallaSelected;
     }
 
-    public List<Integer> getLstCantidad() {
+    /*public List<Integer> getLstCantidad() {
         return lstCantidad;
     }
 
     public void setLstCantidad(List<Integer> lstCantidad) {
         this.lstCantidad = lstCantidad;
-    }
+    }*/
 
     public Integer getCantidadSelected() {
         return cantidadSelected;

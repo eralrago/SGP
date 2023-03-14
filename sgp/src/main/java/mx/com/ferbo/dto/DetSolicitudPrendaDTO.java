@@ -26,12 +26,25 @@ public class DetSolicitudPrendaDTO implements Serializable {
         talla = new CatTallaDTO();
         prenda = new CatPrendaDTO();
     }
-
+    
     public DetSolicitudPrendaDTO(Integer idSolicitud, Integer prenda, String descripcionP, BigDecimal precio, int cantidad, Short aprobada, Date fechaCap,
             Date fechaMod, Integer idEmpleadoSol, Integer talla, String descripcionT) {
         super();
         this.idSolicitud = idSolicitud;
-        this.prenda = new CatPrendaDTO(prenda, descripcionP, precio,(short)1);
+        this.prenda = new CatPrendaDTO(prenda, descripcionP, precio, (short)1);
+        this.cantidad = cantidad;
+        this.aprobada = aprobada;
+        this.fechaCap = fechaCap;
+        this.fechaMod = fechaMod;
+        this.empleadoSol = new DetEmpleadoDTO(idEmpleadoSol);
+        this.talla = new CatTallaDTO(talla, descripcionT, (short)1);
+    }
+
+    public DetSolicitudPrendaDTO(Integer idSolicitud, Integer prenda, String descripcionP, BigDecimal precio, Integer cantidadMax, int cantidad, Short aprobada, Date fechaCap,
+            Date fechaMod, Integer idEmpleadoSol, Integer talla, String descripcionT) {
+        super();
+        this.idSolicitud = idSolicitud;
+        this.prenda = new CatPrendaDTO(prenda, descripcionP, precio, cantidadMax, (short)1);
         this.cantidad = cantidad;
         this.aprobada = aprobada;
         this.fechaCap = fechaCap;

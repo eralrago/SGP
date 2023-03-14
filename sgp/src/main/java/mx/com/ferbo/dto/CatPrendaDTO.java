@@ -10,6 +10,7 @@ public class CatPrendaDTO implements Serializable {
     private Integer idPrenda;
     private String descripcion;
     private BigDecimal precio;
+    private Integer cantidadMax;
     private short activo;
 
     public CatPrendaDTO() {
@@ -20,11 +21,19 @@ public class CatPrendaDTO implements Serializable {
         this.descripcion = descripcion;
         this.activo = activo;
     }
-
+    
     public CatPrendaDTO(Integer idPrenda, String descripcion, BigDecimal precio, short activo) {
         this.idPrenda = idPrenda;
         this.descripcion = descripcion;
         this.precio = precio;
+        this.activo = activo;
+    }
+
+    public CatPrendaDTO(Integer idPrenda, String descripcion, BigDecimal precio, Integer cantidadMax, short activo) {
+        this.idPrenda = idPrenda;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.cantidadMax = cantidadMax;
         this.activo = activo;
     }
 
@@ -50,6 +59,14 @@ public class CatPrendaDTO implements Serializable {
 
     public void setPrecio(BigDecimal precio) {
         this.precio = precio;
+    }
+    
+    public Integer getCantidadMax() {
+        return cantidadMax;
+    }
+
+    public void setCantidadMax(Integer cantidadMax) {
+        this.cantidadMax = cantidadMax;
     }
 
     public short getActivo() {

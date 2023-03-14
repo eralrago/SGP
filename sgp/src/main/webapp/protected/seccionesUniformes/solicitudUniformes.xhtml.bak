@@ -36,7 +36,7 @@
             <h:outputText value="#{uniforme.getPrenda().descripcion}" />
         </p:column>
         <p:column headerText="Imagen" width="100px">
-            <p:graphicImage name="images/#{uniforme.getPrenda().descripcion}.jpg" library="recursos" width="57" />
+            <h:graphicImage name="images/#{uniforme.getPrenda().descripcion}.jpg" library="recursos" width="57" />
         </p:column>
         <p:column headerText="Precio" sortBy="#{uniforme.cantidad}" width="100px">
             <h:outputText value="$#{uniforme.getPrenda().precio * uniforme.cantidad}" />
@@ -78,26 +78,25 @@
                 </div>
             </div>
             <p:commandButton value="Registrar Solicitud"
-                             actionListener="#{uniformesBean.registro}" />
+                             actionListener="#{uniformesBean.hola()}" />
         </div>
 
     </div>
     <p:dialog id="uniformeDialog" header="Uniformes" showEffect="fade" modal="true"
               widgetVar="manageUniformeDialog" responsive="true">
-            <p:outputPanel id="manage-uniforme-content" class="ui-fluid">
+        <p:outputPanel id="manage-uniforme-content" class="ui-fluid">
             <p:outputPanel>
 
                 <div class="field">
                     <p:outputLabel for="@next" value="Prenda" />
                     <p:selectOneMenu id="soPrenda"
                                      value="#{uniformesBean.solicitud.prenda}"
-                                     converter="entityConverter" autoWidth="false">
+                                     converter="entityConverter" autoWidth="false" required="true">
                         <f:selectItem itemLabel="--Seleccione--" />
                         <f:selectItems value="#{uniformesBean.lstPrendasActivas}"
                                        var="prenda" itemValue="#{prenda}"
                                        itemLabel="#{prenda.descripcion}" />
                           <f:ajax render="precioPrenda precioPrenda2"/>
-                          <p:ajax event="itemSelect" update="formActividadesUniformes:tabView:manage-uniforme-content"/>
                     </p:selectOneMenu>
                 </div>
                 <div class="field">
@@ -106,18 +105,23 @@
                     </div>
                     <h:outputText id="precioPrenda" value="$#{uniformesBean.solicitud.prenda.precio}" />
                 </div>
-                <div class="field" id="divImagen">
-                    <h:graphicImage id="precioPrenda2" name="images/#{uniformesBean.solicitud.prenda.descripcion}.jpg" library="recursos" width="113" rendered="#{uniformesBean.solicitud.prenda.descripcion ne null}" />
+                <div class="field">
+                    <h:graphicImage id="precioPrenda2" name="images/#{uniformesBean.solicitud.prenda.descripcion}.jpg" library="recursos" width="57" />
                 </div>
                 <div class="field">
                     <p:outputLabel for="@next" value="Cantidad" />
-                        <p:spinner id="minMax" value="#{uniformesBean.solicitud.cantidad}" min="0" max="#{uniformesBean.solicitud.prenda.cantidadMax}" />
+                    <p:selectOneMenu id="soCantidad"
+                                     value="#{uniformesBean.solicitud.cantidad}" autoWidth="false" required="true">
+                        <f:selectItem itemLabel="--Seleccione--" />
+                        <f:selectItems value="#{uniformesBean.lstCantidad}"
+                                       var="cantidad" itemValue="#{cantidad}" itemLabel="#{cantidad}" />
+                    </p:selectOneMenu>
                 </div>
                 <div class="field">
                     <p:outputLabel for="@next" value="Talla" />
                     <p:selectOneMenu id="soTalla"
                                      value="#{uniformesBean.solicitud.talla}"
-                                     converter="entityConverter" autoWidth="false">
+                                     converter="entityConverter" autoWidth="false" required="true">
                         <f:selectItem itemLabel="--Seleccione--" />
                         <f:selectItems value="#{uniformesBean.lstTallasActivas}"
                                        var="talla" itemValue="#{talla}"
